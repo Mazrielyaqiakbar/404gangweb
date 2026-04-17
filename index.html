@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GANG CHAOS | Final Pure Frame</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700,1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-red: #FF0000;
+            --cursor-size: 20px;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom Cursor */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Manrope', sans-serif;
+            overflow: hidden;
+        }
+
+        /* --- SCROLL SNAP UTAMA --- */
+        .main-container {
+            height: 100vh;
+            width: 100vw;
+            overflow-y: scroll;
+            /* Mandatory agar scroll berhenti pas di tengah setiap section */
+            scroll-snap-type: y mandatory; 
+            scroll-behavior: smooth;
+        }
+
+        /* --- SECTION UMUM (Wajib 100vh) --- */
+        .full-frame-section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start; /* Berhenti di bagian atas setiap section */
+            display: flex;
+            position: relative;
+            overflow: hidden; /* Penting agar gambar full screen tidak bocor */
+        }
+
+        /* --- NAV MINIMAL --- */
+        .nav-minimal {
+            position: fixed;
+            top: 30px; right: 30px; z-index: 100;
+            display: flex; gap: 20px;
+        }
+        .nav-dot {
+            width: 15px; height: 15px; border-radius: 50%; border: 1px solid var(--text-color);
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .nav-dot:hover { background: var(--accent-red); border-color: var(--accent-red); }
+
+        /* --- SECTION 1: HERO --- */
+        .hero-section {
+            justify-content: center; align-items: center; text-align: center;
+        }
+        .hero-title {
+            font-family: 'Permanent Marker'; font-size: 12vw; line-height: 0.85;
+            letter-spacing: -5px; z-index: 2; text-transform: uppercase;
+        }
+        .hero-title span { color: var(--accent-red); }
+        .corner-text {
+            position: absolute; bottom: 40px; left: 40px;
+            font-family: 'Space Mono'; font-size: 0.8rem; opacity: 0.5;
+        }
+
+        /* --- SECTION 2: SPLIT --- */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+        }
+        .split-visual {
+            width: 100%; height: 100%; position: relative; overflow: hidden; background: #111;
+        }
+        .split-visual img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.7s ease;
+        }
+        .split-visual:hover img { transform: scale(1.05); }
+        .split-content {
+            width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
+            background: var(--bg-color); padding: 60px;
+        }
+        .split-content h2 {
+            font-family: 'Permanent Marker'; font-size: 4.5rem; line-height: 1;
+            margin-bottom: 30px;
+        }
+        .split-content p {
+            font-family: 'Manrope'; font-size: 1.2rem; line-height: 1.6; max-width: 500px;
+        }
+
+        /* --- SECTION 3, 4, 5, 6: FULL IMAGE STACK (4 FOTO TERSENDIRI) --- */
+        .image-full-section {
+            width: 100%;
+            height: 100%;
+            /* Tidak ada padding, display block default */
+        }
+
+        .image-full-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Agar gambar landscape memenuhi seluruh layar */
+            display: block;
+            transition: transform 0.8s ease;
+        }
+
+        /* Efek halus saat hover gambar */
+        .image-full-section:hover img {
+            transform: scale(1.03); 
+        }
+
+        /* --- SECTION 7: FOOTER --- */
+        .footer-section {
+            background: #000; display: flex; justify-content: center; align-items: center; text-align: center;
+            flex-direction: column;
+        }
+        .footer-btn {
+            font-family: 'Permanent Marker'; font-size: 3rem;
+            color: var(--accent-red); text-decoration: none; letter-spacing: 2px;
+            transition: transform 0.3s;
+        }
+        .footer-btn:hover { transform: scale(1.1); text-shadow: 0 0 20px rgba(255,0,0,0.5); }
+
+        /* --- CURSOR --- */
+        .cursor-dot {
+            width: 10px; height: 10px; background: var(--accent-red); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+        body.hovering .cursor-dot {
+            width: 50px; height: 50px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--accent-red);
+            mix-blend-mode: difference;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .split-section { grid-template-columns: 1fr; }
+            .split-visual { height: 50vh; order: -1; }
+            .hero-title { font-size: 18vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- Nav Minimal -->
+    <div class="nav-minimal">
+        <button class="nav-dot interactable" id="theme-toggle" aria-label="Toggle Theme"></button>
+    </div>
+
+    <div class="main-container">
+        
+        <!-- FRAME 1: HERO -->
+        <section class="full-frame-section hero-section">
+            <h1 class="hero-title">GANG <br><span>CHAOS</span></h1>
+            <div class="corner-text"></div>
+        </section>
+
+        <!-- FRAME 3: FOTO FULL SCREEN 1 -->
+        <section class="full-frame-section image-full-section">
+            <img src="111gang.png" alt="Collection 01" class="interactable">
+        </section>
+
+        <!-- FRAME 3: FOTO FULL SCREEN 1 -->
+        <section class="full-frame-section image-full-section">
+            <img src="22gang.png" alt="Collection 01" class="interactable">
+        </section>
+
+        <!-- FRAME 4: FOTO FULL SCREEN 2 -->
+        <section class="full-frame-section image-full-section">
+            <img src="comingsoon.png" alt="Collection 02" class="interactable">
+        </section>
+
+        <!-- FRAME 5: FOTO FULL SCREEN 3 -->
+        <section class="full-frame-section image-full-section">
+            <img src="comingsoon.png" alt="Collection 03" class="interactable">
+        </section>
+
+        <!-- FRAME 6: FOTO FULL SCREEN 4 -->
+        <section class="full-frame-section image-full-section">
+            <img src="comingsoon.png" alt="Collection 04" class="interactable">
+        </section>
+
+        <!-- FRAME 7: FOOTER -->
+        <section class="full-frame-section footer-section">
+            <a href="#" class="footer-btn interactable">COLLAB NOW</a>
+        </section>
+
+    </div>
+
+    <script>
+        // --- CURSOR MOVE ---
+        const cursor = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // --- HOVER EFFECT ---
+        const interactables = document.querySelectorAll('.interactable, a, button');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // --- THEME TOGGLE ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        themeBtn.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+        });
+    </script>
+</body>
+</html>
