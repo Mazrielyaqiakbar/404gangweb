@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
@@ -29,7 +28,12 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
             width: 100%;
             height: 100%;
             background: var(--bg);
@@ -38,7 +42,6 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Hide default cursor only on non-touch devices */
         @media (hover: hover) {
             * { cursor: none; }
         }
@@ -51,6 +54,7 @@
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
         }
 
         /* ── SECTION BASE ── */
@@ -58,36 +62,33 @@
             height: 100dvh;
             width: 100%;
             scroll-snap-align: start;
-            display: flex;
+            scroll-snap-stop: always;
             position: relative;
             overflow: hidden;
+            display: flex;
         }
 
         /* ── NAV ── */
         .nav {
             position: fixed;
-            top: max(20px, env(safe-area-inset-top));
-            right: max(20px, env(safe-area-inset-right));
+            top: max(20px, env(safe-area-inset-top, 20px));
+            right: max(20px, env(safe-area-inset-right, 20px));
             z-index: 200;
-            display: flex;
-            gap: 14px;
-            align-items: center;
         }
 
         .nav-dot {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             border: 1.5px solid var(--fg);
             background: transparent;
-            transition: background 0.25s, border-color 0.25s, transform 0.2s;
-            flex-shrink: 0;
+            transition: background 0.25s, border-color 0.25s;
+            display: block;
         }
 
         .nav-dot:hover {
             background: var(--red);
             border-color: var(--red);
-            transform: scale(1.2);
         }
 
         /* ── HERO ── */
@@ -100,140 +101,30 @@
 
         .hero-title {
             font-family: 'Permanent Marker', cursive;
-            font-size: clamp(3.5rem, 15vw, 14rem);
+            font-size: clamp(3rem, 18vw, 14rem);
             line-height: 0.88;
             letter-spacing: -0.03em;
             text-transform: uppercase;
             z-index: 2;
             padding: 0 16px;
-            word-break: break-word;
         }
 
-        .hero-title span {
-            color: var(--red);
-        }
+        .hero-title span { color: var(--red); }
 
         .corner-text {
             position: absolute;
-            bottom: max(24px, env(safe-area-inset-bottom));
-            left: max(24px, env(safe-area-inset-left));
+            bottom: max(24px, env(safe-area-inset-bottom, 24px));
+            left: max(24px, env(safe-area-inset-left, 24px));
             font-family: 'Space Mono', monospace;
-            font-size: clamp(0.6rem, 2vw, 0.8rem);
+            font-size: clamp(0.55rem, 2vw, 0.8rem);
             opacity: 0.45;
             letter-spacing: 0.05em;
         }
 
-        /* ── FULL IMAGE SECTIONS ── */
-        .image-section {
-            width: 100%;
-            height: 100%;
-        }
-
-        .image-section img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.8s ease;
-            /* Prevent long press save on mobile */
-            -webkit-user-select: none;
-            user-select: none;
-            pointer-events: none;
-        }
-
-        @media (hover: hover) {
-            .image-section:hover img {
-                transform: scale(1.03);
-            }
-        }
-
-        /* ── SPLIT SECTION ── */
-        .split-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .split-visual {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            background: #111;
-        }
-
-        .split-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.7s ease;
-        }
-
-        @media (hover: hover) {
-            .split-visual:hover img { transform: scale(1.05); }
-        }
-
-        .split-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: var(--bg);
-            padding: clamp(28px, 6vw, 60px);
-            overflow-y: auto;
-        }
-
-        .split-content h2 {
-            font-family: 'Permanent Marker', cursive;
-            font-size: clamp(2rem, 5vw, 4.5rem);
-            line-height: 1;
-            margin-bottom: clamp(16px, 3vh, 30px);
-        }
-
-        .split-content p {
-            font-family: 'Manrope', sans-serif;
-            font-size: clamp(0.95rem, 2vw, 1.2rem);
-            line-height: 1.6;
-            max-width: 500px;
-            opacity: 0.85;
-        }
-
-        /* ── FOOTER ── */
-        .footer-section {
-            background: #000;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex-direction: column;
-            gap: 20px;
-            padding: max(24px, env(safe-area-inset-bottom));
-        }
-
-        .footer-btn {
-            font-family: 'Permanent Marker', cursive;
-            font-size: clamp(1.8rem, 7vw, 3.5rem);
-            color: var(--red);
-            text-decoration: none;
-            letter-spacing: 0.05em;
-            transition: transform 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            display: inline-block;
-        }
-
-        .footer-btn:hover {
-            transform: scale(1.08);
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.45);
-        }
-
-        .footer-btn:active {
-            transform: scale(0.96);
-        }
-
-        /* ── SCROLL INDICATOR ── */
+        /* ── SCROLL HINT ── */
         .scroll-hint {
             position: absolute;
-            bottom: max(28px, env(safe-area-inset-bottom));
+            bottom: max(28px, env(safe-area-inset-bottom, 28px));
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -243,18 +134,19 @@
             opacity: 0.5;
             animation: bounce 2s ease-in-out infinite;
             pointer-events: none;
+            transition: opacity 0.5s;
         }
 
         .scroll-hint span {
             font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
         }
 
         .scroll-arrow {
             width: 1px;
-            height: 28px;
+            height: 26px;
             background: var(--fg);
             position: relative;
         }
@@ -262,9 +154,10 @@
         .scroll-arrow::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 6px; height: 6px;
+            bottom: 0;
+            left: 50%;
+            width: 6px;
+            height: 6px;
             border-right: 1px solid var(--fg);
             border-bottom: 1px solid var(--fg);
             transform: translateX(-50%) rotate(45deg);
@@ -272,8 +165,63 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(6px); }
+            50%       { transform: translateX(-50%) translateY(7px); }
         }
+
+        /* ══════════════════════════════════════
+           IMAGE SECTION — KUNCI UTAMA
+        ══════════════════════════════════════ */
+        .image-section {
+            display: block;
+            background: #111;
+        }
+
+        .image-section img {
+            /* Pakai position absolute agar gambar tidak mempengaruhi ukuran container */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* cover = isi penuh layar, crop sisi berlebih */
+            object-fit: cover;
+            /* Fokus tengah — bisa diubah ke "top" jika foto penting di atas */
+            object-position: center center;
+            display: block;
+            -webkit-user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: transform 0.8s ease;
+        }
+
+        @media (hover: hover) {
+            .image-section:hover img {
+                transform: scale(1.03);
+            }
+        }
+
+        /* ── FOOTER ── */
+        .footer-section {
+            background: #000;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .footer-btn {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(1.8rem, 8vw, 3.5rem);
+            color: var(--red);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-block;
+        }
+
+        .footer-btn:hover  { transform: scale(1.08); text-shadow: 0 0 20px rgba(255,0,0,0.4); }
+        .footer-btn:active { transform: scale(0.95); }
 
         /* ── CURSOR (desktop only) ── */
         .cursor-dot {
@@ -300,56 +248,28 @@
             border: 1px solid var(--red);
         }
 
-        /* ── MOBILE OVERRIDES ── */
+        /* ── MOBILE KHUSUS ── */
         @media (max-width: 768px) {
-            /* Split section stacks vertically */
-            .split-section {
-                grid-template-columns: 1fr;
-                grid-template-rows: 45dvh 1fr;
-            }
-
-            .split-visual {
-                height: 100%;
-            }
-
-            .split-content {
-                justify-content: flex-start;
-                padding-top: 28px;
+            /* Gambar portrait mobile — titik fokus lebih ke atas */
+            .image-section img {
+                object-position: center 20%;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: clamp(3rem, 22vw, 5rem);
-                letter-spacing: -0.02em;
-            }
-        }
-
-        /* ── LANDSCAPE MOBILE ── */
+        /* Landscape HP kecil */
         @media (max-height: 500px) and (orientation: landscape) {
-            .hero-title {
-                font-size: clamp(2rem, 12vh, 6rem);
-            }
-
-            .split-section {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: 1fr;
-            }
-
-            .split-visual {
-                height: 100%;
+            .image-section img {
+                object-position: center center;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Cursor (shows only on desktop) -->
     <div class="cursor-dot" id="cursor"></div>
 
-    <!-- Nav -->
     <nav class="nav" aria-label="Controls">
-        <button class="nav-dot interactable" id="theme-toggle" aria-label="Toggle tema terang/gelap"></button>
+        <button class="nav-dot interactable" id="theme-toggle" aria-label="Toggle tema"></button>
     </nav>
 
     <div class="main-container" id="scroller">
@@ -358,33 +278,33 @@
         <section class="section hero-section">
             <h1 class="hero-title">GANG<br><span>CHAOS</span></h1>
             <div class="corner-text">© GANG CHAOS</div>
-            <div class="scroll-hint" aria-hidden="true">
+            <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
                 <span>scroll</span>
                 <div class="scroll-arrow"></div>
             </div>
         </section>
 
-        <!-- FRAME 2: FOTO FULL SCREEN 1 -->
+        <!-- FRAME 2 -->
         <section class="section image-section">
             <img src="111gang.png" alt="Gang Chaos Collection 01">
         </section>
 
-        <!-- FRAME 3: FOTO FULL SCREEN 2 -->
+        <!-- FRAME 3 -->
         <section class="section image-section">
             <img src="22gang.png" alt="Gang Chaos Collection 02">
         </section>
 
-        <!-- FRAME 4: COMING SOON 1 -->
+        <!-- FRAME 4 -->
         <section class="section image-section">
             <img src="comingsoon.png" alt="Coming Soon">
         </section>
 
-        <!-- FRAME 5: COMING SOON 2 -->
+        <!-- FRAME 5 -->
         <section class="section image-section">
             <img src="comingsoon.png" alt="Coming Soon">
         </section>
 
-        <!-- FRAME 6: COMING SOON 3 -->
+        <!-- FRAME 6 -->
         <section class="section image-section">
             <img src="comingsoon.png" alt="Coming Soon">
         </section>
@@ -397,16 +317,17 @@
     </div>
 
     <script>
-        const cursor = document.getElementById('cursor');
-        const html = document.documentElement;
+        const cursor  = document.getElementById('cursor');
+        const hint    = document.getElementById('scroll-hint');
+        const scroller = document.getElementById('scroller');
+        const html    = document.documentElement;
 
-        // Custom cursor (desktop only)
+        // Cursor hanya aktif di perangkat dengan mouse
         if (window.matchMedia('(hover: hover)').matches) {
             document.addEventListener('mousemove', (e) => {
                 cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
+                cursor.style.top  = e.clientY + 'px';
             });
-
             document.querySelectorAll('.interactable, a, button').forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
@@ -415,19 +336,15 @@
 
         // Theme toggle
         document.getElementById('theme-toggle').addEventListener('click', () => {
-            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', next);
+            html.setAttribute('data-theme',
+                html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+            );
         });
 
-        // Hide scroll hint after first scroll
-        const scroller = document.getElementById('scroller');
-        const hint = document.querySelector('.scroll-hint');
-        if (hint) {
-            scroller.addEventListener('scroll', () => {
-                hint.style.opacity = '0';
-                hint.style.transition = 'opacity 0.5s';
-            }, { once: true });
-        }
+        // Sembunyikan scroll hint setelah scroll pertama
+        scroller.addEventListener('scroll', () => {
+            if (hint) hint.style.opacity = '0';
+        }, { once: true });
     </script>
 </body>
 </html>
