@@ -2,243 +2,432 @@
 <html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>GANG CHAOS | Final Pure Frame</title>
-    
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700,1,400&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Permanent+Marker&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
         :root {
-            --bg-color: #000000;
-            --text-color: #ffffff;
-            --accent-red: #FF0000;
-            --cursor-size: 20px;
+            --bg: #000000;
+            --fg: #ffffff;
+            --red: #FF0000;
         }
 
         [data-theme="light"] {
-            --bg-color: #ffffff;
-            --text-color: #000000;
+            --bg: #ffffff;
+            --fg: #000000;
         }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Custom Cursor */
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            color: var(--fg);
             font-family: 'Manrope', sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Hide default cursor only on non-touch devices */
+        @media (hover: hover) {
+            * { cursor: none; }
+        }
+
+        /* ── SCROLL CONTAINER ── */
+        .main-container {
+            height: 100dvh;
+            width: 100vw;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ── SECTION BASE ── */
+        .section {
+            height: 100dvh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            position: relative;
             overflow: hidden;
         }
 
-        /* --- SCROLL SNAP UTAMA --- */
-        .main-container {
-            height: 100vh;
-            width: 100vw;
-            overflow-y: scroll;
-            /* Mandatory agar scroll berhenti pas di tengah setiap section */
-            scroll-snap-type: y mandatory; 
-            scroll-behavior: smooth;
-        }
-
-        /* --- SECTION UMUM (Wajib 100vh) --- */
-        .full-frame-section {
-            height: 100vh;
-            width: 100vw;
-            scroll-snap-align: start; /* Berhenti di bagian atas setiap section */
-            display: flex;
-            position: relative;
-            overflow: hidden; /* Penting agar gambar full screen tidak bocor */
-        }
-
-        /* --- NAV MINIMAL --- */
-        .nav-minimal {
+        /* ── NAV ── */
+        .nav {
             position: fixed;
-            top: 30px; right: 30px; z-index: 100;
-            display: flex; gap: 20px;
+            top: max(20px, env(safe-area-inset-top));
+            right: max(20px, env(safe-area-inset-right));
+            z-index: 200;
+            display: flex;
+            gap: 14px;
+            align-items: center;
         }
+
         .nav-dot {
-            width: 15px; height: 15px; border-radius: 50%; border: 1px solid var(--text-color);
-            transition: all 0.3s;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid var(--fg);
             background: transparent;
+            transition: background 0.25s, border-color 0.25s, transform 0.2s;
+            flex-shrink: 0;
         }
-        .nav-dot:hover { background: var(--accent-red); border-color: var(--accent-red); }
 
-        /* --- SECTION 1: HERO --- */
+        .nav-dot:hover {
+            background: var(--red);
+            border-color: var(--red);
+            transform: scale(1.2);
+        }
+
+        /* ── HERO ── */
         .hero-section {
-            justify-content: center; align-items: center; text-align: center;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--bg);
         }
+
         .hero-title {
-            font-family: 'Permanent Marker'; font-size: 12vw; line-height: 0.85;
-            letter-spacing: -5px; z-index: 2; text-transform: uppercase;
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(3.5rem, 15vw, 14rem);
+            line-height: 0.88;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            z-index: 2;
+            padding: 0 16px;
+            word-break: break-word;
         }
-        .hero-title span { color: var(--accent-red); }
+
+        .hero-title span {
+            color: var(--red);
+        }
+
         .corner-text {
-            position: absolute; bottom: 40px; left: 40px;
-            font-family: 'Space Mono'; font-size: 0.8rem; opacity: 0.5;
+            position: absolute;
+            bottom: max(24px, env(safe-area-inset-bottom));
+            left: max(24px, env(safe-area-inset-left));
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.6rem, 2vw, 0.8rem);
+            opacity: 0.45;
+            letter-spacing: 0.05em;
         }
 
-        /* --- SECTION 2: SPLIT --- */
-        .split-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-        }
-        .split-visual {
-            width: 100%; height: 100%; position: relative; overflow: hidden; background: #111;
-        }
-        .split-visual img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-            transition: transform 0.7s ease;
-        }
-        .split-visual:hover img { transform: scale(1.05); }
-        .split-content {
-            width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
-            background: var(--bg-color); padding: 60px;
-        }
-        .split-content h2 {
-            font-family: 'Permanent Marker'; font-size: 4.5rem; line-height: 1;
-            margin-bottom: 30px;
-        }
-        .split-content p {
-            font-family: 'Manrope'; font-size: 1.2rem; line-height: 1.6; max-width: 500px;
-        }
-
-        /* --- SECTION 3, 4, 5, 6: FULL IMAGE STACK (4 FOTO TERSENDIRI) --- */
-        .image-full-section {
+        /* ── FULL IMAGE SECTIONS ── */
+        .image-section {
             width: 100%;
             height: 100%;
-            /* Tidak ada padding, display block default */
         }
 
-        .image-full-section img {
+        .image-section img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Agar gambar landscape memenuhi seluruh layar */
+            object-fit: cover;
             display: block;
             transition: transform 0.8s ease;
+            /* Prevent long press save on mobile */
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
         }
 
-        /* Efek halus saat hover gambar */
-        .image-full-section:hover img {
-            transform: scale(1.03); 
+        @media (hover: hover) {
+            .image-section:hover img {
+                transform: scale(1.03);
+            }
         }
 
-        /* --- SECTION 7: FOOTER --- */
-        .footer-section {
-            background: #000; display: flex; justify-content: center; align-items: center; text-align: center;
+        /* ── SPLIT SECTION ── */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .split-visual {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .split-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s ease;
+        }
+
+        @media (hover: hover) {
+            .split-visual:hover img { transform: scale(1.05); }
+        }
+
+        .split-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
             flex-direction: column;
+            justify-content: center;
+            background: var(--bg);
+            padding: clamp(28px, 6vw, 60px);
+            overflow-y: auto;
         }
+
+        .split-content h2 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            line-height: 1;
+            margin-bottom: clamp(16px, 3vh, 30px);
+        }
+
+        .split-content p {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            max-width: 500px;
+            opacity: 0.85;
+        }
+
+        /* ── FOOTER ── */
+        .footer-section {
+            background: #000;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            gap: 20px;
+            padding: max(24px, env(safe-area-inset-bottom));
+        }
+
         .footer-btn {
-            font-family: 'Permanent Marker'; font-size: 3rem;
-            color: var(--accent-red); text-decoration: none; letter-spacing: 2px;
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(1.8rem, 7vw, 3.5rem);
+            color: var(--red);
+            text-decoration: none;
+            letter-spacing: 0.05em;
             transition: transform 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-block;
         }
-        .footer-btn:hover { transform: scale(1.1); text-shadow: 0 0 20px rgba(255,0,0,0.5); }
 
-        /* --- CURSOR --- */
+        .footer-btn:hover {
+            transform: scale(1.08);
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.45);
+        }
+
+        .footer-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ── SCROLL INDICATOR ── */
+        .scroll-hint {
+            position: absolute;
+            bottom: max(28px, env(safe-area-inset-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.5;
+            animation: bounce 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .scroll-hint span {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .scroll-arrow {
+            width: 1px;
+            height: 28px;
+            background: var(--fg);
+            position: relative;
+        }
+
+        .scroll-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 6px; height: 6px;
+            border-right: 1px solid var(--fg);
+            border-bottom: 1px solid var(--fg);
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* ── CURSOR (desktop only) ── */
         .cursor-dot {
-            width: 10px; height: 10px; background: var(--accent-red); border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
-        }
-        body.hovering .cursor-dot {
-            width: 50px; height: 50px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid var(--accent-red);
-            mix-blend-mode: difference;
+            width: 10px;
+            height: 10px;
+            background: var(--red);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            display: none;
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .split-section { grid-template-columns: 1fr; }
-            .split-visual { height: 50vh; order: -1; }
-            .hero-title { font-size: 18vw; }
+        @media (hover: hover) {
+            .cursor-dot { display: block; }
+        }
+
+        body.hovering .cursor-dot {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 0, 0, 0.08);
+            border: 1px solid var(--red);
+        }
+
+        /* ── MOBILE OVERRIDES ── */
+        @media (max-width: 768px) {
+            /* Split section stacks vertically */
+            .split-section {
+                grid-template-columns: 1fr;
+                grid-template-rows: 45dvh 1fr;
+            }
+
+            .split-visual {
+                height: 100%;
+            }
+
+            .split-content {
+                justify-content: flex-start;
+                padding-top: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: clamp(3rem, 22vw, 5rem);
+                letter-spacing: -0.02em;
+            }
+        }
+
+        /* ── LANDSCAPE MOBILE ── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero-title {
+                font-size: clamp(2rem, 12vh, 6rem);
+            }
+
+            .split-section {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+            }
+
+            .split-visual {
+                height: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Cursor -->
-    <div class="cursor-dot"></div>
+    <!-- Cursor (shows only on desktop) -->
+    <div class="cursor-dot" id="cursor"></div>
 
-    <!-- Nav Minimal -->
-    <div class="nav-minimal">
-        <button class="nav-dot interactable" id="theme-toggle" aria-label="Toggle Theme"></button>
-    </div>
+    <!-- Nav -->
+    <nav class="nav" aria-label="Controls">
+        <button class="nav-dot interactable" id="theme-toggle" aria-label="Toggle tema terang/gelap"></button>
+    </nav>
 
-    <div class="main-container">
-        
+    <div class="main-container" id="scroller">
+
         <!-- FRAME 1: HERO -->
-        <section class="full-frame-section hero-section">
-            <h1 class="hero-title">GANG <br><span>CHAOS</span></h1>
-            <div class="corner-text"></div>
+        <section class="section hero-section">
+            <h1 class="hero-title">GANG<br><span>CHAOS</span></h1>
+            <div class="corner-text">© GANG CHAOS</div>
+            <div class="scroll-hint" aria-hidden="true">
+                <span>scroll</span>
+                <div class="scroll-arrow"></div>
+            </div>
         </section>
 
-        <!-- FRAME 3: FOTO FULL SCREEN 1 -->
-        <section class="full-frame-section image-full-section">
-            <img src="111gang.png" alt="Collection 01" class="interactable">
+        <!-- FRAME 2: FOTO FULL SCREEN 1 -->
+        <section class="section image-section">
+            <img src="111gang.png" alt="Gang Chaos Collection 01">
         </section>
 
-        <!-- FRAME 3: FOTO FULL SCREEN 1 -->
-        <section class="full-frame-section image-full-section">
-            <img src="22gang.png" alt="Collection 01" class="interactable">
+        <!-- FRAME 3: FOTO FULL SCREEN 2 -->
+        <section class="section image-section">
+            <img src="22gang.png" alt="Gang Chaos Collection 02">
         </section>
 
-        <!-- FRAME 4: FOTO FULL SCREEN 2 -->
-        <section class="full-frame-section image-full-section">
-            <img src="comingsoon.png" alt="Collection 02" class="interactable">
+        <!-- FRAME 4: COMING SOON 1 -->
+        <section class="section image-section">
+            <img src="comingsoon.png" alt="Coming Soon">
         </section>
 
-        <!-- FRAME 5: FOTO FULL SCREEN 3 -->
-        <section class="full-frame-section image-full-section">
-            <img src="comingsoon.png" alt="Collection 03" class="interactable">
+        <!-- FRAME 5: COMING SOON 2 -->
+        <section class="section image-section">
+            <img src="comingsoon.png" alt="Coming Soon">
         </section>
 
-        <!-- FRAME 6: FOTO FULL SCREEN 4 -->
-        <section class="full-frame-section image-full-section">
-            <img src="comingsoon.png" alt="Collection 04" class="interactable">
+        <!-- FRAME 6: COMING SOON 3 -->
+        <section class="section image-section">
+            <img src="comingsoon.png" alt="Coming Soon">
         </section>
 
         <!-- FRAME 7: FOOTER -->
-        <section class="full-frame-section footer-section">
+        <section class="section footer-section">
             <a href="#" class="footer-btn interactable">COLLAB NOW</a>
         </section>
 
     </div>
 
     <script>
-        // --- CURSOR MOVE ---
-        const cursor = document.querySelector('.cursor-dot');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // --- HOVER EFFECT ---
-        const interactables = document.querySelectorAll('.interactable, a, button');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-
-        // --- THEME TOGGLE ---
-        const themeBtn = document.getElementById('theme-toggle');
+        const cursor = document.getElementById('cursor');
         const html = document.documentElement;
-        
-        themeBtn.addEventListener('click', () => {
-            const current = html.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
+
+        // Custom cursor (desktop only)
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            document.querySelectorAll('.interactable, a, button').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+        }
+
+        // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', next);
         });
+
+        // Hide scroll hint after first scroll
+        const scroller = document.getElementById('scroller');
+        const hint = document.querySelector('.scroll-hint');
+        if (hint) {
+            scroller.addEventListener('scroll', () => {
+                hint.style.opacity = '0';
+                hint.style.transition = 'opacity 0.5s';
+            }, { once: true });
+        }
     </script>
 </body>
 </html>
