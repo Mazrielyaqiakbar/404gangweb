@@ -1,1343 +1,935 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 Brand — Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Editorial+New:ital,wght@0,200;0,400;1,200&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --black: #0a0a0a;
-    --white: #f5f5f0;
-    --accent: #e8e8e0;
-    --gray: #888;
-    --border: #222;
-    --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
-    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--white);
-    color: var(--black);
-    font-family: var(--font-body);
-    font-size: 13px;
-    line-height: 1.4;
-    overflow-x: hidden;
-  }
-
-  a { color: inherit; text-decoration: none; }
-
-  img { display: block; max-width: 100%; }
-
-  /* ─── TOP BAR ─── */
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 16px;
-    border-bottom: 1px solid #ddd;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--white);
-  }
-
-  .topbar-left { color: #555; }
-
-  .topbar-nav { display: flex; gap: 28px; }
-  .topbar-nav a {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .topbar-nav a:hover { text-decoration: underline; }
-
-  .topbar-right { display: flex; gap: 20px; align-items: center; font-size: 10px; font-family: var(--font-mono); letter-spacing: 0.06em; }
-
-  /* ─── HERO SECTION ─── */
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    min-height: 520px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .hero-left { position: relative; }
-
-  .hero-title {
-    padding: 14px 16px 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .hero-title .brand-name {
-    font-family: var(--font-display);
-    font-size: 68px;
-    letter-spacing: -0.01em;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .hero-title .logo-img {
-    height: 72px;
-    width: auto;
-    filter: invert(0);
-  }
-
-  .hero-main-img {
-    width: 100%;
-    height: 390px;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Placeholder hero image using CSS */
-  .hero-main-placeholder {
-    width: 100%;
-    height: 390px;
-    background: linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #533483 100%);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-main-placeholder::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 60%, rgba(255,120,50,0.3) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 40%, rgba(80,200,220,0.2) 0%, transparent 50%);
-  }
-
-  .hero-main-placeholder .scene-text {
-    font-family: var(--font-display);
-    font-size: 22px;
-    color: rgba(255,255,255,0.15);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    text-align: center;
-    z-index: 1;
-  }
-
-  /* Hero silhouettes SVG */
-  .hero-scene {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-  }
-
-  .hero-right {
-    border-left: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hero-right-img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-  }
-
-  .hero-right-placeholder {
-    width: 100%;
-    height: 220px;
-    background: linear-gradient(135deg, #b8c4bb 0%, #8fa897 50%, #6b8c74 100%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-right-placeholder::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(0,0,0,0.03) 10px,
-      rgba(0,0,0,0.03) 20px
-    );
-  }
-
-  .hero-right-text {
-    padding: 18px 16px;
-    flex: 1;
-    border-top: 1px solid #ddd;
-  }
-
-  .hero-right-text p {
-    font-size: 11.5px;
-    line-height: 1.6;
-    color: #333;
-    margin-bottom: 16px;
-  }
-
-  .btn-outline {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid var(--black);
-    padding: 6px 12px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-bottom: 8px;
-    transition: background 0.15s, color 0.15s;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .btn-outline:hover {
-    background: var(--black);
-    color: var(--white);
-  }
-
-  .btn-outline .arrow { font-size: 10px; }
-
-  /* ─── TICKER ─── */
-  .ticker {
-    overflow: hidden;
-    border-bottom: 1px solid #ddd;
-    background: var(--black);
-    color: var(--white);
-    padding: 9px 0;
-    white-space: nowrap;
-  }
-
-  .ticker-inner {
-    display: inline-flex;
-    gap: 0;
-    animation: ticker 25s linear infinite;
-  }
-
-  .ticker-item {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0 30px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .ticker-item::after {
-    content: '✦';
-    opacity: 0.5;
-    font-size: 8px;
-  }
-
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* ─── FEATURED PRODUCTS ─── */
-  .section { padding: 40px 16px; }
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-    padding-bottom: 0;
-  }
-
-  .section-title {
-    font-family: var(--font-body);
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-
-  .section-header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .nav-arrow {
-    width: 28px;
-    height: 28px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 11px;
-    transition: all 0.15s;
-  }
-
-  .nav-arrow:hover { background: var(--black); color: var(--white); border-color: var(--black); }
-
-  .shop-all-btn {
-    border: 1px solid #ccc;
-    padding: 6px 14px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-    border-radius: 20px;
-  }
-
-  .shop-all-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-  }
-
-  .product-card { cursor: pointer; }
-
-  .product-img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    margin-bottom: 10px;
-    background: #f0f0ec;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  /* Product placeholder visuals */
-  .prod-hat {
-    background: radial-gradient(ellipse at center, #1a3a8a 0%, #0d1f5c 100%);
-    position: relative;
-  }
-  .prod-hat::after {
-    content: '🧢';
-    font-size: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    filter: saturate(0.8);
-  }
-
-  .prod-polo {
-    background: linear-gradient(135deg, #cc2200 0%, #990000 100%);
-    position: relative;
-  }
-  .prod-polo::after {
-    content: '👕';
-    font-size: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .prod-scarf {
-    background: linear-gradient(135deg, #e8d5a0 0%, #d4a843 100%);
-  }
-
-  .prod-skirt {
-    background: #0a0a0a;
-    position: relative;
-  }
-
-  /* SVG product illustrations */
-  .prod-scarf-inner {
-    width: 85%;
-    height: 85%;
-    border: 3px solid #c8872a;
-    background: linear-gradient(135deg, #7ec8e3 20%, #f5c842 50%, #e85d5d 80%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .prod-skirt-inner {
-    width: 60%;
-    height: 75%;
-    background: #111;
-    position: relative;
-  }
-
-  .prod-skirt-inner::before,
-  .prod-skirt-inner::after {
-    content: '✦';
-    position: absolute;
-    color: #e8c84a;
-    font-size: 18px;
-  }
-
-  .prod-skirt-inner::before { top: 20%; left: 20%; }
-  .prod-skirt-inner::after { bottom: 25%; right: 15%; color: #9b59b6; }
-
-  .product-name {
-    font-size: 11.5px;
-    font-weight: 400;
-    margin-bottom: 3px;
-    letter-spacing: 0em;
-  }
-
-  .product-price {
-    font-size: 11.5px;
-    color: #333;
-  }
-
-  .sold-out { color: #cc3300; font-size: 10px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
-
-  .divider { border: none; border-top: 1px solid #e0e0da; margin: 0 16px; }
-
-  /* ─── STORIES ─── */
-  .stories-section { padding: 40px 16px; }
-
-  .stories-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border-top: 1px solid #ddd;
-  }
-
-  .story-card {
-    padding: 20px 20px 0 0;
-    cursor: pointer;
-    border-right: 1px solid #ddd;
-  }
-
-  .story-card:last-child { border-right: none; padding-right: 0; }
-
-  .story-meta {
-    font-size: 9.5px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 10px;
-  }
-
-  .story-title {
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 1.15;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-    font-family: var(--font-body);
-  }
-
-  .story-img {
-    width: 100%;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Story image placeholders */
-  .story-img-1 {
-    background: linear-gradient(180deg, #87ceeb 0%, #e8c97a 60%, #c8a050 100%);
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .story-img-2 {
-    background: linear-gradient(180deg, #a8d5a2 0%, #4a7c59 100%);
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .story-img-3 {
-    background: linear-gradient(135deg, #e8b84b 0%, #c87941 50%, #2c4a8a 100%);
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .story-img-placeholder {
-    width: 100%;
-    height: 200px;
-  }
-
-  /* ─── TAGLINE SECTION ─── */
-  .tagline-section {
-    padding: 60px 16px 50px;
-    border-top: 1px solid #ddd;
-  }
-
-  .tagline {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
-    max-width: 780px;
-    font-family: var(--font-body);
-  }
-
-  /* ─── FOOTER ─── */
-  footer {
-    border-top: 1px solid #ddd;
-    padding: 24px 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-
-  .footer-contact {
-    font-size: 11px;
-    line-height: 1.8;
-    color: #333;
-  }
-
-  .footer-social {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .social-icon {
-    width: 28px;
-    height: 28px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .social-icon:hover { background: var(--black); color: var(--white); border-color: var(--black); }
-
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .footer-links a {
-    font-size: 11px;
-    color: #333;
-    transition: opacity 0.15s;
-  }
-
-  .footer-links a:hover { opacity: 0.6; }
-
-  .footer-newsletter { display: flex; flex-direction: column; gap: 8px; }
-
-  .newsletter-form {
-    display: flex;
-    border: 1px solid #ccc;
-    overflow: hidden;
-  }
-
-  .newsletter-input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 9px 12px;
-    font-size: 11px;
-    font-family: var(--font-body);
-    background: var(--white);
-    color: var(--black);
-  }
-
-  .newsletter-btn {
-    background: var(--black);
-    color: var(--white);
-    border: none;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: opacity 0.15s;
-  }
-
-  .newsletter-btn:hover { opacity: 0.7; }
-
-  /* ─── GALLERY STRIP ─── */
-  .gallery-strip {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    height: 240px;
-    border-top: 1px solid #ddd;
-  }
-
-  .gallery-item {
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .gallery-item:hover .gallery-img { transform: scale(1.04); }
-
-  .gallery-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  /* Gallery placeholders */
-  .g1 { background: var(--black); display: flex; align-items: center; justify-content: center; }
-  .g2 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
-  .g3 { background: linear-gradient(135deg, #8b0000, #cc2200); }
-  .g4 { background: linear-gradient(135deg, #f5f0e8, #e8dcc8); position: relative; }
-  .g5 { background: #f0f0ec; }
-
-  .g1-logo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-    opacity: 0.9;
-  }
-
-  .g1-sq {
-    width: 40px;
-    height: 40px;
-    background: var(--white);
-  }
-
-  /* ─── BOTTOM BAR ─── */
-  .bottom-bar {
-    border-top: 1px solid #ddd;
-    padding: 14px 16px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: #888;
-    letter-spacing: 0.04em;
-  }
-
-  /* ─── COOKIE BANNER ─── */
-  .cookie-banner {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    background: var(--black);
-    color: var(--white);
-    padding: 14px 16px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 220px;
-    border: 1px solid #333;
-  }
-
-  .cookie-btn {
-    background: var(--white);
-    color: var(--black);
-    border: none;
-    padding: 7px 14px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    align-self: flex-start;
-    transition: opacity 0.15s;
-  }
-
-  .cookie-btn:hover { opacity: 0.7; }
-
-  /* ─── HOVER EFFECTS ─── */
-  .product-card:hover .product-name { text-decoration: underline; }
-  .story-card:hover .story-title { text-decoration: underline; }
-
-  /* Product image hover */
-  .product-img-wrap {
-    overflow: hidden;
-    aspect-ratio: 1;
-    margin-bottom: 10px;
-    background: #f0f0ec;
-  }
-
-  .product-img-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.4s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .product-card:hover .product-img-inner { transform: scale(1.03); }
-
-  /* ─── PRODUCT SVGs ─── */
-  .hat-svg, .polo-svg, .scarf-svg, .skirt-svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Story hover overlay */
-  .story-img-wrap {
-    overflow: hidden;
-    position: relative;
-  }
-
-  .story-img-bg {
-    width: 100%;
-    height: 200px;
-    transition: transform 0.4s ease;
-    display: block;
-  }
-
-  .story-card:hover .story-img-bg { transform: scale(1.03); }
-
-  /* Column separator for stories */
-  .story-card:not(:last-child) {
-    padding-right: 24px;
-  }
-
-  /* Pill tag */
-  .see-all-stories {
-    border: 1px solid #ccc;
-    padding: 6px 16px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .see-all-stories:hover { background: var(--black); color: var(--white); border-color: var(--black); }
-
-  /* Animated underline on logo */
-  .brand-logo-wrap {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Brand — Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f5f0;
+            --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--white);
+            color: var(--black);
+            font-family: var(--font-body);
+            font-size: 13px;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ── Semua tag <img> otomatis object-fit cover ── */
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ── Placeholder abu-abu kalau src kosong ── */
+        img[src=""],
+        img:not([src]) {
+            background: #e0e0da;
+            min-height: 40px;
+        }
+
+        /* ============================
+     TOP BAR
+     ============================ */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 16px;
+            border-bottom: 1px solid #ddd;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: var(--white);
+        }
+
+        .topbar-left {
+            color: #666;
+        }
+
+        .topbar-nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .topbar-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .topbar-right {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+
+        /* ============================
+     HERO
+     ============================ */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-title {
+            padding: 14px 16px 10px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-family: var(--font-display);
+            font-size: 68px;
+            letter-spacing: -0.01em;
+            line-height: 1;
+        }
+
+        /* ── LOGO ── */
+        .logo-wrap {
+            height: 72px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .logo-wrap img {
+            height: 72px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* ── HERO MAIN IMAGE ── */
+        .hero-main-img {
+            flex: 1;
+            min-height: 380px;
+            overflow: hidden;
+        }
+
+        .hero-main-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ── HERO RIGHT ── */
+        .hero-right {
+            border-left: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── HERO SIDE IMAGE ── */
+        .hero-side-img {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero-side-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-right-text {
+            padding: 18px 16px;
+            flex: 1;
+            border-top: 1px solid #ddd;
+        }
+
+        .hero-right-text p {
+            font-size: 11.5px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .btn-outline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--black);
+            padding: 7px 12px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .btn-outline:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        /* ============================
+     TICKER
+     ============================ */
+        .ticker {
+            overflow: hidden;
+            border-bottom: 1px solid #ddd;
+            background: var(--black);
+            color: var(--white);
+            padding: 9px 0;
+            white-space: nowrap;
+        }
+
+        .ticker-inner {
+            display: inline-flex;
+            animation: ticker 28s linear infinite;
+        }
+
+        .ticker-item {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ticker-item::after {
+            content: '✦';
+            opacity: 0.4;
+            font-size: 8px;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ============================
+     FEATURED PRODUCTS
+     ============================ */
+        .section {
+            padding: 40px 16px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .section-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-arrow {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .nav-arrow:hover {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        .pill-btn {
+            border: 1px solid #ccc;
+            padding: 6px 16px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .pill-btn:hover {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            cursor: pointer;
+        }
+
+        .product-card:hover .product-name {
+            text-decoration: underline;
+        }
+
+        /* ── PRODUCT IMAGE ── */
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #e8e8e2;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.04);
+        }
+
+        .product-name {
+            font-size: 11.5px;
+            margin: 10px 0 3px;
+        }
+
+        .product-price {
+            font-size: 11.5px;
+            color: #333;
+        }
+
+        .sold-out {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #cc3300;
+            margin-top: 3px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #e0e0da;
+            margin: 0 16px;
+        }
+
+        /* ============================
+     STORIES
+     ============================ */
+        .stories-section {
+            padding: 40px 16px;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid #ddd;
+        }
+
+        .story-card {
+            padding: 20px 24px 0 0;
+            cursor: pointer;
+        }
+
+        .story-card:last-child {
+            padding-right: 0;
+        }
+
+        .story-meta {
+            font-size: 9.5px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .story-title {
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .story-card:hover .story-title {
+            text-decoration: underline;
+        }
+
+        /* ── STORY IMAGE ── */
+        .story-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #e8e8e2;
+        }
+
+        .story-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .story-card:hover .story-img img {
+            transform: scale(1.03);
+        }
+
+        /* ============================
+     TAGLINE
+     ============================ */
+        .tagline-section {
+            padding: 60px 16px 50px;
+            border-top: 1px solid #ddd;
+        }
+
+        .tagline {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            max-width: 780px;
+        }
+
+        /* ============================
+     FOOTER
+     ============================ */
+        footer {
+            border-top: 1px solid #ddd;
+            padding: 24px 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .footer-contact {
+            font-size: 11px;
+            line-height: 1.9;
+            color: #333;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .social-icon:hover {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            font-size: 11px;
+            color: #333;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 9px 12px;
+            font-size: 11px;
+            font-family: var(--font-body);
+            background: var(--white);
+        }
+
+        .newsletter-btn {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 9px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .newsletter-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* ============================
+     GALLERY STRIP
+     ============================ */
+        .gallery-strip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            height: 240px;
+            border-top: 1px solid #ddd;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-right: 1px solid #ddd;
+            background: #e8e8e2;
+        }
+
+        .gallery-item:last-child {
+            border-right: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ============================
+     BOTTOM BAR
+     ============================ */
+        .bottom-bar {
+            border-top: 1px solid #ddd;
+            padding: 14px 16px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: #888;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================
+     COOKIE BANNER
+     ============================ */
+        .cookie-banner {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: var(--black);
+            color: var(--white);
+            padding: 14px 16px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 230px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .cookie-btn {
+            background: var(--white);
+            color: var(--black);
+            border: none;
+            padding: 7px 14px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        .cookie-btn:hover {
+            opacity: 0.7;
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- TOP BAR -->
-<nav class="topbar">
-  <span class="topbar-left">18, FEB,2026 — LAGOS, NG</span>
-  <div class="topbar-nav">
-    <a href="#">SHOP</a>
-    <a href="#">INDEX</a>
-    <a href="#">STORIES</a>
-  </div>
-  <div class="topbar-right">
-    <span>BAG(0)</span>
-    <span>MENU +</span>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <!-- Brand Title with Logo -->
-    <div class="hero-title">
-      <div class="brand-logo-wrap">
-        <span class="brand-name">404 BRAND</span>
-        <img src="logo.png" alt="404 Logo" class="logo-img">
-      </div>
-    </div>
-
-    <!-- Hero Main Image (styled placeholder) -->
-    <div class="hero-main-placeholder">
-      <svg viewBox="0 0 510 390" xmlns="http://www.w3.org/2000/svg" class="hero-scene">
-        <!-- Ocean bg -->
-        <defs>
-          <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1a3a5c"/>
-            <stop offset="60%" stop-color="#0d2540"/>
-            <stop offset="100%" stop-color="#0a1a2e"/>
-          </linearGradient>
-          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#2c4a7a"/>
-            <stop offset="100%" stop-color="#1a2e50"/>
-          </linearGradient>
-          <linearGradient id="scarf1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#3a8ac8"/>
-            <stop offset="30%" stop-color="#e8c84a"/>
-            <stop offset="60%" stop-color="#e85040"/>
-            <stop offset="100%" stop-color="#48b87a"/>
-          </linearGradient>
-        </defs>
-        <!-- Sky -->
-        <rect width="510" height="390" fill="url(#skyGrad)"/>
-        <!-- Horizon glow -->
-        <ellipse cx="255" cy="260" rx="300" ry="60" fill="#e8a040" opacity="0.12"/>
-        <!-- Waves -->
-        <path d="M0 280 Q60 265 120 278 Q180 291 240 276 Q300 261 360 276 Q420 291 480 278 L510 280 L510 390 L0 390Z" fill="url(#seaGrad)" opacity="0.9"/>
-        <path d="M0 290 Q80 275 160 286 Q240 297 320 282 Q400 267 510 284 L510 390 L0 390Z" fill="#071624" opacity="0.8"/>
-
-        <!-- Sand -->
-        <path d="M0 340 Q120 330 240 335 Q360 340 510 332 L510 390 L0 390Z" fill="#c4a06a"/>
-        <path d="M0 355 Q100 345 255 350 Q400 355 510 346 L510 390 L0 390Z" fill="#b89058"/>
-
-        <!-- Left figure (silhouette) -->
-        <g transform="translate(60, 160)">
-          <!-- body -->
-          <ellipse cx="0" cy="95" rx="18" ry="50" fill="#0d0d15"/>
-          <!-- head -->
-          <circle cx="0" cy="32" r="20" fill="#0d0d15"/>
-          <!-- arms up -->
-          <path d="M-18,75 Q-40,40 -60,20" stroke="#0d0d15" stroke-width="12" fill="none" stroke-linecap="round"/>
-          <!-- legs -->
-          <path d="M-8,145 L-12,185" stroke="#0d0d15" stroke-width="14" stroke-linecap="round"/>
-          <path d="M8,145 L12,185" stroke="#0d0d15" stroke-width="14" stroke-linecap="round"/>
-          <!-- shorts -->
-          <rect x="-18" y="130" width="36" height="28" fill="#c84040" rx="4"/>
-        </g>
-
-        <!-- Right figure (silhouette) -->
-        <g transform="translate(420, 160)">
-          <ellipse cx="0" cy="95" rx="18" ry="50" fill="#0d0d15"/>
-          <circle cx="0" cy="32" r="20" fill="#0d0d15"/>
-          <path d="M18,75 Q40,40 60,20" stroke="#0d0d15" stroke-width="12" fill="none" stroke-linecap="round"/>
-          <path d="M-8,145 L-12,185" stroke="#0d0d15" stroke-width="14" stroke-linecap="round"/>
-          <path d="M8,145 L12,185" stroke="#0d0d15" stroke-width="14" stroke-linecap="round"/>
-          <rect x="-18" y="130" width="36" height="28" fill="#c84040" rx="4"/>
-        </g>
-
-        <!-- Scarf/textile held between figures -->
-        <g transform="translate(110, 90)">
-          <rect x="0" y="0" width="290" height="175" fill="url(#scarf1)" rx="3"/>
-          <!-- Pattern overlays -->
-          <circle cx="145" cy="88" r="55" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
-          <circle cx="145" cy="88" r="35" fill="rgba(255,255,255,0.08)"/>
-          <!-- decorative shapes -->
-          <rect x="20" y="20" width="40" height="35" fill="rgba(255,255,255,0.15)" rx="2"/>
-          <rect x="230" y="20" width="40" height="35" fill="rgba(0,0,0,0.15)" rx="2"/>
-          <path d="M60 80 Q100 50 145 80 Q190 110 230 80" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
-          <!-- Brand mark on scarf -->
-          <text x="145" y="96" font-family="Arial Black" font-size="16" fill="rgba(255,255,255,0.6)" text-anchor="middle" letter-spacing="4">404</text>
-          <!-- Border -->
-          <rect x="0" y="0" width="290" height="175" fill="none" stroke="#e8a040" stroke-width="3" rx="3"/>
-        </g>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Hero Right Panel -->
-  <div class="hero-right">
-    <!-- Right editorial image -->
-    <div class="hero-right-placeholder">
-      <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" width="100%" height="220">
-        <defs>
-          <linearGradient id="wallGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#9ab8c0"/>
-            <stop offset="100%" stop-color="#5a8090"/>
-          </linearGradient>
-        </defs>
-        <rect width="220" height="220" fill="url(#wallGrad)"/>
-        <!-- wall texture -->
-        <rect x="0" y="0" width="220" height="220" fill="rgba(255,255,255,0.05)"/>
-        <!-- 3 figures -->
-        <!-- figure 1 -->
-        <g transform="translate(20, 50)">
-          <circle cx="25" cy="20" r="15" fill="#1a1a1a"/>
-          <rect x="10" y="35" width="30" height="55" fill="#f5f5f0" rx="3"/>
-          <rect x="10" y="90" width="13" height="40" fill="#1a1a1a"/>
-          <rect x="27" y="90" width="13" height="40" fill="#1a1a1a"/>
-        </g>
-        <!-- figure 2 -->
-        <g transform="translate(80, 35)">
-          <circle cx="25" cy="20" r="15" fill="#1a1a1a"/>
-          <rect x="8" y="35" width="34" height="60" fill="#e85030" rx="3"/>
-          <rect x="10" y="95" width="13" height="40" fill="#2a2a2a"/>
-          <rect x="27" y="95" width="13" height="40" fill="#2a2a2a"/>
-        </g>
-        <!-- figure 3 -->
-        <g transform="translate(145, 45)">
-          <circle cx="25" cy="20" r="15" fill="#1a1a1a"/>
-          <rect x="10" y="35" width="30" height="58" fill="#2a2a3a" rx="3"/>
-          <rect x="10" y="93" width="13" height="37" fill="#1a1a1a"/>
-          <rect x="27" y="93" width="13" height="37" fill="#1a1a1a"/>
-        </g>
-        <!-- ground shadow -->
-        <ellipse cx="110" cy="210" rx="90" ry="8" fill="rgba(0,0,0,0.2)"/>
-      </svg>
-    </div>
-
-    <div class="hero-right-text">
-      <p>A Lagos-based dual-sex fashion house.<br>We create art through fashion and imagery inspired by Africa's evolving identity.</p>
-      <a href="#" class="btn-outline">SHOP 404 <span class="arrow">▸</span></a>
-      <a href="#" class="btn-outline">EXPERIENCE 404 <span class="arrow">▸</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-inner">
-    <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-    <span class="ticker-item">SHOP 404 DROPS</span>
-    <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-    <span class="ticker-item">SHOP 404 DROPS</span>
-    <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-    <span class="ticker-item">SHOP 404 DROPS</span>
-    <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-    <span class="ticker-item">SHOP 404 DROPS</span>
-  </div>
-</div>
-
-<!-- FEATURED PRODUCTS -->
-<section class="section">
-  <div class="section-header">
-    <h2 class="section-title">Featured Products</h2>
-    <div class="section-header-right">
-      <div class="nav-arrow">‹</div>
-      <div class="nav-arrow">›</div>
-      <a href="#" class="shop-all-btn">SHOP ALL</a>
-    </div>
-  </div>
-
-  <div class="products-grid">
-    <!-- Product 1: Hat -->
-    <div class="product-card">
-      <div class="product-img-wrap">
-        <div class="product-img-inner">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-            <rect width="200" height="200" fill="#e8e8e0"/>
-            <defs>
-              <linearGradient id="hatGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#1a3a8a"/>
-                <stop offset="100%" stop-color="#0d1f5c"/>
-              </linearGradient>
-            </defs>
-            <!-- Hat brim -->
-            <ellipse cx="100" cy="145" rx="75" ry="14" fill="url(#hatGrad)"/>
-            <!-- Hat body -->
-            <path d="M40 145 Q45 80 100 72 Q155 80 160 145Z" fill="url(#hatGrad)"/>
-            <!-- Red underbrim -->
-            <ellipse cx="100" cy="145" rx="75" ry="14" fill="none" stroke="#cc2200" stroke-width="4"/>
-            <!-- Logo text on hat -->
-            <text x="100" y="118" font-family="Arial Black" font-size="12" fill="#e85075" text-anchor="middle" font-weight="900" letter-spacing="1">404</text>
-            <!-- Star detail -->
-            <text x="148" y="128" font-family="Arial" font-size="14" fill="#3a8ac8">✦</text>
-          </svg>
+    <!-- ═══════════════════════════
+     TOP BAR
+     ═══════════════════════════ -->
+    <nav class="topbar">
+        <span class="topbar-left">18, FEB,2026 — LAGOS, NG</span>
+        <div class="topbar-nav">
+            <a href="#">SHOP</a>
+            <a href="#">INDEX</a>
+            <a href="#">STORIES</a>
         </div>
-      </div>
-      <div class="product-name">404 Lagos Hat</div>
-      <div class="product-price">$65</div>
-    </div>
-
-    <!-- Product 2: Polo -->
-    <div class="product-card">
-      <div class="product-img-wrap">
-        <div class="product-img-inner">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-            <rect width="200" height="200" fill="#e8e8e0"/>
-            <!-- Polo shirt shape -->
-            <path d="M55 55 Q100 40 145 55 L165 85 L145 90 L145 165 L55 165 L55 90 L35 85Z" fill="#cc1100"/>
-            <!-- Collar -->
-            <path d="M80 55 Q100 70 120 55 L115 45 Q100 58 85 45Z" fill="#881100"/>
-            <!-- Sleeve left -->
-            <path d="M55 90 L35 85 L28 110 L50 115 L55 105Z" fill="#cc1100"/>
-            <!-- Sleeve right -->
-            <path d="M145 90 L165 85 L172 110 L150 115 L145 105Z" fill="#cc1100"/>
-            <!-- Floral logo on chest -->
-            <g transform="translate(82, 90)">
-              <circle cx="0" cy="0" r="8" fill="#1a1a4a"/>
-              <circle cx="12" cy="0" r="6" fill="#1a1a4a"/>
-              <circle cx="-6" cy="10" r="6" fill="#1a1a4a"/>
-              <circle cx="6" cy="10" r="8" fill="#1a1a4a"/>
-              <circle cx="18" cy="10" r="6" fill="#1a1a4a"/>
-            </g>
-          </svg>
+        <div class="topbar-right">
+            <span>BAG(0)</span>
+            <span>MENU +</span>
         </div>
-      </div>
-      <div class="product-name">404 Petal Polo</div>
-      <div class="sold-out">SOLD OUT</div>
-    </div>
+    </nav>
 
-    <!-- Product 3: Scarf -->
-    <div class="product-card">
-      <div class="product-img-wrap">
-        <div class="product-img-inner">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-            <rect width="200" height="200" fill="#e8e8e0"/>
-            <defs>
-              <linearGradient id="scarfFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#7ec8e3"/>
-                <stop offset="40%" stop-color="#f5c842"/>
-                <stop offset="70%" stop-color="#e85040"/>
-                <stop offset="100%" stop-color="#48b87a"/>
-              </linearGradient>
-            </defs>
-            <!-- Scarf with border -->
-            <rect x="22" y="22" width="156" height="156" fill="url(#scarfFill)"/>
-            <rect x="22" y="22" width="156" height="156" fill="none" stroke="#c87a20" stroke-width="5"/>
-            <!-- Scene illustrations -->
-            <circle cx="100" cy="100" r="40" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-            <!-- miniature buildings -->
-            <rect x="70" y="85" width="12" height="25" fill="rgba(30,60,120,0.6)" rx="1"/>
-            <rect x="85" y="78" width="16" height="32" fill="rgba(30,60,120,0.8)" rx="1"/>
-            <rect x="105" y="82" width="14" height="28" fill="rgba(30,60,120,0.6)" rx="1"/>
-            <!-- water -->
-            <path d="M55 118 Q80 112 100 118 Q120 124 145 118" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
-            <!-- Text -->
-            <text x="100" y="165" font-family="Arial Black" font-size="9" fill="rgba(30,30,80,0.7)" text-anchor="middle" letter-spacing="3">404 LAGOS</text>
-          </svg>
+
+    <!-- ═══════════════════════════
+     HERO
+     ═══════════════════════════ -->
+    <section class="hero">
+
+        <div class="hero-left">
+
+            <!-- Brand name + logo -->
+            <div class="hero-title">
+                <span class="brand-name">404 BRAND</span>
+                <div class="logo-wrap">
+                    <!-- LOGO: sudah otomatis dari logo.png -->
+                </div>
+            </div>
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 1 — Hero Utama (foto besar)  ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="hero-main-img">
+                <img src="bilbords.png" alt="Hero Main Image">
+                <!-- Contoh: <img src="images/hero-main.jpg" alt="Hero"> -->
+            </div>
+
         </div>
-      </div>
-      <div class="product-name">404 'Lagos' Scarf</div>
-      <div class="product-price">$60</div>
-    </div>
 
-    <!-- Product 4: Skirt -->
-    <div class="product-card">
-      <div class="product-img-wrap">
-        <div class="product-img-inner">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-            <rect width="200" height="200" fill="#e8e8e0"/>
-            <!-- Cargo skirt shape -->
-            <path d="M65 40 L135 40 L150 180 L50 180Z" fill="#0a0a0a"/>
-            <!-- waistband -->
-            <rect x="65" y="40" width="70" height="15" fill="#1a1a1a"/>
-            <!-- pocket details -->
-            <rect x="72" y="75" width="22" height="26" fill="none" stroke="#333" stroke-width="1.5" rx="1"/>
-            <rect x="106" y="80" width="22" height="26" fill="none" stroke="#333" stroke-width="1.5" rx="1"/>
-            <!-- Colorful star/flower embroidery -->
-            <text x="78" y="68" font-family="Arial" font-size="16" fill="#e8c84a">✦</text>
-            <text x="108" y="145" font-family="Arial" font-size="14" fill="#9b59b6">✦</text>
-            <text x="85" y="155" font-family="Arial" font-size="11" fill="#e85040">✦</text>
-            <text x="115" y="72" font-family="Arial" font-size="12" fill="#3a8ac8">✦</text>
-            <!-- Pleat lines -->
-            <line x1="100" y1="55" x2="97" y2="180" stroke="#1a1a1a" stroke-width="1" opacity="0.5"/>
-          </svg>
+        <div class="hero-right">
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 2 — Foto Editorial Kanan     ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="hero-side-img">
+                <img src="logobaruu.png" alt="Hero Side Image">
+                <!-- Contoh: <img src="images/editorial.jpg" alt="Editorial"> -->
+            </div>
+
+            <div class="hero-right-text">
+                <p>A Lagos-based dual-sex fashion house.<br>We create art through fashion and imagery inspired by
+                    Africa's evolving identity.</p>
+                <a href="#" class="btn-outline">SHOP 404 <span>▸</span></a>
+                <a href="#" class="btn-outline">EXPERIENCE 404 <span>▸</span></a>
+            </div>
+
         </div>
-      </div>
-      <div class="product-name">404 Petal Cargo Skirt</div>
-      <div class="product-price">$130</div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<hr class="divider">
 
-<!-- STORIES FROM THE PITH -->
-<section class="stories-section">
-  <div class="section-header">
-    <h2 class="section-title">Stories from the 404</h2>
-    <a href="#" class="see-all-stories">SEE ALL STORIES</a>
-  </div>
-
-  <div class="stories-grid">
-    <!-- Story 1 -->
-    <div class="story-card">
-      <div class="story-meta">(DROPS · DEC 10, 2023)</div>
-      <h3 class="story-title">404 Sports: Introducing 404 Football Jersey</h3>
-      <div class="story-img-wrap">
-        <svg viewBox="0 0 330 200" xmlns="http://www.w3.org/2000/svg" class="story-img-bg" width="100%" height="200">
-          <defs>
-            <linearGradient id="beachGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#87ceeb"/>
-              <stop offset="55%" stop-color="#f0c870"/>
-              <stop offset="100%" stop-color="#d4a840"/>
-            </linearGradient>
-          </defs>
-          <rect width="330" height="200" fill="url(#beachGrad)"/>
-          <!-- Sky clouds -->
-          <ellipse cx="60" cy="40" rx="40" ry="18" fill="rgba(255,255,255,0.5)"/>
-          <ellipse cx="85" cy="35" rx="30" ry="15" fill="rgba(255,255,255,0.4)"/>
-          <!-- Buildings bg -->
-          <rect x="240" y="50" width="25" height="80" fill="rgba(200,200,220,0.4)"/>
-          <rect x="270" y="60" width="35" height="70" fill="rgba(180,190,210,0.5)"/>
-          <rect x="310" y="55" width="20" height="75" fill="rgba(200,200,220,0.3)"/>
-          <!-- Sea -->
-          <path d="M0 120 Q80 110 165 118 Q250 126 330 112 L330 200 L0 200Z" fill="#4a8fc8" opacity="0.6"/>
-          <!-- Child figure -->
-          <circle cx="130" cy="100" r="18" fill="#3a2010"/>
-          <!-- jersey -->
-          <path d="M112 118 Q130 112 148 118 L152 160 L108 160Z" fill="#e8c830"/>
-          <!-- blue stripes on jersey -->
-          <path d="M112 125 L108 160" stroke="#1a4a8a" stroke-width="6"/>
-          <path d="M148 125 L152 160" stroke="#1a4a8a" stroke-width="6"/>
-          <!-- arms -->
-          <path d="M112 122 Q95 130 85 145" stroke="#3a2010" stroke-width="10" stroke-linecap="round" fill="none"/>
-          <path d="M148 122 Q165 130 175 145" stroke="#3a2010" stroke-width="10" stroke-linecap="round" fill="none"/>
-          <!-- legs -->
-          <path d="M118 160 L112 195" stroke="#2a2a2a" stroke-width="10" stroke-linecap="round"/>
-          <path d="M142 160 L148 195" stroke="#2a2a2a" stroke-width="10" stroke-linecap="round"/>
-          <!-- Ball -->
-          <circle cx="175" cy="170" r="22" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-          <path d="M175 148 Q185 158 178 168 Q168 178 158 170 Q148 162 155 152 Q162 142 175 148Z" fill="#1a1a1a"/>
-          <!-- 404 text on jersey -->
-          <text x="130" y="143" font-family="Arial Black" font-size="9" fill="#cc2200" text-anchor="middle">CPITH</text>
-        </svg>
-      </div>
+    <!-- ═══════════════════════════
+     TICKER
+     ═══════════════════════════ -->
+    <div class="ticker">
+        <div class="ticker-inner" id="tickerInner">
+            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
+            <span class="ticker-item">SHOP 404 DROPS</span>
+            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
+            <span class="ticker-item">SHOP 404 DROPS</span>
+            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
+            <span class="ticker-item">SHOP 404 DROPS</span>
+            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
+            <span class="ticker-item">SHOP 404 DROPS</span>
+        </div>
     </div>
 
-    <!-- Story 2 -->
-    <div class="story-card">
-      <div class="story-meta">(COLLABS · JUL 26, 2023)</div>
-      <h3 class="story-title">404 x WAF</h3>
-      <div class="story-img-wrap">
-        <svg viewBox="0 0 330 200" xmlns="http://www.w3.org/2000/svg" class="story-img-bg" width="100%" height="200">
-          <defs>
-            <linearGradient id="outdoorGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#6ab87a"/>
-              <stop offset="100%" stop-color="#3a7a4a"/>
-            </linearGradient>
-          </defs>
-          <rect width="330" height="200" fill="url(#outdoorGrad)"/>
-          <!-- Foliage bg -->
-          <circle cx="50" cy="0" r="60" fill="#2a6a3a" opacity="0.6"/>
-          <circle cx="200" cy="-20" r="80" fill="#3a8a4a" opacity="0.5"/>
-          <circle cx="320" cy="10" r="50" fill="#2a6a3a" opacity="0.6"/>
-          <!-- Ground -->
-          <rect x="0" y="150" width="330" height="50" fill="rgba(180,140,80,0.5)"/>
-          <!-- 3 figures seated -->
-          <g transform="translate(40, 80)">
-            <circle cx="0" cy="0" r="18" fill="#2a1a0a"/>
-            <rect x="-18" y="18" width="36" height="40" fill="#2a2a4a" rx="3"/>
-            <path d="M-18 58 L-22 90 M18 58 L22 90" stroke="#2a2a4a" stroke-width="12" stroke-linecap="round"/>
-          </g>
-          <g transform="translate(145, 70)">
-            <circle cx="0" cy="0" r="18" fill="#2a1808"/>
-            <rect x="-18" y="18" width="36" height="42" fill="#1a1a1a" rx="3"/>
-            <path d="M-18 60 L-22 95 M18 60 L22 95" stroke="#1a1a1a" stroke-width="12" stroke-linecap="round"/>
-          </g>
-          <g transform="translate(250, 75)">
-            <circle cx="0" cy="0" r="18" fill="#2a1a0a"/>
-            <rect x="-18" y="18" width="36" height="40" fill="#3a2a1a" rx="3"/>
-            <path d="M-18 58 L-22 90 M18 58 L22 90" stroke="#3a2a1a" stroke-width="12" stroke-linecap="round"/>
-          </g>
-        </svg>
-      </div>
+
+    <!-- ═══════════════════════════
+     FEATURED PRODUCTS
+     ═══════════════════════════ -->
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="section-right">
+                <div class="nav-arrow">‹</div>
+                <div class="nav-arrow">›</div>
+                <a href="#" class="pill-btn">SHOP ALL</a>
+            </div>
+        </div>
+
+        <div class="products-grid">
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 3 — Produk 1                 ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="mockup2.png" alt="404 Lagos Hat">
+                    <!-- Contoh: <img src="images/hat.jpg" alt="404 Lagos Hat"> -->
+                </div>
+                <div class="product-name">404 Lagos Hat</div>
+                <div class="product-price">$65</div>
+            </div>
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 4 — Produk 2                 ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="mockup22.png" alt="404 Petal Polo">
+                    <!-- Contoh: <img src="images/polo.jpg" alt="404 Petal Polo"> -->
+                </div>
+                <div class="product-name">404 Petal Polo</div>
+                <div class="sold-out">SOLD OUT</div>
+            </div>
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 5 — Produk 3                 ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="6.png" alt="404 Lagos Scarf">
+                    <!-- Contoh: <img src="images/scarf.jpg" alt="404 Lagos Scarf"> -->
+                </div>
+                <div class="product-name">404 'Lagos' Scarf</div>
+                <div class="product-price">$60</div>
+            </div>
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 6 — Produk 4                 ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="5.png" alt="404 Petal Cargo Skirt">
+                    <!-- Contoh: <img src="images/skirt.jpg" alt="404 Petal Cargo Skirt"> -->
+                </div>
+                <div class="product-name">404 Petal Cargo Skirt</div>
+                <div class="product-price">$130</div>
+            </div>
+
+        </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ═══════════════════════════
+     STORIES
+     ═══════════════════════════ -->
+    <section class="stories-section">
+        <div class="section-header">
+            <h2 class="section-title">Stories from the 404</h2>
+            <a href="#" class="pill-btn">SEE ALL STORIES</a>
+        </div>
+
+        <div class="stories-grid">
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 7 — Story 1                  ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="story-card">
+                <div class="story-meta">(DROPS · DEC 10, 2023)</div>
+                <h3 class="story-title">404 Sports: Introducing 404 Football Jersey</h3>
+                <div class="story-img">
+                    <img src="" alt="Story 1">
+                    <!-- Contoh: <img src="images/story-jersey.jpg" alt="Football Jersey"> -->
+                </div>
+            </div>
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 8 — Story 2                  ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="story-card">
+                <div class="story-meta">(COLLABS · JUL 26, 2023)</div>
+                <h3 class="story-title">404 x WAF</h3>
+                <div class="story-img">
+                    <img src="" alt="Story 2">
+                    <!-- Contoh: <img src="images/story-waf.jpg" alt="404 x WAF"> -->
+                </div>
+            </div>
+
+            <!-- ╔══════════════════════════════════════╗
+         ║  GAMBAR 9 — Story 3                  ║
+         ║  Ganti: src="nama-file-kamu.jpg"     ║
+         ╚══════════════════════════════════════╝ -->
+            <div class="story-card">
+                <div class="story-meta">(COLLABS · OCT 20, 2022)</div>
+                <h3 class="story-title">404HISUS</h3>
+                <div class="story-img">
+                    <img src="" alt="Story 3">
+                    <!-- Contoh: <img src="images/story-hisus.jpg" alt="404HISUS"> -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════
+     TAGLINE
+     ═══════════════════════════ -->
+    <section class="tagline-section">
+        <p class="tagline">We create art through fashion, experiences and imagery inspired by Africa's evolving
+            identity. Lagos based, delivered globally.</p>
+    </section>
+
+
+    <!-- ═══════════════════════════
+     FOOTER
+     ═══════════════════════════ -->
+    <footer>
+        <div>
+            <div class="footer-contact">
+                <div>+2349032570511</div>
+                <div>hello@404brand.com</div>
+            </div>
+            <div class="footer-social">
+                <div class="social-icon">𝕏</div>
+                <div class="social-icon">◎</div>
+            </div>
+        </div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Shipping &amp; Returns</a>
+        </div>
+        <div>
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email to join our newsletter">
+                <button class="newsletter-btn">›</button>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ═══════════════════════════
+     GALLERY STRIP (5 foto)
+     ═══════════════════════════ -->
+    <div class="gallery-strip">
+
+        <!-- ╔══════════════════════════════════════╗
+       ║  GAMBAR 10 — Galeri 1                ║
+       ║  Ganti: src="nama-file-kamu.jpg"     ║
+       ╚══════════════════════════════════════╝ -->
+        <div class="gallery-item">
+            <img src="" alt="Gallery 1">
+            <!-- Contoh: <img src="images/gallery-1.jpg" alt="Gallery 1"> -->
+        </div>
+
+        <!-- ╔══════════════════════════════════════╗
+       ║  GAMBAR 11 — Galeri 2                ║
+       ║  Ganti: src="nama-file-kamu.jpg"     ║
+       ╚══════════════════════════════════════╝ -->
+        <div class="gallery-item">
+            <img src="" alt="Gallery 2">
+            <!-- Contoh: <img src="images/gallery-2.jpg" alt="Gallery 2"> -->
+        </div>
+
+        <!-- ╔══════════════════════════════════════╗
+       ║  GAMBAR 12 — Galeri 3                ║
+       ║  Ganti: src="nama-file-kamu.jpg"     ║
+       ╚══════════════════════════════════════╝ -->
+        <div class="gallery-item">
+            <img src="" alt="Gallery 3">
+            <!-- Contoh: <img src="images/gallery-3.jpg" alt="Gallery 3"> -->
+        </div>
+
+        <!-- ╔══════════════════════════════════════╗
+       ║  GAMBAR 13 — Galeri 4                ║
+       ║  Ganti: src="nama-file-kamu.jpg"     ║
+       ╚══════════════════════════════════════╝ -->
+        <div class="gallery-item">
+            <img src="" alt="Gallery 4">
+            <!-- Contoh: <img src="images/gallery-4.jpg" alt="Gallery 4"> -->
+        </div>
+
+        <!-- ╔══════════════════════════════════════╗
+       ║  GAMBAR 14 — Galeri 5                ║
+       ║  Ganti: src="nama-file-kamu.jpg"     ║
+       ╚══════════════════════════════════════╝ -->
+        <div class="gallery-item">
+            <img src="" alt="Gallery 5">
+            <!-- Contoh: <img src="images/gallery-5.jpg" alt="Gallery 5"> -->
+        </div>
+
     </div>
 
-    <!-- Story 3 -->
-    <div class="story-card">
-      <div class="story-meta">(COLLABS · OCT 20, 2022)</div>
-      <h3 class="story-title">404HISUS</h3>
-      <div class="story-img-wrap">
-        <svg viewBox="0 0 330 200" xmlns="http://www.w3.org/2000/svg" class="story-img-bg" width="100%" height="200">
-          <defs>
-            <linearGradient id="orangeGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#e8a840"/>
-              <stop offset="100%" stop-color="#c87830"/>
-            </linearGradient>
-          </defs>
-          <rect width="330" height="200" fill="url(#orangeGrad)"/>
-          <!-- Figure in orange suit -->
-          <g transform="translate(100, 25)">
-            <!-- Checkered blue/white bucket hat -->
-            <g transform="translate(50, 0)">
-              <!-- hat brim -->
-              <ellipse cx="0" cy="22" rx="30" ry="8" fill="#3a5a9a" opacity="0.8"/>
-              <!-- hat top pieces -->
-              <path d="M-20 22 Q-15 0 0 -5 Q15 0 20 22Z" fill="#3a5a9a"/>
-              <!-- checker pattern -->
-              <path d="M-14 8 L-6 8 L-6 16 L-14 16Z" fill="white" opacity="0.7"/>
-              <path d="M-2 2 L6 2 L6 10 L-2 10Z" fill="white" opacity="0.7"/>
-              <path d="M8 8 L16 8 L16 16 L8 16Z" fill="white" opacity="0.7"/>
-            </g>
-            <!-- head -->
-            <circle cx="50" cy="42" r="22" fill="#2a1808"/>
-            <!-- orange suit body -->
-            <path d="M28 64 Q50 56 72 64 L80 140 L20 140Z" fill="#e8a030"/>
-            <!-- suit lapels -->
-            <path d="M40 64 Q50 75 60 64 L55 80 Q50 85 45 80Z" fill="#c87820"/>
-            <!-- arms bent forward (person bending) -->
-            <path d="M28 72 Q15 90 8 115" stroke="#e8a030" stroke-width="16" stroke-linecap="round" fill="none"/>
-            <path d="M72 72 Q85 90 92 115" stroke="#e8a030" stroke-width="16" stroke-linecap="round" fill="none"/>
-            <!-- hands -->
-            <circle cx="8" cy="118" r="8" fill="#2a1808"/>
-            <circle cx="92" cy="118" r="8" fill="#2a1808"/>
-            <!-- legs -->
-            <path d="M35 140 L28 185" stroke="#e8a030" stroke-width="16" stroke-linecap="round"/>
-            <path d="M65 140 L72 185" stroke="#e8a030" stroke-width="16" stroke-linecap="round"/>
-          </g>
-          <!-- Dog on ground right -->
-          <g transform="translate(230, 130)">
-            <ellipse cx="30" cy="30" rx="35" ry="20" fill="#c8a860"/>
-            <circle cx="60" cy="18" r="16" fill="#c8a860"/>
-            <path d="M65 10 Q75 0 80 8" stroke="#c8a860" stroke-width="8" stroke-linecap="round" fill="none"/>
-            <!-- legs -->
-            <path d="M10 40 L8 60 M20 42 L18 62 M40 42 L42 62 M50 40 L52 60" stroke="#b89850" stroke-width="7" stroke-linecap="round"/>
-          </g>
-        </svg>
-      </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar">© 2026 404 Brand.</div>
+
+    <!-- COOKIE BANNER -->
+    <div class="cookie-banner" id="cookieBanner">
+        <span>This website uses cookies</span>
+        <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">OKAY
+            ✓</button>
     </div>
-  </div>
-</section>
 
-<!-- TAGLINE -->
-<section class="tagline-section">
-  <p class="tagline">We create art through fashion, experiences and imagery inspired by Africa's evolving identity. Lagos based, delivered globally.</p>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div>
-    <div class="footer-contact">
-      <div>+2349032570511</div>
-      <div>hello@404brand.com</div>
-    </div>
-    <div class="footer-social">
-      <div class="social-icon">𝕏</div>
-      <div class="social-icon">◎</div>
-    </div>
-  </div>
-
-  <div class="footer-links">
-    <a href="#">Privacy Policy</a>
-    <a href="#">Shipping &amp; Returns</a>
-  </div>
-
-  <div class="footer-newsletter">
-    <div class="newsletter-form">
-      <input type="email" class="newsletter-input" placeholder="Enter your email to join our newsletter">
-      <button class="newsletter-btn">›</button>
-    </div>
-  </div>
-</footer>
-
-<!-- GALLERY STRIP -->
-<div class="gallery-strip">
-  <!-- G1: Logo pattern -->
-  <div class="gallery-item">
-    <svg viewBox="0 0 140 240" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-      <rect width="140" height="240" fill="#0a0a0a"/>
-      <!-- 2x2 logo grid arrangement -->
-      <rect x="15" y="30" width="48" height="48" fill="white"/>
-      <rect x="77" y="30" width="48" height="48" fill="white"/>
-      <rect x="15" y="97" width="48" height="48" fill="white"/>
-      <rect x="77" y="97" width="48" height="48" fill="white"/>
-      <!-- cross cutout on logo -->
-      <rect x="51" y="30" width="38" height="115" fill="#0a0a0a"/>
-      <rect x="15" y="79" width="110" height="38" fill="#0a0a0a"/>
-    </svg>
-  </div>
-
-  <!-- G2: Dark editorial -->
-  <div class="gallery-item">
-    <svg viewBox="0 0 140 240" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-      <defs>
-        <linearGradient id="g2Grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#1a1a2e"/>
-          <stop offset="100%" stop-color="#0d0d18"/>
-        </linearGradient>
-      </defs>
-      <rect width="140" height="240" fill="url(#g2Grad)"/>
-      <!-- Figure with wings/cape -->
-      <circle cx="70" cy="70" r="22" fill="#1a1008"/>
-      <!-- Wild costume/wings -->
-      <path d="M25 100 Q15 60 35 50 Q55 85 70 90 Q85 85 105 50 Q125 60 115 100" fill="#e8c030" opacity="0.8"/>
-      <!-- body -->
-      <path d="M48 90 Q70 80 92 90 L96 180 L44 180Z" fill="#1a1a1a"/>
-      <!-- orange accent skirt bottom -->
-      <path d="M44 140 Q70 130 96 140 L98 180 L42 180Z" fill="#e85030"/>
-      <!-- legs -->
-      <path d="M55 180 L50 238 M85 180 L90 238" stroke="#1a1a1a" stroke-width="14" stroke-linecap="round"/>
-    </svg>
-  </div>
-
-  <!-- G3: Red bg -->
-  <div class="gallery-item">
-    <svg viewBox="0 0 140 240" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-      <rect width="140" height="240" fill="#cc1a00"/>
-      <!-- Figure in dark outfit -->
-      <circle cx="70" cy="65" r="22" fill="#1a1008"/>
-      <path d="M48 87 Q70 78 92 87 L95 175 L45 175Z" fill="#0a0a0a"/>
-      <!-- knee-high boots -->
-      <rect x="48" y="155" width="18" height="80" fill="#0a0a0a" rx="3"/>
-      <rect x="74" y="155" width="18" height="80" fill="#0a0a0a" rx="3"/>
-      <!-- hand on hip pose -->
-      <path d="M48 95 Q32 110 28 130" stroke="#1a1008" stroke-width="12" stroke-linecap="round" fill="none"/>
-      <path d="M92 95 Q108 100 105 115" stroke="#1a1008" stroke-width="12" stroke-linecap="round" fill="none"/>
-    </svg>
-  </div>
-
-  <!-- G4: Light/floral -->
-  <div class="gallery-item">
-    <svg viewBox="0 0 140 240" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-      <rect width="140" height="240" fill="#f0ece4"/>
-      <!-- Floral pattern bg -->
-      <text x="10" y="40" font-size="28" fill="#d4c8b0" opacity="0.6">✿</text>
-      <text x="85" y="65" font-size="22" fill="#d4c8b0" opacity="0.5">✦</text>
-      <text x="20" y="200" font-size="24" fill="#d4c8b0" opacity="0.5">✿</text>
-      <text x="100" y="220" font-size="18" fill="#d4c8b0" opacity="0.6">✦</text>
-      <!-- Figure in patterned top -->
-      <circle cx="70" cy="70" r="22" fill="#2a1a0a"/>
-      <!-- white/floral top -->
-      <path d="M48 92 Q70 82 92 92 L88 140 L52 140Z" fill="#f5f5f0"/>
-      <!-- floral print on top -->
-      <text x="58" y="120" font-size="14" fill="#d4a0b0">✿</text>
-      <text x="74" y="110" font-size="11" fill="#1a4a8a">✦</text>
-      <!-- dark pants -->
-      <path d="M52 140 L44 230 L62 230 L70 175 L78 230 L96 230 L88 140Z" fill="#1a1a1a"/>
-    </svg>
-  </div>
-
-  <!-- G5: Navy outfit -->
-  <div class="gallery-item">
-    <svg viewBox="0 0 140 240" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-      <rect width="140" height="240" fill="#e8e8e0"/>
-      <!-- Figure in navy outfit with floral hat -->
-      <circle cx="70" cy="65" r="22" fill="#2a1a0a"/>
-      <!-- Navy cap with flower -->
-      <ellipse cx="70" cy="46" rx="26" ry="8" fill="#1a2a5a"/>
-      <path d="M50 46 Q55 28 70 25 Q85 28 90 46Z" fill="#1a2a5a"/>
-      <!-- flower on cap -->
-      <circle cx="78" cy="36" r="6" fill="#e85060"/>
-      <circle cx="74" cy="30" r="4" fill="#e85060"/>
-      <circle cx="84" cy="32" r="4" fill="#e85060"/>
-      <!-- navy outfit -->
-      <path d="M48 87 Q70 78 92 87 L90 175 L50 175Z" fill="#1a2a5a"/>
-      <!-- floral details on outfit -->
-      <text x="58" y="120" font-size="11" fill="#e85060">✿</text>
-      <text x="72" y="145" font-size="9" fill="#e8c030">✦</text>
-      <!-- navy knee boots -->
-      <rect x="52" y="155" width="16" height="80" fill="#1a2a5a" rx="3"/>
-      <rect x="72" y="155" width="16" height="80" fill="#1a2a5a" rx="3"/>
-    </svg>
-  </div>
-</div>
-
-<!-- BOTTOM BAR -->
-<div class="bottom-bar">
-  <span>© 2026 404 Brand.</span>
-</div>
-
-<!-- COOKIE BANNER -->
-<div class="cookie-banner" id="cookieBanner">
-  <span>This website uses cookies</span>
-  <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">OKAY ✓</button>
-</div>
-
-<script>
-  // Smooth ticker duplication for seamless loop
-  const tickerInner = document.querySelector('.ticker-inner');
-  tickerInner.innerHTML += tickerInner.innerHTML;
-
-  // Simple product slider state (nav arrows)
-  document.querySelectorAll('.nav-arrow').forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Would implement carousel logic in full version
-    });
-  });
-</script>
+    <script>
+        // Ticker seamless loop
+        const ti = document.getElementById('tickerInner');
+        ti.innerHTML += ti.innerHTML;
+    </script>
 </body>
+
 </html>
