@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Brand — Home</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --black: #0a0a0a;
             --white: #f5f5f0;
+            --accent: #cc3300;
             --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
             --font-mono: 'IBM Plex Mono', monospace;
             --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -38,23 +38,35 @@
             font-size: 13px;
             line-height: 1.4;
             overflow-x: hidden;
+            /* Texture halus pada background */
+            background-image: radial-gradient(#e0e0da 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* ============================
+           NOISE OVERLAY (Efek Film)
+           ============================ */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         a { color: inherit; text-decoration: none; }
-        
         img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-        /* Placeholder */
-        img[src=""], img:not([src]) { background: #e0e0da; min-height: 40px; }
+        img[src=""], img:not([src]) { background: #e0e0da; min-height: 200px; }
 
         /* ============================
-           TOP BAR (RESPONSIVE)
+           TOP BAR
            ============================ */
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 16px;
+            padding: 10px 20px;
             border-bottom: 1px solid #ddd;
             font-size: 10px;
             font-family: var(--font-mono);
@@ -63,520 +75,611 @@
             position: sticky;
             top: 0;
             z-index: 200;
-            background: var(--white);
+            background: rgba(245, 245, 240, 0.95);
+            backdrop-filter: blur(5px);
         }
 
-        .topbar-left { display: none; } /* Sembunyikan tanggal di HP agar bersih */
-        
-        .topbar-nav { 
-            display: flex; 
-            gap: 20px; 
-            font-size: 9px;
-        }
-
+        .topbar-left { display: block; }
+        .topbar-nav { display: flex; gap: 20px; font-size: 9px; white-space: nowrap; }
         .topbar-right { display: flex; gap: 15px; align-items: center; }
 
         /* ============================
-           HERO SECTION (RESPONSIVE 3D)
+           HERO SECTION (3D MARQUEE)
            ============================ */
         .hero-marquee-section {
             position: relative;
             width: 100%;
-            height: 80vh; /* Tinggi di Desktop */
+            height: 75vh;
             background: var(--black);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid var(--black);
-        }
-
-        .marquee-perspective {
             perspective: 1000px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
         }
 
         .marquee-track {
             display: flex;
             gap: var(--gap);
             width: max-content;
-            /* Animasi scroll ke kiri */
-            animation: scrollLeft 45s linear infinite;
-            /* Efek 3D Tilt (Desktop) */
-            transform: rotateY(12deg) rotateX(5deg) scale(0.85); 
+            transform: rotateY(15deg) rotateX(5deg) scale(0.85);
             transform-style: preserve-3d;
             padding: 0 50px;
+            animation: scrollDesktop 40s linear infinite;
         }
 
         .marquee-track:hover { animation-play-state: paused; }
 
         .grid-item {
-            width: 260px;
-            height: 360px;
+            width: 280px; height: 380px;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
             background: #1a1a1a;
             border: 1px solid #333;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            box-shadow: -20px 20px 50px rgba(0,0,0,0.5);
+            box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
         }
-
         .grid-item:hover {
-            transform: translateZ(50px) scale(1.05);
+            transform: translateZ(40px) scale(1.05);
             border-color: var(--white);
             z-index: 10;
         }
+        .grid-item img { filter: grayscale(100%); transition: 0.5s; }
+        .grid-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
 
-        .grid-item img {
-            filter: grayscale(100%) contrast(1.1);
-            transition: transform 0.6s ease, filter 0.3s ease;
-        }
-
-        .grid-item:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.1);
-        }
-
-        /* Brand Overlay di Tengah */
         .hero-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) translateZ(150px);
-            text-align: center;
-            z-index: 50;
-            pointer-events: none;
-            mix-blend-mode: exclusion;
-            width: 100%;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center; z-index: 50; pointer-events: none;
+            mix-blend-mode: exclusion; width: 100%;
         }
-
         .hero-big-title {
             font-family: var(--font-display);
-            font-size: 7vw; /* Responsif mengikuti lebar layar */
-            line-height: 0.85;
-            color: var(--white);
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            opacity: 0.9;
-            padding: 0 10px;
+            font-size: 8vw; line-height: 0.85;
+            color: var(--white); letter-spacing: -0.02em; text-transform: uppercase;
         }
-
         .hero-subtitle {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            letter-spacing: 0.3em;
-            color: var(--white);
-            margin-top: 5px;
-            display: block;
-            text-transform: uppercase;
+            font-family: var(--font-mono); font-size: 0.9rem;
+            letter-spacing: 0.3em; color: var(--white);
+            margin-top: 5px; display: block; text-transform: uppercase;
         }
 
-        @keyframes scrollLeft {
-            0% { transform: rotateY(12deg) rotateX(5deg) scale(0.85) translateX(0); }
-            100% { transform: rotateY(12deg) rotateX(5deg) scale(0.85) translateX(-50%); }
+        @keyframes scrollDesktop {
+            0% { transform: rotateY(15deg) rotateX(5deg) scale(0.85) translateX(0); }
+            100% { transform: rotateY(15deg) rotateX(5deg) scale(0.85) translateX(-50%); }
         }
 
         /* ============================
-           TICKER
+           TICKER (FIXED ANIMATION)
            ============================ */
-        .ticker {
+        .ticker-wrap {
+            width: 100%;
             overflow: hidden;
-            border-bottom: 1px solid #ddd;
             background: var(--black);
             color: var(--white);
-            padding: 8px 0;
+            padding: 12px 0;
             white-space: nowrap;
+            position: relative;
+            border-bottom: 1px solid var(--black);
+            z-index: 150;
         }
-        .ticker-inner { display: inline-flex; animation: ticker 25s linear infinite; }
-        .ticker-item {
-            font-size: 10px;
+
+        .ticker {
+            display: inline-flex;
+            width: max-content;
+            animation: ticker-scroll 30s linear infinite;
+        }
+
+        .ticker-item, .ticker-separator {
+            font-size: 11px;
             font-family: var(--font-mono);
+            padding: 0 30px;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            padding: 0 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
         }
-        .ticker-item::after { content: '✦'; opacity: 0.4; font-size: 8px; }
+        
+        /* Berhenti sebentar jika di-hover (Opsional) */
+        .ticker-wrap:hover .ticker { animation-play-state: paused; }
 
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        @keyframes ticker-scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-33.33%, 0, 0); } /* Geser sepertiga karena ada 3 set teks */
         }
 
         /* ============================
-           SECTIONS & GRID
+           FEATURED PRODUCTS (3D CARDS)
            ============================ */
-        .section { padding: 30px 16px; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .section-title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
-        .section-right { display: flex; align-items: center; gap: 8px; }
-
-        .nav-arrow {
-            width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer;
+        .section { padding: 60px 20px; position: relative; }
+        
+        .section-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;
         }
-        .nav-arrow:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
+        .section-title { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; font-family: var(--font-display); }
+        
         .pill-btn {
-            border: 1px solid #ccc; padding: 5px 12px; font-size: 9px;
+            border: 1px solid #ccc; padding: 10px 24px; font-size: 10px;
             font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase;
-            border-radius: 20px; cursor: pointer;
+            border-radius: 50px; cursor: pointer; transition: 0.3s;
+            background: transparent;
         }
-        .pill-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+        .pill-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        /* Product Grid Responsif */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Default Desktop: 4 Kolom */
-            gap: 16px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            perspective: 1000px;
         }
 
-        .product-card { cursor: pointer; }
-        .product-card:hover .product-name { text-decoration: underline; }
+        .product-card {
+            background: white;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            border-radius: 4px;
+        }
+
+        .product-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 2;
+            transform: translateZ(20px);
+        }
 
         .product-img {
             width: 100%;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 3/4;
             overflow: hidden;
-            background: #e8e8e2;
-        }
-        .product-img img { transition: transform 0.4s ease; }
-        .product-card:hover .product-img img { transform: scale(1.04); }
-
-        .product-name { font-size: 11px; margin: 8px 0 2px; }
-        .product-price { font-size: 11px; color: #333; }
-        .sold-out { font-size: 9px; font-family: var(--font-mono); text-transform: uppercase; color: #cc3300; }
-
-        /* Stories Grid Responsif */
-        .stories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Desktop: 3 Kolom */
-            border-top: 1px solid #ddd;
-        }
-        .story-card { padding: 20px 20px 0 0; cursor: pointer; }
-        .story-card:last-child { padding-right: 0; }
-        .story-meta { font-size: 9px; font-family: var(--font-mono); text-transform: uppercase; color: #888; margin-bottom: 8px; }
-        .story-title { font-size: 18px; font-weight: 500; line-height: 1.2; margin-bottom: 12px; }
-        .story-img { width: 100%; height: 180px; overflow: hidden; background: #e8e8e2; }
-        .story-card:hover .story-img img { transform: scale(1.03); }
-
-        /* Gallery Strip Responsif */
-        .gallery-strip {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr); /* Desktop: 5 Kolom */
-            height: 200px;
-            border-top: 1px solid #ddd;
-        }
-        .gallery-item { overflow: hidden; border-right: 1px solid #ddd; background: #e8e8e2; }
-        .gallery-item:last-child { border-right: none; }
-        .gallery-item img { transition: transform 0.5s ease; }
-        .gallery-item:hover img { transform: scale(1.05); }
-
-        /* ============================
-           FOOTER (RESPONSIVE)
-           ============================ */
-        footer {
-            border-top: 1px solid #ddd;
-            padding: 24px 16px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* Desktop */
-            gap: 20px;
-        }
-        .footer-contact { font-size: 11px; line-height: 1.8; color: #333; }
-        .footer-social { display: flex; gap: 10px; margin-top: 10px; }
-        .social-icon {
-            width: 26px; height: 26px; border: 1px solid #ccc; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer;
-        }
-        .social-icon:hover { background: var(--black); color: var(--white); border-color: var(--black); }
-        .footer-links { display: flex; flex-direction: column; gap: 8px; }
-        .footer-links a { font-size: 11px; color: #333; }
-        .newsletter-form { display: flex; border: 1px solid #ccc; overflow: hidden; }
-        .newsletter-input { flex: 1; border: none; outline: none; padding: 8px 10px; font-size: 11px; background: var(--white); }
-        .newsletter-btn { background: var(--black); color: var(--white); border: none; padding: 0 12px; cursor: pointer; }
-
-        .bottom-bar { border-top: 1px solid #ddd; padding: 12px 16px; font-size: 9px; font-family: var(--font-mono); color: #888; text-align: center; }
-
-        /* ============================
-           COOKIE BANNER
-           ============================ */
-        .cookie-banner {
-            position: fixed; bottom: 16px; right: 16px; background: var(--black); color: var(--white);
-            padding: 12px 16px; font-size: 10px; font-family: var(--font-mono); z-index: 999;
-            display: flex; flex-direction: column; gap: 8px; max-width: 220px; border: 1px solid #2a2a2a;
-        }
-        .cookie-btn {
-            background: var(--white); color: var(--black); border: none; padding: 6px 12px;
-            font-size: 9px; font-family: var(--font-mono); text-transform: uppercase; cursor: pointer; align-self: flex-start;
+            background: #f0f0f0;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
         }
 
-        /* ============================
-           MEDIA QUERIES (TABLET & MOBILE)
-           ============================ */
+        .product-card:hover .product-img { box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
+        .product-img img { transition: transform 0.5s ease; transform: scale(1); }
+        .product-card:hover .product-img img { transform: scale(1.15); }
+
+        .product-info { padding-top: 20px; text-align: center; transform: translateZ(30px); }
+        .product-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; transition: 0.3s; }
+        .product-price { font-size: 13px; color: #666; transition: 0.3s; }
         
-        /* Tablet & Mobile (Max 768px) */
-        @media (max-width: 768px) {
-            .topbar-left { display: block; } /* Tampilkan tanggal lagi jika mau, atau tetap none */
-            .topbar-nav { gap: 15px; }
-
-            /* Hero Adjustments */
-            .hero-marquee-section { height: 65vh; }
-            
-            /* Matikan 3D Rotation di Mobile, biar gambar besar & jelas */
-            .marquee-track {
-                transform: none !important; /* Override transform 3D */
-                padding: 0 20px;
-                gap: 10px;
-            }
-            
-            /* Ubah animasi keyframes untuk mobile (tanpa rotate) */
-            @keyframes scrollLeft {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-            }
-
-            .grid-item {
-                width: 160px; /* Ukuran gambar lebih kecil pas HP */
-                height: 220px;
-                box-shadow: none; /* Hapus shadow berat di mobile */
-                border: 1px solid #222;
-            }
-
-            .grid-item:hover { transform: scale(1.02); } /* Hover effect sederhana */
-
-            .hero-overlay { top: 40%; } /* Angkat teks sedikit */
-            .hero-big-title { font-size: 12vw; line-height: 0.9; }
-            .hero-subtitle { font-size: 0.6rem; }
-
-            /* Product Grid: 2 Kolom di Mobile */
-            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            
-            /* Story Grid: Stack 1 kolom di mobile */
-            .stories-grid { grid-template-columns: 1fr; gap: 30px; }
-            .story-card { padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-            .story-img { height: 220px; }
-
-            /* Gallery Strip: 2 Kolom di Mobile (lebih rapi) */
-            .gallery-strip { 
-                grid-template-columns: repeat(2, 1fr); 
-                height: auto; /* Biarkan tinggi menyesuaikan gambar */
-                grid-auto-rows: 200px;
-            }
-            .gallery-item:nth-child(n+3) { border-top: 1px solid #ddd; } /* Border atas untuk baris ke-2 */
-            .gallery-item:last-child { border-right: 1px solid #ddd; } /* Fix border kanan HP */
-
-            /* Footer Stack Vertikal */
-            footer { grid-template-columns: 1fr; gap: 30px; }
-            .footer-social { margin-top: 15px; }
-            
-            .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .section-right { width: 100%; justify-content: space-between; }
+        .sold-out { 
+            color: var(--accent); font-weight: 700; font-size: 11px; 
+            font-family: var(--font-mono); letter-spacing: 0.05em;
         }
 
+        .product-card:hover .product-name { color: var(--black); transform: scale(1.1); }
+        .product-card:hover .product-price { opacity: 0; }
+
+        .add-btn {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--black);
+            color: var(--white);
+            padding: 8px 16px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+            border-radius: 2px;
+        }
+        .product-card:hover .add-btn { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+
+        /* ============================
+           VIDEO SHOWCASE (LANDSCAPE)
+           ============================ */
+        .video-container {
+            position: relative;
+            width: 100%;
+            /* Rasio Landscape 16:9 Otomatis */
+            aspect-ratio: 16 / 9; 
+            background: #000;
+            border-radius: 4px;
+            overflow: hidden;
+            /* Efek Kotak Besar Melayang */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+            border: 1px solid #ddd;
+        }
+
+        .landscape-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .video-container:hover .landscape-video { transform: scale(1.02); }
+
+        /* Tombol Mute/Unmute */
+        .mute-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .mute-btn:hover { background: white; color: black; }
+
+        /* Teks Overlay Video */
+        .video-text-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            z-index: 5;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            pointer-events: none;
+        }
+
+        /* ============================
+           FOOTER
+           ============================ */
+        footer { padding: 60px 20px; border-top: 1px solid #ddd; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+        .footer-contact h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 10px; }
+        .socials { display: flex; gap: 10px; margin-top: 15px; }
+        .social-box { width: 40px; height: 40px; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
+        .social-box:hover { background: var(--black); color: var(--white); transform: rotate(15deg); }
+
+        .cookie-banner {
+            position: fixed; bottom: 20px; right: 20px; background: var(--black); color: var(--white);
+            padding: 20px 25px; font-family: var(--font-mono); font-size: 11px; z-index: 999;
+            border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            display: flex; align-items: center; gap: 15px;
+            transform: translateY(100px);
+            animation: slideUp 0.8s 2s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp { to { transform: translateY(0); } }
+        .cookie-btn { background: white; color: black; border: none; padding: 8px 16px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+
+        /* ============================
+           MEDIA QUERIES (RESPONSIVE)
+           ============================ */
+        @media (max-width: 768px) {
+            .topbar-left { display: none; }
+            .hero-marquee-section { height: 60vh; perspective: none; }
+            .marquee-track { transform: none !important; animation: scrollMobile 30s linear infinite; padding: 0 10px; }
+            @keyframes scrollMobile { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            
+            .grid-item { width: 160px; height: 220px; box-shadow: none; }
+            .hero-overlay { top: 40%; }
+            .hero-big-title { font-size: 14vw; }
+
+            .section { padding: 40px 16px; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            
+            .product-card { transform: none !important; }
+            .product-card:hover { transform: translateY(-5px) !important; }
+            .add-btn { display: none; }
+
+            /* Video Responsive Mobile */
+            .video-container {
+                aspect-ratio: 16 / 9; 
+                border-radius: 0; 
+                border-left: none; border-right: none;
+                box-shadow: none;
+            }
+            .mute-btn { width: 32px; height: 32px; bottom: 15px; right: 15px; font-size: 12px; }
+            .video-text-overlay { font-size: 9px; left: 15px; bottom: 15px; }
+            
+            footer { grid-template-columns: 1fr; gap: 30px; padding-bottom: 80px; }
+            .cookie-banner { left: 16px; right: 16px; bottom: 16px; max-width: none; flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- ═══════════════════════════
-         TOP BAR
-         ═══════════════════════════ -->
+    <!-- Efek Grain Film -->
+    <div class="noise-overlay"></div>
+
+    <!-- ═══════════════════════════ TOP BAR ═══════════════════════════ -->
     <nav class="topbar">
-        <!-- Tampil di desktop, hidden di mobile via CSS -->
         <span class="topbar-left">18, FEB, 2026 — LAGOS, NG</span>
-        
         <div class="topbar-nav">
             <a href="#">SHOP</a>
             <a href="#">INDEX</a>
             <a href="#">STORIES</a>
         </div>
-        
         <div class="topbar-right">
             <span>BAG(0)</span>
             <span>MENU +</span>
         </div>
     </nav>
 
-
-    <!-- ═══════════════════════════
-         HERO SECTION (3D MARQUEE)
-         ═══════════════════════════ -->
+    <!-- ═══════════════════════════ HERO SECTION ═══════════════════════════ -->
     <section class="hero-marquee-section">
-        
-        <!-- Teks Overlay -->
         <div class="hero-overlay">
             <h1 class="hero-big-title">404 Gang<br>Wear</h1>
             <span class="hero-subtitle">AFRICAN FUTURISM / STREET COUTURE</span>
         </div>
-
-        <!-- Marquee Container -->
-        <div class="marquee-perspective">
-            <div class="marquee-track" id="marqueeTrack">
-                
-                <!-- SET 1 -->
-                <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
-                <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
-                <div class="grid-item"><img src="6.png" alt="Item 3"></div>
-                <div class="grid-item"><img src="5.png" alt="Item 4"></div>
-                <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
-                <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
-                <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
-                <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
-
-                <!-- SET 2 (Duplikasi untuk Looping) -->
-                <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
-                <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
-                <div class="grid-item"><img src="6.png" alt="Item 3"></div>
-                <div class="grid-item"><img src="5.png" alt="Item 4"></div>
-                <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
-                <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
-                <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
-                <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
-
-            </div>
+        <div class="marquee-track">
+            <!-- Set 1 -->
+            <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
+            <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
+            <div class="grid-item"><img src="6.png" alt="Item 3"></div>
+            <div class="grid-item"><img src="5.png" alt="Item 4"></div>
+            <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
+            <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
+            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
+            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
+            <!-- Set 2 (Loop) -->
+            <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
+            <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
+            <div class="grid-item"><img src="6.png" alt="Item 3"></div>
+            <div class="grid-item"><img src="5.png" alt="Item 4"></div>
+            <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
+            <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
+            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
+            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
         </div>
     </section>
 
+    <!-- ═══════════════════════════ TICKER (FIXED ANIMATION) ═══════════════════════════ -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <!-- Kita duplikasi konten 3x secara manual agar looping mulus tanpa putus -->
+            <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
+            <div class="ticker-separator">◆</div>
+            <div class="ticker-item">NEW DROPS AVAILABLE</div>
+            <div class="ticker-separator">◆</div>
+            <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
+            <div class="ticker-separator">◆</div>
+            
+            <!-- SET KE-2 -->
+            <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
+            <div class="ticker-separator">◆</div>
+            <div class="ticker-item">NEW DROPS AVAILABLE</div>
+            <div class="ticker-separator">◆</div>
+            <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
+            <div class="ticker-separator">◆</div>
 
-    <!-- ═══════════════════════════
-         TICKER
-         ═══════════════════════════ -->
-    <div class="ticker">
-        <div class="ticker-inner" id="tickerInner">
-            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-            <span class="ticker-item">SHOP 404 DROPS</span>
-            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-            <span class="ticker-item">SHOP 404 DROPS</span>
-            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-            <span class="ticker-item">SHOP 404 DROPS</span>
+            <!-- SET KE-3 -->
+            <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
+            <div class="ticker-separator">◆</div>
+            <div class="ticker-item">NEW DROPS AVAILABLE</div>
+            <div class="ticker-separator">◆</div>
+            <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
+            <div class="ticker-separator">◆</div>
         </div>
     </div>
 
-
-    <!-- ═══════════════════════════
-         FEATURED PRODUCTS
-         ═══════════════════════════ -->
+    <!-- ═══════════════════════════ FEATURED PRODUCTS (3D TILT) ═══════════════════════════ -->
     <section class="section">
         <div class="section-header">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="section-right">
-                <div class="nav-arrow">‹</div>
-                <div class="nav-arrow">›</div>
-                <a href="#" class="pill-btn">SHOP ALL</a>
-            </div>
+            <h2 class="section-title">Featured Drops</h2>
+            <a href="#" class="pill-btn">SHOP ALL</a>
         </div>
 
         <div class="products-grid">
-            <div class="product-card">
-                <div class="product-img"><img src="mockup2.png" alt="404 Lagos Hat"></div>
-                <div class="product-name">404 Lagos Hat</div>
-                <div class="product-price">$65</div>
+            <!-- Product 1 -->
+            <div class="product-card js-tilt">
+                <div class="product-inner">
+                    <div class="product-img">
+                        <img src="mockup2.png" alt="404 Lagos Hat" onerror="this.src='https://picsum.photos/seed/shirt1/300/400'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">404 Lagos Hat</div>
+                        <div class="product-price">$65</div>
+                    </div>
+                    <div class="add-btn">ADD TO CART</div>
+                </div>
             </div>
-            <div class="product-card">
-                <div class="product-img"><img src="mockup22.png" alt="404 Petal Polo"></div>
-                <div class="product-name">404 Petal Polo</div>
-                <div class="sold-out">SOLD OUT</div>
+
+            <!-- Product 2 -->
+            <div class="product-card js-tilt">
+                <div class="product-inner">
+                    <div class="product-img">
+                        <img src="mockup22.png" alt="404 Petal Polo" onerror="this.src='https://picsum.photos/seed/shirt2/300/400'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">404 Petal Polo</div>
+                        <div class="sold-out">SOLD OUT</div>
+                    </div>
+                </div>
             </div>
-            <div class="product-card">
-                <div class="product-img"><img src="6.png" alt="404 Lagos Scarf"></div>
-                <div class="product-name">404 'Lagos' Scarf</div>
-                <div class="product-price">$60</div>
+
+            <!-- Product 3 -->
+            <div class="product-card js-tilt">
+                <div class="product-inner">
+                    <div class="product-img">
+                        <img src="6.png" alt="404 'Lagos' Scarf" onerror="this.src='https://picsum.photos/seed/scarf/300/400'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">404 'Lagos' Scarf</div>
+                        <div class="product-price">$60</div>
+                    </div>
+                    <div class="add-btn">ADD TO CART</div>
+                </div>
             </div>
-            <div class="product-card">
-                <div class="product-img"><img src="5.png" alt="404 Petal Cargo Skirt"></div>
-                <div class="product-name">404 Petal Cargo Skirt</div>
-                <div class="product-price">$130</div>
+
+            <!-- Product 4 -->
+            <div class="product-card js-tilt">
+                <div class="product-inner">
+                    <div class="product-img">
+                        <img src="5.png" alt="404 Petal Cargo" onerror="this.src='https://picsum.photos/seed/cargo/300/400'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">404 Petal Cargo</div>
+                        <div class="product-price">$130</div>
+                    </div>
+                    <div class="add-btn">ADD TO CART</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <hr class="divider" style="border: 0; border-top: 1px solid #e0e0da; margin: 0 16px;">
-
-    <!-- ═══════════════════════════
-         STORIES
-         ═══════════════════════════ -->
-    <section class="section">
+    <!-- ═══════════════════════════ VIDEO SHOWCASE (LANDSCAPE) ═══════════════════════════ -->
+    <section class="section" style="background: #fafaf9;">
         <div class="section-header">
-            <h2 class="section-title">Latest Stories</h2>
-            <a href="#" class="pill-btn">READ ALL</a>
+            <h2 class="section-title">The Campaign</h2>
+            <div style="display: flex; gap: 15px;">
+                <a href="#" class="pill-btn" style="background: var(--black); color: var(--white);">WATCH 4K</a>
+            </div>
         </div>
         
-        <div class="stories-grid">
-            <div class="story-card">
-                <div class="story-meta">Editorial — 02/18/2026</div>
-                <h3 class="story-title">The Evolution of Lagos Streetwear</h3>
-                <div class="story-img"><img src="3fetured.jpg" alt="Story 1"></div>
-            </div>
-            <div class="story-card">
-                <div class="story-meta">Behind the Scenes — 02/15/2026</div>
-                <h3 class="story-title">404 Gang: The New Collective</h3>
-                <div class="story-img"><img src="2fetured.jpg" alt="Story 2"></div>
-            </div>
-            <div class="story-card">
-                <div class="story-meta">Lookbook — 02/10/2026</div>
-                <h3 class="story-title">Monochrome Series Vol. 4</h3>
-                <div class="story-img"><img src="img1.JPG" alt="Story 3"></div>
+        <!-- KOTAK BESAR VIDEO (Responsive) -->
+        <div class="video-container">
+            <!-- 
+                PANDUAN VIDEO:
+                - Ganti 'your-video.mp4' dengan nama file video Anda.
+                - Ganti 'poster.jpg' dengan gambar thumbnail (cover) video.
+                - atribut 'muted' WAJIB ada agar autoplay berjalan di browser modern.
+            -->
+            <video 
+                class="landscape-video" 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                poster="https://picsum.photos/seed/poster/1200/675" 
+                id="campaignVideo">
+                
+                <source src="your-video.mp4" type="video/mp4">
+                Browser Anda tidak mendukung tag video.
+            </video>
+
+            <!-- Overlay Button (Mute/Unmute) -->
+            <button class="mute-btn" id="muteToggle" onclick="toggleMute()">
+                <span id="muteIcon">🔇</span>
+            </button>
+
+            <!-- Dekorasi Teks di atas Video (Opsional) -->
+            <div class="video-text-overlay">
+                <span>SS26 COLLECTION — LAGOS</span>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════
-         FOOTER
-         ═══════════════════════════ -->
+    <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
     <footer>
-        <div>
-            <div class="footer-contact">
-                <div>+2349032570511</div>
-                <div>hello@404brand.com</div>
+        <div class="footer-contact">
+            <h3>404 BRAND</h3>
+            <div style="margin-top:15px; font-size:14px; color:#555;">
+                <p>hello@404brand.com</p>
+                <p>+234 903 257 0511</p>
             </div>
-            <div class="footer-social">
-                <div class="social-icon">𝕏</div>
-                <div class="social-icon">◎</div>
+            <div class="socials">
+                <div class="social-box">IG</div>
+                <div class="social-box">X</div>
+                <div class="social-box">YT</div>
             </div>
         </div>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Shipping &amp; Returns</a>
-            <a href="#">Terms of Service</a>
+        <div>
+            <h4 style="margin-bottom:15px; font-weight:700;">EXPLORE</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; color:#555; font-size:14px;">
+                <a href="#">New Arrivals</a>
+                <a href="#">Best Sellers</a>
+                <a href="#">Accessories</a>
+            </div>
         </div>
         <div>
-            <div class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Join newsletter">
-                <button class="newsletter-btn">›</button>
-            </div>
+            <h4 style="margin-bottom:15px; font-weight:700;">NEWSLETTER</h4>
+            <div style="border-bottom:1px solid #000; padding-bottom:5px; font-family:var(--font-mono);">Enter your email</div>
+            <p style="font-size:11px; color:#999; margin-top:10px;">Subscribe for exclusive drops.</p>
         </div>
     </footer>
-
-    <!-- ═══════════════════════════
-         GALLERY STRIP
-         ═══════════════════════════ -->
-    <div class="gallery-strip">
-        <div class="gallery-item"><img src="3fetured.jpg" alt="G 1"></div>
-        <div class="gallery-item"><img src="2fetured.jpg" alt="G 2"></div>
-        <div class="gallery-item"><img src="img1.JPG" alt="G 3"></div>
-        <div class="gallery-item"><img src="img2.jpg" alt="G 4"></div>
-        <div class="gallery-item"><img src="bilbordatas.png" alt="G 5"></div>
+    <div style="text-align:center; padding:20px; background:#fff; font-family:var(--font-mono); font-size:10px; letter-spacing:1px; color:#aaa;">
+        © 2026 404 BRAND. ALL RIGHTS RESERVED.
     </div>
-
-    <div class="bottom-bar">© 2026 404 Brand.</div>
 
     <!-- Cookie Banner -->
     <div class="cookie-banner" id="cookieBanner">
-        <span>This website uses cookies</span>
-        <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">OKAY ✓</button>
+        <span>WE USE COOKIES TO ENHANCE YOUR EXPERIENCE.</span>
+        <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">ACCEPT</button>
     </div>
 
+    <!-- ═══════════════════════════ JAVASCRIPT ANIMATIONS ═══════════════════════════ -->
     <script>
-        // Ticker Loop Logic
-        const ti = document.getElementById('tickerInner');
-        if(ti) ti.innerHTML += ti.innerHTML;
+        // 1. 3D TILT EFFECT untuk Produk (Vanilla JS)
+        const initTilt = () => {
+            const cards = document.querySelectorAll('.js-tilt');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    if(window.matchMedia("(hover: none)").matches) return; // Skip di HP
+
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -10; 
+                    const rotateY = ((x - centerX) / centerX) * 10;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            });
+        };
+
+        // 2. SCROLL REVEAL (Opsional, disiapkan jika ingin menambah animasi scroll di masa depan)
+        const initScrollReveal = () => {
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            // Saat ini tidak ada elemen dengan class 'reveal-on-scroll', 
+            // tapi fungsi ini tetap ada untuk keperluan pengembangan.
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        };
+
+        // 3. VIDEO MUTE TOGGLE FUNCTION
+        function toggleMute() {
+            const video = document.getElementById('campaignVideo');
+            const icon = document.getElementById('muteIcon');
+            
+            if (video.muted) {
+                video.muted = false;
+                icon.textContent = '🔊'; // Icon Suara On
+            } else {
+                video.muted = true;
+                icon.textContent = '🔇'; // Icon Suara Off
+            }
+        }
+
+        // Jalankan saat load
+        document.addEventListener('DOMContentLoaded', () => {
+            initTilt();
+            initScrollReveal();
+            // Ticker JS sudah dihapus karena konten diduplikasi manual di HTML agar lebih stabil.
+        });
     </script>
 </body>
-
 </html>
