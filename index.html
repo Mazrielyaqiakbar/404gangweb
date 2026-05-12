@@ -18,7 +18,7 @@
             --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
             --font-mono: 'IBM Plex Mono', monospace;
             --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --gap: 16px;
+            --gap: 20px; /* Gap disesuaikan */
         }
 
         *, *::before, *::after {
@@ -57,7 +57,9 @@
 
         a { color: inherit; text-decoration: none; }
         img { display: block; width: 100%; height: 100%; object-fit: cover; }
-        img[src=""], img:not([src]) { background: #e0e0da; min-height: 200px; }
+        
+        /* Placeholder agar gambar tidak hilang jika error */
+        img[src=""], img:not([src]) { background: #333; min-height: 200px; }
 
         /* ============================
            TOP BAR
@@ -84,32 +86,51 @@
         .topbar-right { display: flex; gap: 15px; align-items: center; }
 
         /* ============================
-           HERO SECTION (3D MARQUEE)
+           HERO SECTION (FIXED MARQUEE)
            ============================ */
         .hero-marquee-section {
             position: relative;
             width: 100%;
-            height: 75vh;
+            /* Height disesuaikan agar terlihat proporsional di mobile */
+            height: 80vh; 
             background: var(--black);
-            overflow: hidden;
+            overflow: hidden; /* Penting: mencegah scrollbar muncul */
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Mulai dari kiri */
             border-bottom: 1px solid var(--black);
-            perspective: 1000px;
+            /* Disable 3D secara default, aktifkan di desktop jika mau */
         }
 
         .marquee-track {
             display: flex;
             gap: var(--gap);
             width: max-content;
-            transform: rotateY(15deg) rotateX(5deg) scale(0.85);
-            transform-style: preserve-3d;
-            padding: 0 50px;
-            animation: scrollDesktop 40s linear infinite;
+            /* PENTING: Default Mobile (Flat) */
+            transform: translateX(0);
+            padding: 0 20px;
+            /* Gunakan animasi scrollMobile untuk default */
+            animation: scrollMobile 35s linear infinite;
         }
 
-        .marquee-track:hover { animation-play-state: paused; }
+        /* Pada Desktop (Layar Lebar > 768px), kita tambahkan efek 3D */
+        @media (min-width: 769px) {
+            .hero-marquee-section {
+                justify-content: center;
+                perspective: 1000px;
+                height: 75vh;
+            }
+            .marquee-track {
+                padding: 0 50px;
+                /* Override animasi ke versi 3D */
+                animation: scrollDesktop 40s linear infinite;
+            }
+        }
+
+        /* Hover berhenti (Opsional, hindari di mobile agar jari tidak memicu hover) */
+        @media (hover: hover) {
+            .marquee-track:hover { animation-play-state: paused; }
+        }
 
         .grid-item {
             width: 280px; height: 380px;
@@ -118,16 +139,38 @@
             overflow: hidden;
             background: #1a1a1a;
             border: 1px solid #333;
-            box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
+            /* Efek bayangan hanya aktif di desktop */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s ease;
         }
-        .grid-item:hover {
-            transform: translateZ(40px) scale(1.05);
-            border-color: var(--white);
-            z-index: 10;
+
+        .grid-item img {
+            filter: grayscale(100%);
+            transition: 0.5s;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .grid-item img { filter: grayscale(100%); transition: 0.5s; }
-        .grid-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
+        
+        /* Hover effects */
+        @media (hover: hover) {
+            .grid-item:hover {
+                border-color: var(--white);
+                z-index: 10;
+            }
+            .grid-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
+        }
+
+        /* 3D Effect khusus Desktop */
+        @media (min-width: 769px) {
+            .grid-item {
+                box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
+                transform: rotateY(15deg) rotateX(5deg) scale(0.85); /* Static initial 3D */
+            }
+            .grid-item:hover {
+                transform: rotateY(0deg) rotateX(0deg) scale(1.05); /* Reset saat hover */
+            }
+        }
 
         .hero-overlay {
             position: absolute; top: 50%; left: 50%;
@@ -135,17 +178,36 @@
             text-align: center; z-index: 50; pointer-events: none;
             mix-blend-mode: exclusion; width: 100%;
         }
+        
         .hero-big-title {
             font-family: var(--font-display);
-            font-size: 8vw; line-height: 0.85;
+            font-size: 12vw; /* Mobile responsive size */
+            line-height: 0.85;
             color: var(--white); letter-spacing: -0.02em; text-transform: uppercase;
         }
+
         .hero-subtitle {
-            font-family: var(--font-mono); font-size: 0.9rem;
+            font-family: var(--font-mono); font-size: 0.8rem;
             letter-spacing: 0.3em; color: var(--white);
             margin-top: 5px; display: block; text-transform: uppercase;
         }
 
+        @media (min-width: 769px) {
+            .hero-big-title { font-size: 8vw; }
+            .hero-subtitle { font-size: 0.9rem; }
+        }
+
+        /* ============================
+           KEYFRAMES (PEMBETULAN UTAMA)
+           ============================ */
+        
+        /* Animasi untuk Mobile (Flat Scroll) */
+        @keyframes scrollMobile {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Geser setengah karena konten diduplikasi */
+        }
+
+        /* Animasi untuk Desktop (3D Scroll) */
         @keyframes scrollDesktop {
             0% { transform: rotateY(15deg) rotateX(5deg) scale(0.85) translateX(0); }
             100% { transform: rotateY(15deg) rotateX(5deg) scale(0.85) translateX(-50%); }
@@ -181,9 +243,6 @@
             display: flex;
             align-items: center;
         }
-        
-        /* Berhenti sebentar jika di-hover (Opsional) */
-        .ticker-wrap:hover .ticker { animation-play-state: paused; }
 
         @keyframes ticker-scroll {
             0% { transform: translate3d(0, 0, 0); }
@@ -191,7 +250,7 @@
         }
 
         /* ============================
-           FEATURED PRODUCTS (3D CARDS)
+           FEATURED PRODUCTS
            ============================ */
         .section { padding: 60px 20px; position: relative; }
         
@@ -211,9 +270,13 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(2, 1fr); /* Default Mobile 2 kolom */
+            gap: 20px;
             perspective: 1000px;
+        }
+
+        @media (min-width: 769px) {
+            .products-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
         }
 
         .product-card {
@@ -230,7 +293,6 @@
             height: 100%;
             position: relative;
             z-index: 2;
-            transform: translateZ(20px);
         }
 
         .product-img {
@@ -239,7 +301,7 @@
             overflow: hidden;
             background: #f0f0f0;
             border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
         }
 
@@ -247,7 +309,7 @@
         .product-img img { transition: transform 0.5s ease; transform: scale(1); }
         .product-card:hover .product-img img { transform: scale(1.15); }
 
-        .product-info { padding-top: 20px; text-align: center; transform: translateZ(30px); }
+        .product-info { padding-top: 20px; text-align: center; }
         .product-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; transition: 0.3s; }
         .product-price { font-size: 13px; color: #666; transition: 0.3s; }
         
@@ -282,12 +344,10 @@
         .video-container {
             position: relative;
             width: 100%;
-            /* Rasio Landscape 16:9 Otomatis */
             aspect-ratio: 16 / 9; 
             background: #000;
             border-radius: 4px;
             overflow: hidden;
-            /* Efek Kotak Besar Melayang */
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
             border: 1px solid #ddd;
         }
@@ -364,30 +424,25 @@
            ============================ */
         @media (max-width: 768px) {
             .topbar-left { display: none; }
-            .hero-marquee-section { height: 60vh; perspective: none; }
-            .marquee-track { transform: none !important; animation: scrollMobile 30s linear infinite; padding: 0 10px; }
-            @keyframes scrollMobile { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
             
-            .grid-item { width: 160px; height: 220px; box-shadow: none; }
-            .hero-overlay { top: 40%; }
-            .hero-big-title { font-size: 14vw; }
-
-            .section { padding: 40px 16px; }
-            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-            
-            .product-card { transform: none !important; }
-            .product-card:hover { transform: translateY(-5px) !important; }
-            .add-btn { display: none; }
-
             /* Video Responsive Mobile */
             .video-container {
-                aspect-ratio: 16 / 9; 
                 border-radius: 0; 
                 border-left: none; border-right: none;
                 box-shadow: none;
             }
             .mute-btn { width: 32px; height: 32px; bottom: 15px; right: 15px; font-size: 12px; }
             .video-text-overlay { font-size: 9px; left: 15px; bottom: 15px; }
+            
+            .section { padding: 40px 16px; }
+            
+            /* Tampilan Grid Mobile sedikit disesuaikan */
+            .grid-item { 
+                width: 160px; /* Ukuran lebih kecil agar muat lebih banyak */
+                height: 220px;
+                box-shadow: none; /* Hapus bayangan berat di mobile */
+                border: 1px solid #222;
+            }
             
             footer { grid-template-columns: 1fr; gap: 30px; padding-bottom: 80px; }
             .cookie-banner { left: 16px; right: 16px; bottom: 16px; max-width: none; flex-direction: column; align-items: flex-start; }
@@ -420,25 +475,28 @@
             <h1 class="hero-big-title">404 Gang<br>Wear</h1>
             <span class="hero-subtitle">AFRICAN FUTURISM / STREET COUTURE</span>
         </div>
+        
         <div class="marquee-track">
             <!-- Set 1 -->
-            <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
-            <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
-            <div class="grid-item"><img src="6.png" alt="Item 3"></div>
-            <div class="grid-item"><img src="5.png" alt="Item 4"></div>
-            <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
-            <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
-            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
-            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
-            <!-- Set 2 (Loop) -->
-            <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
-            <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
-            <div class="grid-item"><img src="6.png" alt="Item 3"></div>
-            <div class="grid-item"><img src="5.png" alt="Item 4"></div>
-            <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
-            <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
-            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
-            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
+            <!-- Saya menggunakan placeholder gambar agar Anda bisa melihat hasilnya langsung -->
+            <div class="grid-item"><img src="mockup2.png" alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/300/400'"></div>
+            <div class="grid-item"><img src="mockup22.png" alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/300/400'"></div>
+            <div class="grid-item"><img src="6.png" alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/300/400'"></div>
+            <div class="grid-item"><img src="5.png" alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/300/400'"></div>
+            <div class="grid-item"><img src="bilbords.png" alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/300/400'"></div>
+            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/300/400'"></div>
+            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/300/400'"></div>
+            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/300/400'"></div>
+            
+            <!-- Set 2 (Duplikat untuk Looping Mulus) -->
+            <div class="grid-item"><img src="mockup2.png" alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/300/400'"></div>
+            <div class="grid-item"><img src="mockup22.png" alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/300/400'"></div>
+            <div class="grid-item"><img src="6.png" alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/300/400'"></div>
+            <div class="grid-item"><img src="5.png" alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/300/400'"></div>
+            <div class="grid-item"><img src="bilbords.png" alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/300/400'"></div>
+            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/300/400'"></div>
+            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/300/400'"></div>
+            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/300/400'"></div>
         </div>
     </section>
 
@@ -678,7 +736,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             initTilt();
             initScrollReveal();
-            // Ticker JS sudah dihapus karena konten diduplikasi manual di HTML agar lebih stabil.
         });
     </script>
 </body>
