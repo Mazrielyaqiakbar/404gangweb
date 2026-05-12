@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Brand — Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --black: #0a0a0a;
@@ -17,11 +18,10 @@
             --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
             --font-mono: 'IBM Plex Mono', monospace;
             --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --gap: 16px;
         }
 
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -40,29 +40,16 @@
             overflow-x: hidden;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        a { color: inherit; text-decoration: none; }
+        
+        img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-        /* ── Semua tag <img> otomatis object-fit cover ── */
-        img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ── Placeholder abu-abu kalau src kosong ── */
-        img[src=""],
-        img:not([src]) {
-            background: #e0e0da;
-            min-height: 40px;
-        }
+        /* Placeholder */
+        img[src=""], img:not([src]) { background: #e0e0da; min-height: 40px; }
 
         /* ============================
-     TOP BAR
-     ============================ */
+           TOP BAR (RESPONSIVE)
+           ============================ */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -79,557 +66,337 @@
             background: var(--white);
         }
 
-        .topbar-left {
-            color: #666;
+        .topbar-left { display: none; } /* Sembunyikan tanggal di HP agar bersih */
+        
+        .topbar-nav { 
+            display: flex; 
+            gap: 20px; 
+            font-size: 9px;
         }
 
-        .topbar-nav {
-            display: flex;
-            gap: 28px;
-        }
-
-        .topbar-nav a:hover {
-            text-decoration: underline;
-        }
-
-        .topbar-right {
-            display: flex;
-            gap: 22px;
-            align-items: center;
-        }
+        .topbar-right { display: flex; gap: 15px; align-items: center; }
 
         /* ============================
-     HERO
-     ============================ */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 220px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .hero-left {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .hero-title {
-            padding: 14px 16px 10px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-shrink: 0;
-        }
-
-        .brand-name {
-            font-family: var(--font-display);
-            font-size: 68px;
-            letter-spacing: -0.01em;
-            line-height: 1;
-        }
-
-        /* ── LOGO ── */
-        .logo-wrap {
-            height: 72px;
-            width: auto;
-            flex-shrink: 0;
-        }
-
-        .logo-wrap img {
-            height: 72px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        /* ── HERO MAIN IMAGE ── */
-        .hero-main-img {
-            flex: 1;
-            min-height: 380px;
-            overflow: hidden;
-        }
-
-        .hero-main-img img {
+           HERO SECTION (RESPONSIVE 3D)
+           ============================ */
+        .hero-marquee-section {
+            position: relative;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ── HERO RIGHT ── */
-        .hero-right {
-            border-left: 1px solid #ddd;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ── HERO SIDE IMAGE ── */
-        .hero-side-img {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .hero-side-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-right-text {
-            padding: 18px 16px;
-            flex: 1;
-            border-top: 1px solid #ddd;
-        }
-
-        .hero-right-text p {
-            font-size: 11.5px;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 16px;
-        }
-
-        .btn-outline {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid var(--black);
-            padding: 7px 12px;
-            font-size: 10px;
-            font-family: var(--font-mono);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            transition: background 0.15s, color 0.15s;
-        }
-
-        .btn-outline:hover {
+            height: 80vh; /* Tinggi di Desktop */
             background: var(--black);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--black);
+        }
+
+        .marquee-perspective {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: var(--gap);
+            width: max-content;
+            /* Animasi scroll ke kiri */
+            animation: scrollLeft 45s linear infinite;
+            /* Efek 3D Tilt (Desktop) */
+            transform: rotateY(12deg) rotateX(5deg) scale(0.85); 
+            transform-style: preserve-3d;
+            padding: 0 50px;
+        }
+
+        .marquee-track:hover { animation-play-state: paused; }
+
+        .grid-item {
+            width: 260px;
+            height: 360px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: -20px 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .grid-item:hover {
+            transform: translateZ(50px) scale(1.05);
+            border-color: var(--white);
+            z-index: 10;
+        }
+
+        .grid-item img {
+            filter: grayscale(100%) contrast(1.1);
+            transition: transform 0.6s ease, filter 0.3s ease;
+        }
+
+        .grid-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        /* Brand Overlay di Tengah */
+        .hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(150px);
+            text-align: center;
+            z-index: 50;
+            pointer-events: none;
+            mix-blend-mode: exclusion;
+            width: 100%;
+        }
+
+        .hero-big-title {
+            font-family: var(--font-display);
+            font-size: 7vw; /* Responsif mengikuti lebar layar */
+            line-height: 0.85;
             color: var(--white);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            opacity: 0.9;
+            padding: 0 10px;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: var(--white);
+            margin-top: 5px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        @keyframes scrollLeft {
+            0% { transform: rotateY(12deg) rotateX(5deg) scale(0.85) translateX(0); }
+            100% { transform: rotateY(12deg) rotateX(5deg) scale(0.85) translateX(-50%); }
         }
 
         /* ============================
-     TICKER
-     ============================ */
+           TICKER
+           ============================ */
         .ticker {
             overflow: hidden;
             border-bottom: 1px solid #ddd;
             background: var(--black);
             color: var(--white);
-            padding: 9px 0;
+            padding: 8px 0;
             white-space: nowrap;
         }
-
-        .ticker-inner {
-            display: inline-flex;
-            animation: ticker 28s linear infinite;
-        }
-
+        .ticker-inner { display: inline-flex; animation: ticker 25s linear infinite; }
         .ticker-item {
             font-size: 10px;
             font-family: var(--font-mono);
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            padding: 0 30px;
+            padding: 0 25px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .ticker-item::after {
-            content: '✦';
-            opacity: 0.4;
-            font-size: 8px;
-        }
+        .ticker-item::after { content: '✦'; opacity: 0.4; font-size: 8px; }
 
         @keyframes ticker {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         /* ============================
-     FEATURED PRODUCTS
-     ============================ */
-        .section {
-            padding: 40px 16px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-        }
-
-        .section-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+           SECTIONS & GRID
+           ============================ */
+        .section { padding: 30px 16px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .section-title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
+        .section-right { display: flex; align-items: center; gap: 8px; }
 
         .nav-arrow {
-            width: 28px;
-            height: 28px;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.15s;
+            width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer;
         }
-
-        .nav-arrow:hover {
-            background: var(--black);
-            color: var(--white);
-            border-color: var(--black);
-        }
+        .nav-arrow:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
         .pill-btn {
-            border: 1px solid #ccc;
-            padding: 6px 16px;
-            font-size: 10px;
-            font-family: var(--font-mono);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.15s;
+            border: 1px solid #ccc; padding: 5px 12px; font-size: 9px;
+            font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase;
+            border-radius: 20px; cursor: pointer;
         }
+        .pill-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-        .pill-btn:hover {
-            background: var(--black);
-            color: var(--white);
-            border-color: var(--black);
-        }
-
+        /* Product Grid Responsif */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr); /* Default Desktop: 4 Kolom */
+            gap: 16px;
         }
 
-        .product-card {
-            cursor: pointer;
-        }
+        .product-card { cursor: pointer; }
+        .product-card:hover .product-name { text-decoration: underline; }
 
-        .product-card:hover .product-name {
-            text-decoration: underline;
-        }
-
-        /* ── PRODUCT IMAGE ── */
         .product-img {
             width: 100%;
             aspect-ratio: 1 / 1;
             overflow: hidden;
             background: #e8e8e2;
         }
+        .product-img img { transition: transform 0.4s ease; }
+        .product-card:hover .product-img img { transform: scale(1.04); }
 
-        .product-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
+        .product-name { font-size: 11px; margin: 8px 0 2px; }
+        .product-price { font-size: 11px; color: #333; }
+        .sold-out { font-size: 9px; font-family: var(--font-mono); text-transform: uppercase; color: #cc3300; }
 
-        .product-card:hover .product-img img {
-            transform: scale(1.04);
-        }
-
-        .product-name {
-            font-size: 11.5px;
-            margin: 10px 0 3px;
-        }
-
-        .product-price {
-            font-size: 11.5px;
-            color: #333;
-        }
-
-        .sold-out {
-            font-size: 10px;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #cc3300;
-            margin-top: 3px;
-        }
-
-        .divider {
-            border: none;
-            border-top: 1px solid #e0e0da;
-            margin: 0 16px;
-        }
-
-        /* ============================
-     STORIES
-     ============================ */
-        .stories-section {
-            padding: 40px 16px;
-        }
-
+        /* Stories Grid Responsif */
         .stories-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* Desktop: 3 Kolom */
             border-top: 1px solid #ddd;
         }
+        .story-card { padding: 20px 20px 0 0; cursor: pointer; }
+        .story-card:last-child { padding-right: 0; }
+        .story-meta { font-size: 9px; font-family: var(--font-mono); text-transform: uppercase; color: #888; margin-bottom: 8px; }
+        .story-title { font-size: 18px; font-weight: 500; line-height: 1.2; margin-bottom: 12px; }
+        .story-img { width: 100%; height: 180px; overflow: hidden; background: #e8e8e2; }
+        .story-card:hover .story-img img { transform: scale(1.03); }
 
-        .story-card {
-            padding: 20px 24px 0 0;
-            cursor: pointer;
-        }
-
-        .story-card:last-child {
-            padding-right: 0;
-        }
-
-        .story-meta {
-            font-size: 9.5px;
-            font-family: var(--font-mono);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #888;
-            margin-bottom: 10px;
-        }
-
-        .story-title {
-            font-size: 22px;
-            font-weight: 500;
-            line-height: 1.15;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .story-card:hover .story-title {
-            text-decoration: underline;
-        }
-
-        /* ── STORY IMAGE ── */
-        .story-img {
-            width: 100%;
+        /* Gallery Strip Responsif */
+        .gallery-strip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* Desktop: 5 Kolom */
             height: 200px;
-            overflow: hidden;
-            background: #e8e8e2;
-        }
-
-        .story-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .story-card:hover .story-img img {
-            transform: scale(1.03);
-        }
-
-        /* ============================
-     TAGLINE
-     ============================ */
-        .tagline-section {
-            padding: 60px 16px 50px;
             border-top: 1px solid #ddd;
         }
-
-        .tagline {
-            font-size: 32px;
-            font-weight: 500;
-            line-height: 1.2;
-            letter-spacing: -0.025em;
-            max-width: 780px;
-        }
+        .gallery-item { overflow: hidden; border-right: 1px solid #ddd; background: #e8e8e2; }
+        .gallery-item:last-child { border-right: none; }
+        .gallery-item img { transition: transform 0.5s ease; }
+        .gallery-item:hover img { transform: scale(1.05); }
 
         /* ============================
-     FOOTER
-     ============================ */
+           FOOTER (RESPONSIVE)
+           ============================ */
         footer {
             border-top: 1px solid #ddd;
             padding: 24px 16px;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr; /* Desktop */
             gap: 20px;
         }
-
-        .footer-contact {
-            font-size: 11px;
-            line-height: 1.9;
-            color: #333;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
+        .footer-contact { font-size: 11px; line-height: 1.8; color: #333; }
+        .footer-social { display: flex; gap: 10px; margin-top: 10px; }
         .social-icon {
-            width: 28px;
-            height: 28px;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.15s;
+            width: 26px; height: 26px; border: 1px solid #ccc; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer;
         }
+        .social-icon:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+        .footer-links { display: flex; flex-direction: column; gap: 8px; }
+        .footer-links a { font-size: 11px; color: #333; }
+        .newsletter-form { display: flex; border: 1px solid #ccc; overflow: hidden; }
+        .newsletter-input { flex: 1; border: none; outline: none; padding: 8px 10px; font-size: 11px; background: var(--white); }
+        .newsletter-btn { background: var(--black); color: var(--white); border: none; padding: 0 12px; cursor: pointer; }
 
-        .social-icon:hover {
-            background: var(--black);
-            color: var(--white);
-            border-color: var(--black);
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .footer-links a {
-            font-size: 11px;
-            color: #333;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        .newsletter-form {
-            display: flex;
-            border: 1px solid #ccc;
-            overflow: hidden;
-        }
-
-        .newsletter-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 9px 12px;
-            font-size: 11px;
-            font-family: var(--font-body);
-            background: var(--white);
-        }
-
-        .newsletter-btn {
-            background: var(--black);
-            color: var(--white);
-            border: none;
-            padding: 9px 15px;
-            cursor: pointer;
-            font-size: 16px;
-            line-height: 1;
-        }
-
-        .newsletter-btn:hover {
-            opacity: 0.7;
-        }
+        .bottom-bar { border-top: 1px solid #ddd; padding: 12px 16px; font-size: 9px; font-family: var(--font-mono); color: #888; text-align: center; }
 
         /* ============================
-     GALLERY STRIP
-     ============================ */
-        .gallery-strip {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            height: 240px;
-            border-top: 1px solid #ddd;
-        }
-
-        .gallery-item {
-            overflow: hidden;
-            border-right: 1px solid #ddd;
-            background: #e8e8e2;
-        }
-
-        .gallery-item:last-child {
-            border-right: none;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        /* ============================
-     BOTTOM BAR
-     ============================ */
-        .bottom-bar {
-            border-top: 1px solid #ddd;
-            padding: 14px 16px;
-            font-size: 10px;
-            font-family: var(--font-mono);
-            color: #888;
-            letter-spacing: 0.04em;
-        }
-
-        /* ============================
-     COOKIE BANNER
-     ============================ */
+           COOKIE BANNER
+           ============================ */
         .cookie-banner {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            background: var(--black);
-            color: var(--white);
-            padding: 14px 16px;
-            font-size: 11px;
-            font-family: var(--font-mono);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 230px;
-            border: 1px solid #2a2a2a;
+            position: fixed; bottom: 16px; right: 16px; background: var(--black); color: var(--white);
+            padding: 12px 16px; font-size: 10px; font-family: var(--font-mono); z-index: 999;
+            display: flex; flex-direction: column; gap: 8px; max-width: 220px; border: 1px solid #2a2a2a;
         }
-
         .cookie-btn {
-            background: var(--white);
-            color: var(--black);
-            border: none;
-            padding: 7px 14px;
-            font-size: 10px;
-            font-family: var(--font-mono);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            align-self: flex-start;
+            background: var(--white); color: var(--black); border: none; padding: 6px 12px;
+            font-size: 9px; font-family: var(--font-mono); text-transform: uppercase; cursor: pointer; align-self: flex-start;
         }
 
-        .cookie-btn:hover {
-            opacity: 0.7;
+        /* ============================
+           MEDIA QUERIES (TABLET & MOBILE)
+           ============================ */
+        
+        /* Tablet & Mobile (Max 768px) */
+        @media (max-width: 768px) {
+            .topbar-left { display: block; } /* Tampilkan tanggal lagi jika mau, atau tetap none */
+            .topbar-nav { gap: 15px; }
+
+            /* Hero Adjustments */
+            .hero-marquee-section { height: 65vh; }
+            
+            /* Matikan 3D Rotation di Mobile, biar gambar besar & jelas */
+            .marquee-track {
+                transform: none !important; /* Override transform 3D */
+                padding: 0 20px;
+                gap: 10px;
+            }
+            
+            /* Ubah animasi keyframes untuk mobile (tanpa rotate) */
+            @keyframes scrollLeft {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+
+            .grid-item {
+                width: 160px; /* Ukuran gambar lebih kecil pas HP */
+                height: 220px;
+                box-shadow: none; /* Hapus shadow berat di mobile */
+                border: 1px solid #222;
+            }
+
+            .grid-item:hover { transform: scale(1.02); } /* Hover effect sederhana */
+
+            .hero-overlay { top: 40%; } /* Angkat teks sedikit */
+            .hero-big-title { font-size: 12vw; line-height: 0.9; }
+            .hero-subtitle { font-size: 0.6rem; }
+
+            /* Product Grid: 2 Kolom di Mobile */
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            
+            /* Story Grid: Stack 1 kolom di mobile */
+            .stories-grid { grid-template-columns: 1fr; gap: 30px; }
+            .story-card { padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+            .story-img { height: 220px; }
+
+            /* Gallery Strip: 2 Kolom di Mobile (lebih rapi) */
+            .gallery-strip { 
+                grid-template-columns: repeat(2, 1fr); 
+                height: auto; /* Biarkan tinggi menyesuaikan gambar */
+                grid-auto-rows: 200px;
+            }
+            .gallery-item:nth-child(n+3) { border-top: 1px solid #ddd; } /* Border atas untuk baris ke-2 */
+            .gallery-item:last-child { border-right: 1px solid #ddd; } /* Fix border kanan HP */
+
+            /* Footer Stack Vertikal */
+            footer { grid-template-columns: 1fr; gap: 30px; }
+            .footer-social { margin-top: 15px; }
+            
+            .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .section-right { width: 100%; justify-content: space-between; }
         }
+
     </style>
 </head>
 
 <body>
 
     <!-- ═══════════════════════════
-     TOP BAR
-     ═══════════════════════════ -->
+         TOP BAR
+         ═══════════════════════════ -->
     <nav class="topbar">
-        <span class="topbar-left">18, FEB,2026 — LAGOS, NG</span>
+        <!-- Tampil di desktop, hidden di mobile via CSS -->
+        <span class="topbar-left">18, FEB, 2026 — LAGOS, NG</span>
+        
         <div class="topbar-nav">
             <a href="#">SHOP</a>
             <a href="#">INDEX</a>
             <a href="#">STORIES</a>
         </div>
+        
         <div class="topbar-right">
             <span>BAG(0)</span>
             <span>MENU +</span>
@@ -638,60 +405,50 @@
 
 
     <!-- ═══════════════════════════
-     HERO
-     ═══════════════════════════ -->
-    <section class="hero">
-
-        <div class="hero-left">
-
-            <!-- Brand name + logo -->
-            <div class="hero-title">
-                <span class="brand-name">404 GANG WEAR</span>
-                <div class="logo-wrap">
-                    <!-- LOGO: sudah otomatis dari logo.png -->
-                </div>
-            </div>
-
-            <!-- ╔══════════════════════════════════════╗
-         ║  GAMBAR 1 — Hero Utama (foto besar)  ║
-         ║  Ganti: src="nama-file-kamu.jpg"     ║
-         ╚══════════════════════════════════════╝ -->
-            <div class="hero-main-img">
-                <img src="bilbords.png" alt="Hero Main Image">
-                <!-- Contoh: <img src="images/hero-main.jpg" alt="Hero"> -->
-            </div>
-
+         HERO SECTION (3D MARQUEE)
+         ═══════════════════════════ -->
+    <section class="hero-marquee-section">
+        
+        <!-- Teks Overlay -->
+        <div class="hero-overlay">
+            <h1 class="hero-big-title">404 Gang<br>Wear</h1>
+            <span class="hero-subtitle">AFRICAN FUTURISM / STREET COUTURE</span>
         </div>
 
-        <div class="hero-right">
+        <!-- Marquee Container -->
+        <div class="marquee-perspective">
+            <div class="marquee-track" id="marqueeTrack">
+                
+                <!-- SET 1 -->
+                <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
+                <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
+                <div class="grid-item"><img src="6.png" alt="Item 3"></div>
+                <div class="grid-item"><img src="5.png" alt="Item 4"></div>
+                <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
+                <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
+                <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
+                <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
 
-            <!-- ╔══════════════════════════════════════╗
-         ║  GAMBAR 2 — Foto Editorial Kanan     ║
-         ║  Ganti: src="nama-file-kamu.jpg"     ║
-         ╚══════════════════════════════════════╝ -->
-            <div class="hero-side-img">
-                <img src="logobaruu.png" alt="Hero Side Image">
-                <!-- Contoh: <img src="images/editorial.jpg" alt="Editorial"> -->
+                <!-- SET 2 (Duplikasi untuk Looping) -->
+                <div class="grid-item"><img src="mockup2.png" alt="Item 1"></div>
+                <div class="grid-item"><img src="mockup22.png" alt="Item 2"></div>
+                <div class="grid-item"><img src="6.png" alt="Item 3"></div>
+                <div class="grid-item"><img src="5.png" alt="Item 4"></div>
+                <div class="grid-item"><img src="bilbords.png" alt="Item 5"></div>
+                <div class="grid-item"><img src="logobaruu.png" alt="Item 6"></div>
+                <div class="grid-item"><img src="3fetured.jpg" alt="Item 7"></div>
+                <div class="grid-item"><img src="2fetured.jpg" alt="Item 8"></div>
+
             </div>
-
-            <div class="hero-right-text">
-                <p>A Lagos-based dual-sex fashion house.<br>We create art through fashion and imagery inspired by
-                    Africa's evolving identity.</p>
-                <a href="#" class="btn-outline">SHOP 404 <span>▸</span></a>
-                <a href="#" class="btn-outline">EXPERIENCE 404 <span>▸</span></a>
-            </div>
-
         </div>
     </section>
 
 
     <!-- ═══════════════════════════
-     TICKER
-     ═══════════════════════════ -->
+         TICKER
+         ═══════════════════════════ -->
     <div class="ticker">
         <div class="ticker-inner" id="tickerInner">
-            <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
-            <span class="ticker-item">SHOP 404 DROPS</span>
             <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
             <span class="ticker-item">SHOP 404 DROPS</span>
             <span class="ticker-item">Welcome to the 404 Universe, explore our latest drops and everything 404!</span>
@@ -703,8 +460,8 @@
 
 
     <!-- ═══════════════════════════
-     FEATURED PRODUCTS
-     ═══════════════════════════ -->
+         FEATURED PRODUCTS
+         ═══════════════════════════ -->
     <section class="section">
         <div class="section-header">
             <h2 class="section-title">Featured Products</h2>
@@ -716,77 +473,62 @@
         </div>
 
         <div class="products-grid">
-
-            <!-- ╔══════════════════════════════════════╗
-         ║  GAMBAR 3 — Produk 1                 ║
-         ║  Ganti: src="nama-file-kamu.jpg"     ║
-         ╚══════════════════════════════════════╝ -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="mockup2.png" alt="404 Lagos Hat">
-                    <!-- Contoh: <img src="images/hat.jpg" alt="404 Lagos Hat"> -->
-                </div>
+                <div class="product-img"><img src="mockup2.png" alt="404 Lagos Hat"></div>
                 <div class="product-name">404 Lagos Hat</div>
                 <div class="product-price">$65</div>
             </div>
-
-            <!-- ╔══════════════════════════════════════╗
-         ║  GAMBAR 4 — Produk 2                 ║
-         ║  Ganti: src="nama-file-kamu.jpg"     ║
-         ╚══════════════════════════════════════╝ -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="mockup22.png" alt="404 Petal Polo">
-                    <!-- Contoh: <img src="images/polo.jpg" alt="404 Petal Polo"> -->
-                </div>
+                <div class="product-img"><img src="mockup22.png" alt="404 Petal Polo"></div>
                 <div class="product-name">404 Petal Polo</div>
                 <div class="sold-out">SOLD OUT</div>
             </div>
-
-            <!-- ╔══════════════════════════════════════╗
-         ║  GAMBAR 5 — Produk 3                 ║
-         ║  Ganti: src="nama-file-kamu.jpg"     ║
-         ╚══════════════════════════════════════╝ -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="6.png" alt="404 Lagos Scarf">
-                    <!-- Contoh: <img src="images/scarf.jpg" alt="404 Lagos Scarf"> -->
-                </div>
+                <div class="product-img"><img src="6.png" alt="404 Lagos Scarf"></div>
                 <div class="product-name">404 'Lagos' Scarf</div>
                 <div class="product-price">$60</div>
             </div>
-
-            <!-- ╔══════════════════════════════════════╗
-         ║  GAMBAR 6 — Produk 4                 ║
-         ║  Ganti: src="nama-file-kamu.jpg"     ║
-         ╚══════════════════════════════════════╝ -->
             <div class="product-card">
-                <div class="product-img">
-                    <img src="5.png" alt="404 Petal Cargo Skirt">
-                    <!-- Contoh: <img src="images/skirt.jpg" alt="404 Petal Cargo Skirt"> -->
-                </div>
+                <div class="product-img"><img src="5.png" alt="404 Petal Cargo Skirt"></div>
                 <div class="product-name">404 Petal Cargo Skirt</div>
                 <div class="product-price">$130</div>
             </div>
-
         </div>
     </section>
 
-    <hr class="divider">
-
+    <hr class="divider" style="border: 0; border-top: 1px solid #e0e0da; margin: 0 16px;">
 
     <!-- ═══════════════════════════
-     TAGLINE
-     ═══════════════════════════ -->
-    <section class="tagline-section">
-        <p class="tagline">We create art through fashion, experiences and imagery inspired by Africa's evolving
-            identity. Lagos based, delivered globally.</p>
+         STORIES
+         ═══════════════════════════ -->
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">Latest Stories</h2>
+            <a href="#" class="pill-btn">READ ALL</a>
+        </div>
+        
+        <div class="stories-grid">
+            <div class="story-card">
+                <div class="story-meta">Editorial — 02/18/2026</div>
+                <h3 class="story-title">The Evolution of Lagos Streetwear</h3>
+                <div class="story-img"><img src="3fetured.jpg" alt="Story 1"></div>
+            </div>
+            <div class="story-card">
+                <div class="story-meta">Behind the Scenes — 02/15/2026</div>
+                <h3 class="story-title">404 Gang: The New Collective</h3>
+                <div class="story-img"><img src="2fetured.jpg" alt="Story 2"></div>
+            </div>
+            <div class="story-card">
+                <div class="story-meta">Lookbook — 02/10/2026</div>
+                <h3 class="story-title">Monochrome Series Vol. 4</h3>
+                <div class="story-img"><img src="img1.JPG" alt="Story 3"></div>
+            </div>
+        </div>
     </section>
 
-
     <!-- ═══════════════════════════
-     FOOTER
-     ═══════════════════════════ -->
+         FOOTER
+         ═══════════════════════════ -->
     <footer>
         <div>
             <div class="footer-contact">
@@ -801,83 +543,39 @@
         <div class="footer-links">
             <a href="#">Privacy Policy</a>
             <a href="#">Shipping &amp; Returns</a>
+            <a href="#">Terms of Service</a>
         </div>
         <div>
             <div class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Enter your email to join our newsletter">
+                <input type="email" class="newsletter-input" placeholder="Join newsletter">
                 <button class="newsletter-btn">›</button>
             </div>
         </div>
     </footer>
 
-
     <!-- ═══════════════════════════
-     GALLERY STRIP (5 foto)
-     ═══════════════════════════ -->
+         GALLERY STRIP
+         ═══════════════════════════ -->
     <div class="gallery-strip">
-
-        <!-- ╔══════════════════════════════════════╗
-       ║  GAMBAR 10 — Galeri 1                ║
-       ║  Ganti: src="nama-file-kamu.jpg"     ║
-       ╚══════════════════════════════════════╝ -->
-        <div class="gallery-item">
-            <img src="3fetured.jpg" alt="Gallery 1">
-            <!-- Contoh: <img src="images/gallery-1.jpg" alt="Gallery 1"> -->
-        </div>
-
-        <!-- ╔══════════════════════════════════════╗
-       ║  GAMBAR 11 — Galeri 2                ║
-       ║  Ganti: src="nama-file-kamu.jpg"     ║
-       ╚══════════════════════════════════════╝ -->
-        <div class="gallery-item">
-            <img src="2fetured.jpg" alt="Gallery 2">
-            <!-- Contoh: <img src="images/gallery-2.jpg" alt="Gallery 2"> -->
-        </div>
-
-        <!-- ╔══════════════════════════════════════╗
-       ║  GAMBAR 12 — Galeri 3                ║
-       ║  Ganti: src="nama-file-kamu.jpg"     ║
-       ╚══════════════════════════════════════╝ -->
-        <div class="gallery-item">
-            <img src="img1.JPG" alt="Gallery 3">
-            <!-- Contoh: <img src="images/gallery-3.jpg" alt="Gallery 3"> -->
-        </div>
-
-        <!-- ╔══════════════════════════════════════╗
-       ║  GAMBAR 13 — Galeri 4                ║
-       ║  Ganti: src="nama-file-kamu.jpg"     ║
-       ╚══════════════════════════════════════╝ -->
-        <div class="gallery-item">
-            <img src="img2.jpg" alt="Gallery 4">
-            <!-- Contoh: <img src="images/gallery-4.jpg" alt="Gallery 4"> -->
-        </div>
-
-        <!-- ╔══════════════════════════════════════╗
-       ║  GAMBAR 14 — Galeri 5                ║
-       ║  Ganti: src="nama-file-kamu.jpg"     ║
-       ╚══════════════════════════════════════╝ -->
-        <div class="gallery-item">
-            <img src="bilbordatas.png" alt="Gallery 5">
-            <!-- Contoh: <img src="images/gallery-5.jpg" alt="Gallery 5"> -->
-        </div>
-
+        <div class="gallery-item"><img src="3fetured.jpg" alt="G 1"></div>
+        <div class="gallery-item"><img src="2fetured.jpg" alt="G 2"></div>
+        <div class="gallery-item"><img src="img1.JPG" alt="G 3"></div>
+        <div class="gallery-item"><img src="img2.jpg" alt="G 4"></div>
+        <div class="gallery-item"><img src="bilbordatas.png" alt="G 5"></div>
     </div>
 
-
-    <!-- BOTTOM BAR -->
     <div class="bottom-bar">© 2026 404 Brand.</div>
 
-    <!-- COOKIE BANNER -->
+    <!-- Cookie Banner -->
     <div class="cookie-banner" id="cookieBanner">
         <span>This website uses cookies</span>
-        <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">OKAY
-            ✓</button>
+        <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">OKAY ✓</button>
     </div>
 
     <script>
-        // Ticker seamless loop
+        // Ticker Loop Logic
         const ti = document.getElementById('tickerInner');
-        ti.innerHTML += ti.innerHTML;
+        if(ti) ti.innerHTML += ti.innerHTML;
     </script>
 </body>
 
