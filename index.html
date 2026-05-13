@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Brand — Home</title>
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,7 +17,6 @@
             --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
             --font-mono: 'IBM Plex Mono', monospace;
             --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --gap: 20px; /* Gap disesuaikan */
         }
 
         *, *::before, *::after {
@@ -27,9 +25,7 @@
             padding: 0;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background: var(--white);
@@ -38,14 +34,11 @@
             font-size: 13px;
             line-height: 1.4;
             overflow-x: hidden;
-            /* Texture halus pada background */
             background-image: radial-gradient(#e0e0da 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        /* ============================
-           NOISE OVERLAY (Efek Film)
-           ============================ */
+        /* ── NOISE OVERLAY ── */
         .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -56,14 +49,8 @@
         }
 
         a { color: inherit; text-decoration: none; }
-        img { display: block; width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Placeholder agar gambar tidak hilang jika error */
-        img[src=""], img:not([src]) { background: #333; min-height: 200px; }
 
-        /* ============================
-           TOP BAR
-           ============================ */
+        /* ── TOP BAR ── */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -85,137 +72,105 @@
         .topbar-nav { display: flex; gap: 20px; font-size: 9px; white-space: nowrap; }
         .topbar-right { display: flex; gap: 15px; align-items: center; }
 
-        /* ============================
-           HERO SECTION (FIXED MARQUEE)
-           ============================ */
+        /* ══════════════════════════════════════
+           HERO MARQUEE — FULLSCREEN, ALL ITEMS
+           SAME HEIGHT, COVER FIT (NO GAPS)
+           ══════════════════════════════════════ */
         .hero-marquee-section {
             position: relative;
             width: 100%;
-            /* Height disesuaikan agar terlihat proporsional di mobile */
-            height: 80vh; 
+            height: 100vh;          /* true fullscreen on all devices */
             background: var(--black);
-            overflow: hidden; /* Penting: mencegah scrollbar muncul */
+            overflow: hidden;
             display: flex;
-            align-items: center;
-            justify-content: flex-start; /* Mulai dari kiri */
-            border-bottom: 1px solid var(--black);
-            /* Disable 3D secara default, aktifkan di desktop jika mau */
+            align-items: stretch;   /* children fill full height */
         }
 
+        /* The sliding track — no gap so images sit flush */
         .marquee-track {
             display: flex;
-            gap: var(--gap);
+            align-items: stretch;
+            gap: 0;
             width: max-content;
-            /* PENTING: Default Mobile (Flat) */
-            transform: translateX(0);
-            padding: 0 20px;
-            /* Gunakan animasi scrollMobile untuk default */
-            animation: scrollMobile 35s linear infinite;
+            height: 100%;
+            animation: scrollHorizontal 45s linear infinite;
+            will-change: transform;
         }
 
-        /* Pada Desktop (Layar Lebar > 768px), kita tambahkan efek 3D */
-        @media (min-width: 769px) {
-            .hero-marquee-section {
-                justify-content: center;
-                perspective: 1000px;
-                height: 75vh;
-            }
-            .marquee-track {
-                padding: 0 50px;
-                /* Override animasi ke versi 3D */
-                animation: scrollDesktop 40s linear infinite;
-            }
+        .hero-marquee-section:hover .marquee-track {
+            animation-play-state: paused;
         }
 
-        /* Hover berhenti (Opsional, hindari di mobile agar jari tidak memicu hover) */
-        @media (hover: hover) {
-            .marquee-track:hover { animation-play-state: paused; }
-        }
-
+        /* Each slide is a fixed fraction of the viewport width.
+           object-fit: cover fills the slot regardless of source ratio. */
         .grid-item {
-            width: 280px; height: 380px;
-            flex-shrink: 0;
+            width: 25vw;            /* 4 visible columns on desktop */
+            height: 100%;           /* full track height = 100vh */
+            flex: 0 0 25vw;
             position: relative;
             overflow: hidden;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            /* Efek bayangan hanya aktif di desktop */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
+            background: #111;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            transition: filter 0.4s ease;
         }
 
         .grid-item img {
-            filter: grayscale(100%);
-            transition: 0.5s;
+            display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Hover effects */
-        @media (hover: hover) {
-            .grid-item:hover {
-                border-color: var(--white);
-                z-index: 10;
-            }
-            .grid-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
+            object-fit: cover;      /* KEY: covers slot, crops if needed */
+            object-position: center top;
+            filter: grayscale(100%) brightness(0.75);
+            transition: filter 0.5s ease, transform 0.6s ease;
+            will-change: transform;
         }
 
-        /* 3D Effect khusus Desktop */
-        @media (min-width: 769px) {
-            .grid-item {
-                box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
-                transform: rotateY(15deg) rotateX(5deg) scale(0.85); /* Static initial 3D */
-            }
-            .grid-item:hover {
-                transform: rotateY(0deg) rotateX(0deg) scale(1.05); /* Reset saat hover */
-            }
+        /* Hover: restore colour + slight zoom */
+        .grid-item:hover img {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.04);
         }
 
+        /* ── Hero text overlay — sits above the strip ── */
         .hero-overlay {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center; z-index: 50; pointer-events: none;
-            mix-blend-mode: exclusion; width: 100%;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            pointer-events: none;
+            text-align: center;
+            mix-blend-mode: exclusion;
+            padding: 0 16px;
         }
-        
+
         .hero-big-title {
             font-family: var(--font-display);
-            font-size: 12vw; /* Mobile responsive size */
-            line-height: 0.85;
-            color: var(--white); letter-spacing: -0.02em; text-transform: uppercase;
+            font-size: clamp(64px, 11vw, 160px);
+            line-height: 0.88;
+            color: var(--white);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
         }
 
         .hero-subtitle {
-            font-family: var(--font-mono); font-size: 0.8rem;
-            letter-spacing: 0.3em; color: var(--white);
-            margin-top: 5px; display: block; text-transform: uppercase;
+            font-family: var(--font-mono);
+            font-size: clamp(0.6rem, 1.2vw, 0.9rem);
+            letter-spacing: 0.3em;
+            color: var(--white);
+            margin-top: 14px;
+            display: block;
+            text-transform: uppercase;
         }
 
-        @media (min-width: 769px) {
-            .hero-big-title { font-size: 8vw; }
-            .hero-subtitle { font-size: 0.9rem; }
+        @keyframes scrollHorizontal {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
-        /* ============================
-           KEYFRAMES (PEMBETULAN UTAMA)
-           ============================ */
-        
-        /* Animasi untuk Mobile (Flat Scroll) */
-        @keyframes scrollMobile {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Geser setengah karena konten diduplikasi */
-        }
-
-        /* Animasi untuk Desktop (3D Scroll) */
-        @keyframes scrollDesktop {
-            0% { transform: rotateY(15deg) rotateX(5deg) scale(0.85) translateX(0); }
-            100% { transform: rotateY(15deg) rotateX(5deg) scale(0.85) translateX(-50%); }
-        }
-
-        /* ============================
-           TICKER (FIXED ANIMATION)
-           ============================ */
+        /* ── TICKER ── */
         .ticker-wrap {
             width: 100%;
             overflow: hidden;
@@ -223,7 +178,6 @@
             color: var(--white);
             padding: 12px 0;
             white-space: nowrap;
-            position: relative;
             border-bottom: 1px solid var(--black);
             z-index: 150;
         }
@@ -245,32 +199,40 @@
         }
 
         @keyframes ticker-scroll {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-33.33%, 0, 0); } /* Geser sepertiga karena ada 3 set teks */
+            0%   { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-33.33%, 0, 0); }
         }
 
-        /* ============================
-           FEATURED PRODUCTS
-           ============================ */
+        /* ── FEATURED PRODUCTS ── */
         .section { padding: 60px 20px; position: relative; }
-        
+
         .section-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 40px;
         }
 
-        .section-title { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; font-family: var(--font-display); }
-        
+        .section-title {
+            font-size: 32px; font-weight: 700;
+            letter-spacing: -0.03em; font-family: var(--font-display);
+        }
+
         .pill-btn {
-            border: 1px solid #ccc; padding: 10px 24px; font-size: 10px;
-            font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase;
+            border: 1px solid #ccc; padding: 10px 24px;
+            font-size: 10px; font-family: var(--font-mono);
+            letter-spacing: 0.1em; text-transform: uppercase;
             border-radius: 50px; cursor: pointer; transition: 0.3s;
             background: transparent;
         }
-        .pill-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .pill-btn:hover {
+            background: var(--black); color: var(--white);
+            border-color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Default Mobile 2 kolom */
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             perspective: 1000px;
         }
@@ -280,182 +242,156 @@
         }
 
         .product-card {
-            background: white;
-            position: relative;
-            cursor: pointer;
+            background: white; position: relative; cursor: pointer;
             transform-style: preserve-3d;
             transition: transform 0.1s ease;
             border-radius: 4px;
         }
 
-        .product-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            z-index: 2;
-        }
+        .product-inner { width: 100%; height: 100%; position: relative; z-index: 2; }
 
         .product-img {
-            width: 100%;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            background: #f0f0f0;
+            width: 100%; aspect-ratio: 3/4;
+            overflow: hidden; background: #f0f0f0;
             border-radius: 4px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s ease;
         }
 
         .product-card:hover .product-img { box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
-        .product-img img { transition: transform 0.5s ease; transform: scale(1); }
+
+        .product-img img {
+            display: block; width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
         .product-card:hover .product-img img { transform: scale(1.15); }
 
         .product-info { padding-top: 20px; text-align: center; }
         .product-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; transition: 0.3s; }
         .product-price { font-size: 13px; color: #666; transition: 0.3s; }
-        
-        .sold-out { 
-            color: var(--accent); font-weight: 700; font-size: 11px; 
-            font-family: var(--font-mono); letter-spacing: 0.05em;
-        }
+        .sold-out { color: var(--accent); font-weight: 700; font-size: 11px; font-family: var(--font-mono); letter-spacing: 0.05em; }
 
         .product-card:hover .product-name { color: var(--black); transform: scale(1.1); }
         .product-card:hover .product-price { opacity: 0; }
 
         .add-btn {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
+            position: absolute; bottom: 0; left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--black);
-            color: var(--white);
-            padding: 8px 16px;
-            font-size: 10px;
+            background: var(--black); color: var(--white);
+            padding: 8px 16px; font-size: 10px;
             font-family: var(--font-mono);
-            opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-            border-radius: 2px;
+            opacity: 0; transition: 0.3s;
+            pointer-events: none; border-radius: 2px;
         }
         .product-card:hover .add-btn { opacity: 1; transform: translateX(-50%) translateY(-10px); }
 
-        /* ============================
-           VIDEO SHOWCASE (LANDSCAPE)
-           ============================ */
+        /* ── VIDEO SHOWCASE ── */
         .video-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9; 
-            background: #000;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+            position: relative; width: 100%; aspect-ratio: 16/9;
+            background: #000; border-radius: 4px; overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             border: 1px solid #ddd;
         }
 
         .landscape-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
+            width: 100%; height: 100%; object-fit: cover;
+            display: block; transition: transform 0.5s ease;
         }
-
         .video-container:hover .landscape-video { transform: scale(1.02); }
 
-        /* Tombol Mute/Unmute */
         .mute-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; bottom: 20px; right: 20px;
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.5); border-radius: 50%;
+            color: white; font-size: 16px; cursor: pointer; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.3s ease;
         }
         .mute-btn:hover { background: white; color: black; }
 
-        /* Teks Overlay Video */
         .video-text-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            z-index: 5;
+            position: absolute; bottom: 20px; left: 20px;
+            color: white; font-family: var(--font-mono);
+            font-size: 10px; letter-spacing: 0.2em;
+            text-transform: uppercase; z-index: 5;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             pointer-events: none;
         }
 
-        /* ============================
-           FOOTER
-           ============================ */
-        footer { padding: 60px 20px; border-top: 1px solid #ddd; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+        /* ── FOOTER ── */
+        footer {
+            padding: 60px 20px; border-top: 1px solid #ddd;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px;
+        }
         .footer-contact h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 10px; }
         .socials { display: flex; gap: 10px; margin-top: 15px; }
-        .social-box { width: 40px; height: 40px; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
+        .social-box {
+            width: 40px; height: 40px; border: 1px solid #ccc;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: 0.3s;
+        }
         .social-box:hover { background: var(--black); color: var(--white); transform: rotate(15deg); }
 
         .cookie-banner {
-            position: fixed; bottom: 20px; right: 20px; background: var(--black); color: var(--white);
-            padding: 20px 25px; font-family: var(--font-mono); font-size: 11px; z-index: 999;
-            border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--black); color: var(--white);
+            padding: 20px 25px; font-family: var(--font-mono); font-size: 11px;
+            z-index: 999; border: 1px solid #333;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             display: flex; align-items: center; gap: 15px;
             transform: translateY(100px);
             animation: slideUp 0.8s 2s forwards cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes slideUp { to { transform: translateY(0); } }
-        .cookie-btn { background: white; color: black; border: none; padding: 8px 16px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .cookie-btn {
+            background: white; color: black; border: none;
+            padding: 8px 16px; cursor: pointer;
+            font-weight: bold; text-transform: uppercase;
+        }
 
-        /* ============================
-           MEDIA QUERIES (RESPONSIVE)
-           ============================ */
+        /* ══════════════════════════════════════
+           RESPONSIVE — MOBILE
+           On mobile each slide is 100vw so one
+           image fills the screen perfectly.
+           ══════════════════════════════════════ */
         @media (max-width: 768px) {
             .topbar-left { display: none; }
-            
-            /* Video Responsive Mobile */
+
+            /* Mobile: one image at a time, full-screen */
+            .grid-item {
+                width: 100vw;
+                flex: 0 0 100vw;
+                border-right: none;
+            }
+
+            .hero-big-title { font-size: clamp(52px, 18vw, 80px); }
+
             .video-container {
-                border-radius: 0; 
+                border-radius: 0;
                 border-left: none; border-right: none;
                 box-shadow: none;
             }
             .mute-btn { width: 32px; height: 32px; bottom: 15px; right: 15px; font-size: 12px; }
             .video-text-overlay { font-size: 9px; left: 15px; bottom: 15px; }
-            
+
             .section { padding: 40px 16px; }
-            
-            /* Tampilan Grid Mobile sedikit disesuaikan */
-            .grid-item { 
-                width: 160px; /* Ukuran lebih kecil agar muat lebih banyak */
-                height: 220px;
-                box-shadow: none; /* Hapus bayangan berat di mobile */
-                border: 1px solid #222;
-            }
-            
             footer { grid-template-columns: 1fr; gap: 30px; padding-bottom: 80px; }
-            .cookie-banner { left: 16px; right: 16px; bottom: 16px; max-width: none; flex-direction: column; align-items: flex-start; }
+            .cookie-banner {
+                left: 16px; right: 16px; bottom: 16px;
+                max-width: none; flex-direction: column; align-items: flex-start;
+            }
+            .products-grid { gap: 10px; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Efek Grain Film -->
     <div class="noise-overlay"></div>
 
-    <!-- ═══════════════════════════ TOP BAR ═══════════════════════════ -->
+    <!-- TOP BAR -->
     <nav class="topbar">
         <span class="topbar-left">18, FEB, 2026 — LAGOS, NG</span>
         <div class="topbar-nav">
@@ -469,57 +405,53 @@
         </div>
     </nav>
 
-    <!-- ═══════════════════════════ HERO SECTION ═══════════════════════════ -->
+    <!-- HERO — FULLSCREEN MARQUEE -->
     <section class="hero-marquee-section">
+
+        <!-- Text overlaid on top of the strip -->
         <div class="hero-overlay">
             <h1 class="hero-big-title">404 Gang<br>Wear</h1>
             <span class="hero-subtitle">AFRICAN FUTURISM / STREET COUTURE</span>
         </div>
-        
+
+        <!-- Marquee strip: SET 1 + SET 2 (duplicate for seamless loop) -->
         <div class="marquee-track">
-            <!-- Set 1 -->
-            <!-- Saya menggunakan placeholder gambar agar Anda bisa melihat hasilnya langsung -->
-            <div class="grid-item"><img src="mockup2.png" alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/300/400'"></div>
-            <div class="grid-item"><img src="mockup22.png" alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/300/400'"></div>
-            <div class="grid-item"><img src="6.png" alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/300/400'"></div>
-            <div class="grid-item"><img src="5.png" alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/300/400'"></div>
-            <div class="grid-item"><img src="bilbords.png" alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/300/400'"></div>
-            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/300/400'"></div>
-            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/300/400'"></div>
-            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/300/400'"></div>
-            
-            <!-- Set 2 (Duplikat untuk Looping Mulus) -->
-            <div class="grid-item"><img src="mockup2.png" alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/300/400'"></div>
-            <div class="grid-item"><img src="mockup22.png" alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/300/400'"></div>
-            <div class="grid-item"><img src="6.png" alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/300/400'"></div>
-            <div class="grid-item"><img src="5.png" alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/300/400'"></div>
-            <div class="grid-item"><img src="bilbords.png" alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/300/400'"></div>
-            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/300/400'"></div>
-            <div class="grid-item"><img src="3fetured.jpg" alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/300/400'"></div>
-            <div class="grid-item"><img src="2fetured.jpg" alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/300/400'"></div>
+            <!-- SET 1 -->
+            <div class="grid-item"><img src="mockup2.png"   alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/600/800'"></div>
+            <div class="grid-item"><img src="mockup22.png"  alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/600/800'"></div>
+            <div class="grid-item"><img src="6.png"         alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/600/800'"></div>
+            <div class="grid-item"><img src="5.png"         alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/600/800'"></div>
+            <div class="grid-item"><img src="bilbords.png"  alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/600/800'"></div>
+            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/600/800'"></div>
+            <div class="grid-item"><img src="3fetured.jpg"  alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/600/800'"></div>
+            <div class="grid-item"><img src="2fetured.jpg"  alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/600/800'"></div>
+            <!-- SET 2 (duplicate for seamless loop) -->
+            <div class="grid-item"><img src="mockup2.png"   alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/600/800'"></div>
+            <div class="grid-item"><img src="mockup22.png"  alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/600/800'"></div>
+            <div class="grid-item"><img src="6.png"         alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/600/800'"></div>
+            <div class="grid-item"><img src="5.png"         alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/600/800'"></div>
+            <div class="grid-item"><img src="bilbords.png"  alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/600/800'"></div>
+            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/600/800'"></div>
+            <div class="grid-item"><img src="3fetured.jpg"  alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/600/800'"></div>
+            <div class="grid-item"><img src="2fetured.jpg"  alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/600/800'"></div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════ TICKER (FIXED ANIMATION) ═══════════════════════════ -->
+    <!-- TICKER -->
     <div class="ticker-wrap">
         <div class="ticker">
-            <!-- Kita duplikasi konten 3x secara manual agar looping mulus tanpa putus -->
             <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
             <div class="ticker-separator">◆</div>
             <div class="ticker-item">NEW DROPS AVAILABLE</div>
             <div class="ticker-separator">◆</div>
             <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
             <div class="ticker-separator">◆</div>
-            
-            <!-- SET KE-2 -->
             <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
             <div class="ticker-separator">◆</div>
             <div class="ticker-item">NEW DROPS AVAILABLE</div>
             <div class="ticker-separator">◆</div>
             <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
             <div class="ticker-separator">◆</div>
-
-            <!-- SET KE-3 -->
             <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
             <div class="ticker-separator">◆</div>
             <div class="ticker-item">NEW DROPS AVAILABLE</div>
@@ -529,15 +461,13 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════ FEATURED PRODUCTS (3D TILT) ═══════════════════════════ -->
+    <!-- FEATURED PRODUCTS -->
     <section class="section">
         <div class="section-header">
             <h2 class="section-title">Featured Drops</h2>
             <a href="#" class="pill-btn">SHOP ALL</a>
         </div>
-
         <div class="products-grid">
-            <!-- Product 1 -->
             <div class="product-card js-tilt">
                 <div class="product-inner">
                     <div class="product-img">
@@ -550,8 +480,6 @@
                     <div class="add-btn">ADD TO CART</div>
                 </div>
             </div>
-
-            <!-- Product 2 -->
             <div class="product-card js-tilt">
                 <div class="product-inner">
                     <div class="product-img">
@@ -563,8 +491,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Product 3 -->
             <div class="product-card js-tilt">
                 <div class="product-inner">
                     <div class="product-img">
@@ -577,8 +503,6 @@
                     <div class="add-btn">ADD TO CART</div>
                 </div>
             </div>
-
-            <!-- Product 4 -->
             <div class="product-card js-tilt">
                 <div class="product-inner">
                     <div class="product-img">
@@ -594,7 +518,7 @@
         </div>
     </section>
 
-    <!-- ═══════════════════════════ VIDEO SHOWCASE (LANDSCAPE) ═══════════════════════════ -->
+    <!-- VIDEO SHOWCASE -->
     <section class="section" style="background: #fafaf9;">
         <div class="section-header">
             <h2 class="section-title">The Campaign</h2>
@@ -602,41 +526,19 @@
                 <a href="#" class="pill-btn" style="background: var(--black); color: var(--white);">WATCH 4K</a>
             </div>
         </div>
-        
-        <!-- KOTAK BESAR VIDEO (Responsive) -->
         <div class="video-container">
-            <!-- 
-                PANDUAN VIDEO:
-                - Ganti 'your-video.mp4' dengan nama file video Anda.
-                - Ganti 'poster.jpg' dengan gambar thumbnail (cover) video.
-                - atribut 'muted' WAJIB ada agar autoplay berjalan di browser modern.
-            -->
-            <video 
-                class="landscape-video" 
-                autoplay 
-                muted 
-                loop 
-                playsinline 
-                poster="https://picsum.photos/seed/poster/1200/675" 
-                id="campaignVideo">
-                
+            <video class="landscape-video" autoplay muted loop playsinline
+                poster="https://picsum.photos/seed/poster/1200/675" id="campaignVideo">
                 <source src="btsweb2.mp4" type="video/mp4">
-                Browser Anda tidak mendukung tag video.
             </video>
-
-            <!-- Overlay Button (Mute/Unmute) -->
             <button class="mute-btn" id="muteToggle" onclick="toggleMute()">
                 <span id="muteIcon">🔇</span>
             </button>
-
-            <!-- Dekorasi Teks di atas Video (Opsional) -->
-            <div class="video-text-overlay">
-                <span>SS26 COLLECTION — LAGOS</span>
-            </div>
+            <div class="video-text-overlay"><span>SS26 COLLECTION — LAGOS</span></div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-contact">
             <h3>404 BRAND</h3>
@@ -674,69 +576,32 @@
         <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">ACCEPT</button>
     </div>
 
-    <!-- ═══════════════════════════ JAVASCRIPT ANIMATIONS ═══════════════════════════ -->
     <script>
-        // 1. 3D TILT EFFECT untuk Produk (Vanilla JS)
+        /* ── 3D Tilt on product cards ── */
         const initTilt = () => {
-            const cards = document.querySelectorAll('.js-tilt');
-            cards.forEach(card => {
+            document.querySelectorAll('.js-tilt').forEach(card => {
                 card.addEventListener('mousemove', (e) => {
-                    if(window.matchMedia("(hover: none)").matches) return; // Skip di HP
-
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = ((y - centerY) / centerY) * -10; 
-                    const rotateY = ((x - centerX) / centerX) * 10;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    if (window.matchMedia("(hover: none)").matches) return;
+                    const r = card.getBoundingClientRect();
+                    const rx = ((e.clientY - r.top  - r.height / 2) / (r.height / 2)) * -10;
+                    const ry = ((e.clientX - r.left - r.width  / 2) / (r.width  / 2)) *  10;
+                    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
                 });
-
                 card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
                 });
             });
         };
 
-        // 2. SCROLL REVEAL (Opsional, disiapkan jika ingin menambah animasi scroll di masa depan)
-        const initScrollReveal = () => {
-            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('in-view');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-            // Saat ini tidak ada elemen dengan class 'reveal-on-scroll', 
-            // tapi fungsi ini tetap ada untuk keperluan pengembangan.
-            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-        };
-
-        // 3. VIDEO MUTE TOGGLE FUNCTION
+        /* ── Mute toggle for campaign video ── */
         function toggleMute() {
-            const video = document.getElementById('campaignVideo');
-            const icon = document.getElementById('muteIcon');
-            
-            if (video.muted) {
-                video.muted = false;
-                icon.textContent = '🔊'; // Icon Suara On
-            } else {
-                video.muted = true;
-                icon.textContent = '🔇'; // Icon Suara Off
-            }
+            const v = document.getElementById('campaignVideo');
+            const i = document.getElementById('muteIcon');
+            v.muted = !v.muted;
+            i.textContent = v.muted ? '🔇' : '🔊';
         }
 
-        // Jalankan saat load
-        document.addEventListener('DOMContentLoaded', () => {
-            initTilt();
-            initScrollReveal();
-        });
+        document.addEventListener('DOMContentLoaded', initTilt);
     </script>
 </body>
 </html>
