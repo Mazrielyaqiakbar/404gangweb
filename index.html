@@ -1,607 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Brand — Home</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --black: #0a0a0a;
-            --white: #f5f5f0;
-            --accent: #cc3300;
-            --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
-            --font-mono: 'IBM Plex Mono', monospace;
-            --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Brand — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=Unbounded:wght@300;700;900&display=swap" rel="stylesheet">
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    :root {
+      --black:#080808; --white:#f2f0eb; --red:#cc3300; --dim:#141414; --muted:#777;
+      --font-d:'Bebas Neue',sans-serif;
+      --font-u:'Unbounded',sans-serif;
+      --font-m:'IBM Plex Mono',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--white);font-family:var(--font-m);font-size:13px;overflow-x:hidden;cursor:none}
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%;height:100%;object-fit:cover}
 
-        html { scroll-behavior: smooth; }
+    /* CURSOR */
+    #cur{position:fixed;width:12px;height:12px;background:var(--red);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference}
+    #cur-ring{position:fixed;width:40px;height:40px;border:1px solid rgba(255,255,255,.35);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .4s,height .4s,border-color .3s}
 
-        body {
-            background: var(--white);
-            color: var(--black);
-            font-family: var(--font-body);
-            font-size: 13px;
-            line-height: 1.4;
-            overflow-x: hidden;
-            background-image: radial-gradient(#e0e0da 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
+    /* NOISE */
+    .noise{position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-        /* ── NOISE OVERLAY ── */
-        .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+    /* TOPBAR */
+    .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 28px;border-bottom:1px solid rgba(255,255,255,.07);font-size:9px;font-family:var(--font-m);letter-spacing:.1em;text-transform:uppercase;position:sticky;top:0;z-index:500;background:rgba(8,8,8,.92);backdrop-filter:blur(12px)}
+    .topbar-nav{display:flex;gap:24px}
+    .topbar-nav a{transition:color .2s}
+    .topbar-nav a:hover{color:var(--red)}
+    .topbar-right{display:flex;gap:16px;align-items:center}
 
-        a { color: inherit; text-decoration: none; }
+    /* HERO */
+    .hero-marquee-section{position:relative;width:100%;height:100vh;background:var(--black);overflow:hidden;display:flex;align-items:stretch;contain:strict}
+    .marquee-track{display:flex;align-items:stretch;gap:0;width:max-content;height:100%;animation:scrollH 45s linear infinite;will-change:transform;transform:translateZ(0)}
+    .hero-marquee-section:hover .marquee-track{animation-play-state:paused}
+    .grid-item{width:25vw;height:100%;flex:0 0 25vw;position:relative;overflow:hidden;background:#111;border-right:1px solid rgba(255,255,255,.04)}
+    .grid-item img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(100%) brightness(.65);transition:filter .5s,transform .6s}
+    .grid-item:hover img{filter:grayscale(0%) brightness(1);transform:scale(1.04)}
+    .hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;pointer-events:none;text-align:center;mix-blend-mode:exclusion;padding:0 16px}
+    .hero-big-title{font-family:var(--font-d);font-size:clamp(64px,11vw,160px);line-height:.88;color:var(--white);letter-spacing:-.02em;text-transform:uppercase}
+    .hero-subtitle{font-family:var(--font-m);font-size:clamp(.55rem,1.1vw,.85rem);letter-spacing:.35em;color:var(--white);margin-top:14px;text-transform:uppercase}
+    @keyframes scrollH{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-        /* ── TOP BAR ── */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ddd;
-            font-size: 10px;
-            font-family: var(--font-mono);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            background: rgba(245, 245, 240, 0.95);
-            backdrop-filter: blur(5px);
-        }
+    /* TICKER */
+    .ticker-wrap{width:100%;overflow:hidden;background:var(--red);color:var(--white);padding:10px 0;white-space:nowrap;z-index:150}
+    .ticker{display:inline-flex;width:max-content;animation:tick 25s linear infinite}
+    .t-item{font-size:10px;font-family:var(--font-m);padding:0 28px;letter-spacing:.15em;text-transform:uppercase}
+    .t-sep{padding:0 8px;opacity:.6}
+    @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-33.33%)}}
 
-        .topbar-left { display: block; }
-        .topbar-nav { display: flex; gap: 20px; font-size: 9px; white-space: nowrap; }
-        .topbar-right { display: flex; gap: 15px; align-items: center; }
+    /* SECTION BASE */
+    .sec{padding:100px 48px;position:relative;overflow:hidden}
+    .sec-label{font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:14px;font-family:var(--font-m)}
+    .sec-title{font-family:var(--font-u);font-weight:900;font-size:clamp(30px,4.5vw,68px);line-height:.93;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:40px}
 
-        /* ══════════════════════════════════════
-           HERO MARQUEE — FULLSCREEN, ALL ITEMS
-           SAME HEIGHT, COVER FIT (NO GAPS)
-           ══════════════════════════════════════ */
-        .hero-marquee-section {
-            position: relative;
-            width: 100%;
-            height: 100vh;          /* true fullscreen on all devices */
-            background: var(--black);
-            overflow: hidden;
-            display: flex;
-            align-items: stretch;   /* children fill full height */
-        }
+    /* SCROLL REVEAL */
+    .reveal{opacity:0;transform:translateY(60px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+    .reveal.on{opacity:1;transform:none}
+    .rl{opacity:0;transform:translateX(-80px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+    .rr{opacity:0;transform:translateX(80px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+    .rl.on,.rr.on{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.36s}.d4{transition-delay:.52s}
 
-        /* The sliding track — no gap so images sit flush */
-        .marquee-track {
-            display: flex;
-            align-items: stretch;
-            gap: 0;
-            width: max-content;
-            height: 100%;
-            animation: scrollHorizontal 45s linear infinite;
-            will-change: transform;
-        }
+    /* DROPS */
+    #drops{background:var(--black)}
+    .drops-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px;flex-wrap:wrap;gap:20px}
+    .pill{border:1px solid rgba(255,255,255,.22);padding:11px 28px;font-size:9px;font-family:var(--font-m);letter-spacing:.12em;text-transform:uppercase;border-radius:50px;cursor:none;transition:.3s;background:transparent;color:var(--white);display:inline-block}
+    .pill:hover{background:var(--red);border-color:var(--red);transform:translateY(-2px)}
+    .pill.inv{background:var(--white);color:var(--black);border-color:var(--white)}
+    .pill.inv:hover{background:var(--red);color:var(--white);border-color:var(--red)}
 
-        .hero-marquee-section:hover .marquee-track {
-            animation-play-state: paused;
-        }
+    .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;perspective:1200px}
+    .pcard{position:relative;cursor:none;transform-style:preserve-3d;transition:transform .12s ease;background:var(--dim);border-radius:3px;border:1px solid rgba(255,255,255,.06)}
+    .pcard::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:5}
+    .pcard:hover::before{transform:scaleX(1)}
+    .pcard::after{content:'';position:absolute;inset:0;border-radius:3px;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 55%);pointer-events:none;z-index:3}
+    .pimg{width:100%;aspect-ratio:3/4;overflow:hidden;background:#0e0e0e;border-radius:3px 3px 0 0}
+    .pimg img{transition:transform .6s ease;transform:scale(1.02)}
+    .pcard:hover .pimg img{transform:scale(1.12)}
+    .pinfo{padding:16px 14px 22px;position:relative;z-index:2}
+    .pname{font-family:var(--font-m);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px}
+    .pstatus{font-size:9px;letter-spacing:.15em;color:var(--red)}
+    .pstatus.sold{color:var(--muted)}
+    .padd{position:absolute;bottom:16px;right:14px;font-size:8px;letter-spacing:.12em;color:var(--red);text-transform:uppercase;opacity:0;transform:translateX(8px);transition:opacity .3s,transform .3s}
+    .pcard:hover .padd{opacity:1;transform:none}
 
-        /* Each slide is a fixed fraction of the viewport width.
-           object-fit: cover fills the slot regardless of source ratio. */
-        .grid-item {
-            width: 25vw;            /* 4 visible columns on desktop */
-            height: 100%;           /* full track height = 100vh */
-            flex: 0 0 25vw;
-            position: relative;
-            overflow: hidden;
-            background: #111;
-            border-right: 1px solid rgba(255,255,255,0.06);
-            transition: filter 0.4s ease;
-        }
+    /* MANIFESTO */
+    #manifesto{background:var(--red);color:var(--white);padding:120px 48px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;overflow:hidden;position:relative}
+    #manifesto::before{content:'404';position:absolute;font-family:var(--font-d);font-size:38vw;line-height:1;color:rgba(0,0,0,.12);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;z-index:0}
+    .mf-l,.mf-r{position:relative;z-index:1}
+    .mf-quote{font-family:var(--font-u);font-weight:900;font-size:clamp(26px,4vw,62px);line-height:.93;text-transform:uppercase;letter-spacing:-.02em}
+    .mf-stats{display:flex;gap:36px;margin-top:32px;flex-wrap:wrap}
+    .stat-n{font-family:var(--font-d);font-size:54px;line-height:1;display:block}
+    .stat-l{font-size:8px;letter-spacing:.2em;opacity:.7;text-transform:uppercase}
+    .mf-body{font-family:var(--font-m);font-size:11.5px;line-height:1.95;opacity:.85;margin-bottom:30px}
 
-        .grid-item img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;      /* KEY: covers slot, crops if needed */
-            object-position: center top;
-            filter: grayscale(100%) brightness(0.75);
-            transition: filter 0.5s ease, transform 0.6s ease;
-            will-change: transform;
-        }
+    /* VIDEO */
+    #campaign{background:#050505;padding:80px 48px 100px}
+    .vid-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:20px}
+    .vid-wrap{position:relative;border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.06);box-shadow:0 60px 120px -20px rgba(0,0,0,.9);contain:layout style}
+    .vid-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 45%);pointer-events:none;z-index:2}
+    .lvid{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;transition:transform .6s ease;will-change:transform;transform:translateZ(0)}
+    .vid-wrap:hover .lvid{transform:scale(1.02) translateZ(0)}
+    .mbtn{position:absolute;bottom:22px;right:22px;width:44px;height:44px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);border-radius:50%;color:white;font-size:16px;cursor:none;z-index:10;display:flex;align-items:center;justify-content:center;transition:.3s}
+    .mbtn:hover{background:var(--red);border-color:var(--red)}
+    .vbadge{position:absolute;bottom:22px;left:22px;z-index:10;font-family:var(--font-m);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+    .vbadge span{color:var(--red)}
 
-        /* Hover: restore colour + slight zoom */
-        .grid-item:hover img {
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.04);
-        }
+    /* LOOKBOOK */
+    #lookbook{background:var(--black);padding:80px 48px 100px}
+    .lkgrid{display:grid;grid-template-columns:1.45fr 1fr 1fr;grid-template-rows:auto auto;gap:10px;margin-top:40px}
+    .lkitem{position:relative;overflow:hidden;border-radius:3px;background:var(--dim);cursor:none}
+    .lkitem:first-child{grid-row:span 2}
+    .lkitem img{width:100%;height:100%;object-fit:cover;min-height:280px;filter:grayscale(55%);transition:filter .5s,transform .7s cubic-bezier(.16,1,.3,1)}
+    .lkitem:hover img{filter:grayscale(0%);transform:scale(1.07)}
+    .lktag{position:absolute;bottom:14px;left:14px;background:rgba(8,8,8,.88);color:var(--white);font-family:var(--font-m);font-size:8px;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:2px;opacity:0;transform:translateY(8px);transition:.3s}
+    .lkitem:hover .lktag{opacity:1;transform:none}
 
-        /* ── Hero text overlay — sits above the strip ── */
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            pointer-events: none;
-            text-align: center;
-            mix-blend-mode: exclusion;
-            padding: 0 16px;
-        }
+    /* SEAL */
+    #seal{background:var(--dim);display:flex;align-items:center;justify-content:center;padding:100px 48px;gap:100px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.05)}
+    .seal-wrap{width:280px;height:280px;position:relative;perspective:700px;flex-shrink:0}
+    .seal-inner{width:100%;height:100%;transform-style:preserve-3d;animation:sealSpin 14s linear infinite;position:relative}
+    @keyframes sealSpin{0%{transform:rotateY(0deg) rotateX(10deg)}100%{transform:rotateY(360deg) rotateX(10deg)}}
+    .seal-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;backface-visibility:hidden}
+    .seal-ring{width:280px;height:280px;position:absolute;top:0;left:0;animation:ringRot 14s linear infinite;pointer-events:none}
+    @keyframes ringRot{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+    .seal-txt{max-width:440px}
+    .seal-txt p{font-family:var(--font-m);font-size:12px;line-height:1.95;color:var(--muted);margin-top:18px}
 
-        .hero-big-title {
-            font-family: var(--font-display);
-            font-size: clamp(64px, 11vw, 160px);
-            line-height: 0.88;
-            color: var(--white);
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-        }
+    /* CTA */
+    #cta{background:var(--red);padding:80px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:40px;position:relative;overflow:hidden}
+    #cta::before{content:'JOIN';position:absolute;right:-2vw;top:50%;transform:translateY(-50%);font-family:var(--font-d);font-size:30vw;line-height:1;color:rgba(0,0,0,.1);pointer-events:none;white-space:nowrap}
+    .cta-copy{position:relative;z-index:1}
+    .cta-copy h2{font-family:var(--font-u);font-weight:900;font-size:clamp(26px,3.8vw,58px);text-transform:uppercase;letter-spacing:-.02em;line-height:.93}
+    .cta-copy p{font-family:var(--font-m);font-size:11px;opacity:.8;margin-top:10px}
+    .cta-form{display:flex;gap:0;position:relative;z-index:1}
+    .cta-in{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.28);border-right:none;color:white;padding:14px 20px;font-family:var(--font-m);font-size:10px;letter-spacing:.1em;outline:none;min-width:260px}
+    .cta-in::placeholder{color:rgba(255,255,255,.45)}
+    .cta-btn{background:var(--black);color:var(--white);border:1px solid var(--black);padding:14px 28px;font-family:var(--font-m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:none;transition:.3s}
+    .cta-btn:hover{background:var(--white);color:var(--black)}
 
-        .hero-subtitle {
-            font-family: var(--font-mono);
-            font-size: clamp(0.6rem, 1.2vw, 0.9rem);
-            letter-spacing: 0.3em;
-            color: var(--white);
-            margin-top: 14px;
-            display: block;
-            text-transform: uppercase;
-        }
+    /* FOOTER */
+    footer{background:#0d0d0d;border-top:1px solid rgba(255,255,255,.05);padding:80px 48px 48px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:60px}
+    .fb h3{font-family:var(--font-d);font-size:40px;letter-spacing:.02em;margin-bottom:16px}
+    .fb p{font-size:11px;color:var(--muted);line-height:1.85}
+    .fcontact{margin-top:22px;font-size:11px}
+    .fcontact p{color:var(--muted);margin-bottom:3px}
+    .socs{display:flex;gap:10px;margin-top:16px}
+    .soc{width:38px;height:38px;border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:10px;transition:.3s;cursor:none}
+    .soc:hover{background:var(--red);border-color:var(--red);transform:scale(1.1) rotate(8deg)}
+    .fc h4{font-family:var(--font-m);font-size:9px;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin-bottom:18px}
+    .fc a{display:block;font-size:12px;color:var(--muted);margin-bottom:10px;transition:color .2s}
+    .fc a:hover{color:var(--white)}
+    .fbot{background:#0d0d0d;border-top:1px solid rgba(255,255,255,.04);padding:18px 48px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:rgba(255,255,255,.28);letter-spacing:.1em;flex-wrap:wrap;gap:10px}
 
-        @keyframes scrollHorizontal {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+    /* COOKIE */
+    .ckb{position:fixed;bottom:24px;right:24px;background:var(--dim);color:var(--white);padding:18px 22px;font-family:var(--font-m);font-size:10px;z-index:9000;border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.6);display:flex;align-items:center;gap:14px;max-width:370px;transform:translateY(120px);animation:suUp .8s 2.5s forwards cubic-bezier(.16,1,.3,1)}
+    @keyframes suUp{to{transform:translateY(0)}}
+    .ckb button{background:var(--red);color:white;border:none;padding:9px 18px;font-family:var(--font-m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:none;transition:.2s;white-space:nowrap}
+    .ckb button:hover{background:white;color:black}
 
-        /* ── TICKER ── */
-        .ticker-wrap {
-            width: 100%;
-            overflow: hidden;
-            background: var(--black);
-            color: var(--white);
-            padding: 12px 0;
-            white-space: nowrap;
-            border-bottom: 1px solid var(--black);
-            z-index: 150;
-        }
-
-        .ticker {
-            display: inline-flex;
-            width: max-content;
-            animation: ticker-scroll 30s linear infinite;
-        }
-
-        .ticker-item, .ticker-separator {
-            font-size: 11px;
-            font-family: var(--font-mono);
-            padding: 0 30px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-        }
-
-        @keyframes ticker-scroll {
-            0%   { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-33.33%, 0, 0); }
-        }
-
-        /* ── FEATURED PRODUCTS ── */
-        .section { padding: 60px 20px; position: relative; }
-
-        .section-header {
-            display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 32px; font-weight: 700;
-            letter-spacing: -0.03em; font-family: var(--font-display);
-        }
-
-        .pill-btn {
-            border: 1px solid #ccc; padding: 10px 24px;
-            font-size: 10px; font-family: var(--font-mono);
-            letter-spacing: 0.1em; text-transform: uppercase;
-            border-radius: 50px; cursor: pointer; transition: 0.3s;
-            background: transparent;
-        }
-        .pill-btn:hover {
-            background: var(--black); color: var(--white);
-            border-color: var(--black);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            perspective: 1000px;
-        }
-
-        @media (min-width: 769px) {
-            .products-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
-        }
-
-        .product-card {
-            background: white; position: relative; cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease;
-            border-radius: 4px;
-        }
-
-        .product-inner { width: 100%; height: 100%; position: relative; z-index: 2; }
-
-        .product-img {
-            width: 100%; aspect-ratio: 3/4;
-            overflow: hidden; background: #f0f0f0;
-            border-radius: 4px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .product-card:hover .product-img { box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
-
-        .product-img img {
-            display: block; width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .product-card:hover .product-img img { transform: scale(1.15); }
-
-        .product-info { padding-top: 20px; text-align: center; }
-        .product-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; transition: 0.3s; }
-        .product-price { font-size: 13px; color: #666; transition: 0.3s; }
-        .sold-out { color: var(--accent); font-weight: 700; font-size: 11px; font-family: var(--font-mono); letter-spacing: 0.05em; }
-
-        .product-card:hover .product-name { color: var(--black); transform: scale(1.1); }
-        .product-card:hover .product-price { opacity: 0; }
-
-        .add-btn {
-            position: absolute; bottom: 0; left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--black); color: var(--white);
-            padding: 8px 16px; font-size: 10px;
-            font-family: var(--font-mono);
-            opacity: 0; transition: 0.3s;
-            pointer-events: none; border-radius: 2px;
-        }
-        .product-card:hover .add-btn { opacity: 1; transform: translateX(-50%) translateY(-10px); }
-
-        /* ── VIDEO SHOWCASE ── */
-        .video-container {
-            position: relative; width: 100%; aspect-ratio: 16/9;
-            background: #000; border-radius: 4px; overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            border: 1px solid #ddd;
-        }
-
-        .landscape-video {
-            width: 100%; height: 100%; object-fit: cover;
-            display: block; transition: transform 0.5s ease;
-        }
-        .video-container:hover .landscape-video { transform: scale(1.02); }
-
-        .mute-btn {
-            position: absolute; bottom: 20px; right: 20px;
-            width: 40px; height: 40px;
-            background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.5); border-radius: 50%;
-            color: white; font-size: 16px; cursor: pointer; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .mute-btn:hover { background: white; color: black; }
-
-        .video-text-overlay {
-            position: absolute; bottom: 20px; left: 20px;
-            color: white; font-family: var(--font-mono);
-            font-size: 10px; letter-spacing: 0.2em;
-            text-transform: uppercase; z-index: 5;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            pointer-events: none;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            padding: 60px 20px; border-top: 1px solid #ddd;
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px;
-        }
-        .footer-contact h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 10px; }
-        .socials { display: flex; gap: 10px; margin-top: 15px; }
-        .social-box {
-            width: 40px; height: 40px; border: 1px solid #ccc;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; transition: 0.3s;
-        }
-        .social-box:hover { background: var(--black); color: var(--white); transform: rotate(15deg); }
-
-        .cookie-banner {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--black); color: var(--white);
-            padding: 20px 25px; font-family: var(--font-mono); font-size: 11px;
-            z-index: 999; border: 1px solid #333;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            display: flex; align-items: center; gap: 15px;
-            transform: translateY(100px);
-            animation: slideUp 0.8s 2s forwards cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideUp { to { transform: translateY(0); } }
-        .cookie-btn {
-            background: white; color: black; border: none;
-            padding: 8px 16px; cursor: pointer;
-            font-weight: bold; text-transform: uppercase;
-        }
-
-        /* ══════════════════════════════════════
-           RESPONSIVE — MOBILE
-           On mobile each slide is 100vw so one
-           image fills the screen perfectly.
-           ══════════════════════════════════════ */
-        @media (max-width: 768px) {
-            .topbar-left { display: none; }
-
-            /* Mobile: one image at a time, full-screen */
-            .grid-item {
-                width: 100vw;
-                flex: 0 0 100vw;
-                border-right: none;
-            }
-
-            .hero-big-title { font-size: clamp(52px, 18vw, 80px); }
-
-            .video-container {
-                border-radius: 0;
-                border-left: none; border-right: none;
-                box-shadow: none;
-            }
-            .mute-btn { width: 32px; height: 32px; bottom: 15px; right: 15px; font-size: 12px; }
-            .video-text-overlay { font-size: 9px; left: 15px; bottom: 15px; }
-
-            .section { padding: 40px 16px; }
-            footer { grid-template-columns: 1fr; gap: 30px; padding-bottom: 80px; }
-            .cookie-banner {
-                left: 16px; right: 16px; bottom: 16px;
-                max-width: none; flex-direction: column; align-items: flex-start;
-            }
-            .products-grid { gap: 10px; }
-        }
-    </style>
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      .pgrid{grid-template-columns:repeat(2,1fr)}
+      #manifesto{grid-template-columns:1fr;gap:40px;padding:80px 28px}
+      .lkgrid{grid-template-columns:1fr 1fr}
+      .lkitem:first-child{grid-row:auto}
+      footer{grid-template-columns:1fr 1fr;gap:40px;padding:60px 28px 40px}
+      .seal-wrap{width:220px;height:220px}
+      .seal-ring{width:220px;height:220px}
+      #seal{gap:50px;padding:80px 28px}
+    }
+    @media(max-width:600px){
+      body{cursor:auto}
+      #cur,#cur-ring{display:none}
+      .topbar-left{display:none}
+      .grid-item{width:100vw;flex:0 0 100vw;border-right:none}
+      .hero-big-title{font-size:clamp(50px,18vw,76px)}
+      .sec{padding:70px 20px}
+      #manifesto{padding:70px 20px}
+      #manifesto::before{font-size:60vw}
+      #campaign,#lookbook,#seal,#cta{padding:70px 20px}
+      .cta-form{flex-direction:column}
+      .cta-in{min-width:auto;border-right:1px solid rgba(255,255,255,.28);border-bottom:none}
+      .lkgrid{grid-template-columns:1fr}
+      footer{grid-template-columns:1fr;gap:28px;padding:60px 20px 40px}
+      .fbot{padding:16px 20px}
+      .ckb{left:16px;right:16px;bottom:16px;flex-direction:column;align-items:flex-start}
+      .pgrid{gap:10px}
+      #drops,#campaign,#lookbook{padding-left:20px;padding-right:20px}
+      .drops-hdr,.vid-hdr{padding:0}
+    }
+  </style>
 </head>
-
 <body>
 
-    <div class="noise-overlay"></div>
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+  <div class="noise"></div>
 
-    <!-- TOP BAR -->
-    <nav class="topbar">
-        <span class="topbar-left">18, FEB, 2026 — LAGOS, NG</span>
-        <div class="topbar-nav">
-            <a href="#">SHOP</a>
-            <a href="#">INDEX</a>
-            <a href="#">STORIES</a>
-        </div>
-        <div class="topbar-right">
-            <span>BAG(0)</span>
-            <span>MENU +</span>
-        </div>
-    </nav>
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <span>18 FEB 2026 — LAGOS NG</span>
+    <div class="topbar-nav">
+      <a href="#">SHOP</a>
+      <a href="#">INDEX</a>
+      <a href="#">STORIES</a>
+    </div>
+    <div class="topbar-right">
+      <span>BAG(0)</span>
+      <span>MENU +</span>
+    </div>
+  </nav>
 
-    <!-- HERO — FULLSCREEN MARQUEE -->
-    <section class="hero-marquee-section">
+  <!-- HERO -->
+  <section class="hero-marquee-section">
+    <div class="hero-overlay">
+      <h1 class="hero-big-title">404 Gang<br>Wear</h1>
+      <span class="hero-subtitle">AFRICAN FUTURISM / STREET COUTURE</span>
+    </div>
+    <div class="marquee-track">
+      <div class="grid-item"><img src="mockup2.png"   alt="" onerror="this.src='https://picsum.photos/seed/404a/600/900'"></div>
+      <div class="grid-item"><img src="mockup22.png"  alt="" onerror="this.src='https://picsum.photos/seed/404b/600/900'"></div>
+      <div class="grid-item"><img src="6.png"         alt="" onerror="this.src='https://picsum.photos/seed/404c/600/900'"></div>
+      <div class="grid-item"><img src="5.png"         alt="" onerror="this.src='https://picsum.photos/seed/404d/600/900'"></div>
+      <div class="grid-item"><img src="bilbords.png"  alt="" onerror="this.src='https://picsum.photos/seed/404e/600/900'"></div>
+      <div class="grid-item"><img src="logobaruu.png" alt="" onerror="this.src='https://picsum.photos/seed/404f/600/900'"></div>
+      <div class="grid-item"><img src="3fetured.jpg"  alt="" onerror="this.src='https://picsum.photos/seed/404g/600/900'"></div>
+      <div class="grid-item"><img src="2fetured.jpg"  alt="" onerror="this.src='https://picsum.photos/seed/404h/600/900'"></div>
+      <div class="grid-item"><img src="mockup2.png"   alt="" onerror="this.src='https://picsum.photos/seed/404a/600/900'"></div>
+      <div class="grid-item"><img src="mockup22.png"  alt="" onerror="this.src='https://picsum.photos/seed/404b/600/900'"></div>
+      <div class="grid-item"><img src="6.png"         alt="" onerror="this.src='https://picsum.photos/seed/404c/600/900'"></div>
+      <div class="grid-item"><img src="5.png"         alt="" onerror="this.src='https://picsum.photos/seed/404d/600/900'"></div>
+      <div class="grid-item"><img src="bilbords.png"  alt="" onerror="this.src='https://picsum.photos/seed/404e/600/900'"></div>
+      <div class="grid-item"><img src="logobaruu.png" alt="" onerror="this.src='https://picsum.photos/seed/404f/600/900'"></div>
+      <div class="grid-item"><img src="3fetured.jpg"  alt="" onerror="this.src='https://picsum.photos/seed/404g/600/900'"></div>
+      <div class="grid-item"><img src="2fetured.jpg"  alt="" onerror="this.src='https://picsum.photos/seed/404h/600/900'"></div>
+    </div>
+  </section>
 
-        <!-- Text overlaid on top of the strip -->
-        <div class="hero-overlay">
-            <h1 class="hero-big-title">404 Gang<br>Wear</h1>
-            <span class="hero-subtitle">AFRICAN FUTURISM / STREET COUTURE</span>
-        </div>
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="t-item">WELCOME TO THE 404 UNIVERSE</span><span class="t-sep">◆</span>
+      <span class="t-item">NEW DROPS AVAILABLE NOW</span><span class="t-sep">◆</span>
+      <span class="t-item">FREE SHIPPING ORDERS OVER $200</span><span class="t-sep">◆</span>
+      <span class="t-item">AFRICAN FUTURISM / STREET COUTURE</span><span class="t-sep">◆</span>
+      <span class="t-item">WELCOME TO THE 404 UNIVERSE</span><span class="t-sep">◆</span>
+      <span class="t-item">NEW DROPS AVAILABLE NOW</span><span class="t-sep">◆</span>
+      <span class="t-item">FREE SHIPPING ORDERS OVER $200</span><span class="t-sep">◆</span>
+      <span class="t-item">AFRICAN FUTURISM / STREET COUTURE</span><span class="t-sep">◆</span>
+      <span class="t-item">WELCOME TO THE 404 UNIVERSE</span><span class="t-sep">◆</span>
+      <span class="t-item">NEW DROPS AVAILABLE NOW</span><span class="t-sep">◆</span>
+      <span class="t-item">FREE SHIPPING ORDERS OVER $200</span><span class="t-sep">◆</span>
+      <span class="t-item">AFRICAN FUTURISM / STREET COUTURE</span><span class="t-sep">◆</span>
+    </div>
+  </div>
 
-        <!-- Marquee strip: SET 1 + SET 2 (duplicate for seamless loop) -->
-        <div class="marquee-track">
-            <!-- SET 1 -->
-            <div class="grid-item"><img src="mockup2.png"   alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/600/800'"></div>
-            <div class="grid-item"><img src="mockup22.png"  alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/600/800'"></div>
-            <div class="grid-item"><img src="6.png"         alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/600/800'"></div>
-            <div class="grid-item"><img src="5.png"         alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/600/800'"></div>
-            <div class="grid-item"><img src="bilbords.png"  alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/600/800'"></div>
-            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/600/800'"></div>
-            <div class="grid-item"><img src="3fetured.jpg"  alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/600/800'"></div>
-            <div class="grid-item"><img src="2fetured.jpg"  alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/600/800'"></div>
-            <!-- SET 2 (duplicate for seamless loop) -->
-            <div class="grid-item"><img src="mockup2.png"   alt="Item 1" onerror="this.src='https://picsum.photos/seed/404a/600/800'"></div>
-            <div class="grid-item"><img src="mockup22.png"  alt="Item 2" onerror="this.src='https://picsum.photos/seed/404b/600/800'"></div>
-            <div class="grid-item"><img src="6.png"         alt="Item 3" onerror="this.src='https://picsum.photos/seed/404c/600/800'"></div>
-            <div class="grid-item"><img src="5.png"         alt="Item 4" onerror="this.src='https://picsum.photos/seed/404d/600/800'"></div>
-            <div class="grid-item"><img src="bilbords.png"  alt="Item 5" onerror="this.src='https://picsum.photos/seed/404e/600/800'"></div>
-            <div class="grid-item"><img src="logobaruu.png" alt="Item 6" onerror="this.src='https://picsum.photos/seed/404f/600/800'"></div>
-            <div class="grid-item"><img src="3fetured.jpg"  alt="Item 7" onerror="this.src='https://picsum.photos/seed/404g/600/800'"></div>
-            <div class="grid-item"><img src="2fetured.jpg"  alt="Item 8" onerror="this.src='https://picsum.photos/seed/404h/600/800'"></div>
-        </div>
-    </section>
+  <!-- FEATURED DROPS -->
+  <section class="sec" id="drops">
+    <div class="drops-hdr reveal">
+      <div>
+        <div class="sec-label">SS26 COLLECTION</div>
+        <h2 class="sec-title">Featured<br>Drops</h2>
+      </div>
+      <a href="#" class="pill">SHOP ALL →</a>
+    </div>
+    <div class="pgrid">
+      <div class="pcard js-tilt reveal d1">
+        <div class="pimg"><img src="mockup2.png" alt="" onerror="this.src='https://picsum.photos/seed/p1/400/530'"></div>
+        <div class="pinfo"><div class="pname">404 Lagos Hat</div><div class="pstatus">OPEN PO</div></div>
+        <div class="padd">ADD TO CART →</div>
+      </div>
+      <div class="pcard js-tilt reveal d2">
+        <div class="pimg"><img src="mockup22.png" alt="" onerror="this.src='https://picsum.photos/seed/p2/400/530'"></div>
+        <div class="pinfo"><div class="pname">404 Petal Polo</div><div class="pstatus">OPEN PO</div></div>
+        <div class="padd">ADD TO CART →</div>
+      </div>
+      <div class="pcard js-tilt reveal d3">
+        <div class="pimg"><img src="6.png" alt="" onerror="this.src='https://picsum.photos/seed/p3/400/530'"></div>
+        <div class="pinfo"><div class="pname">404 Lagos Scarf</div><div class="pstatus sold">SOLD OUT</div></div>
+        <div class="padd">NOTIFY ME →</div>
+      </div>
+      <div class="pcard js-tilt reveal d4">
+        <div class="pimg"><img src="5.png" alt="" onerror="this.src='https://picsum.photos/seed/p4/400/530'"></div>
+        <div class="pinfo"><div class="pname">404 Petal Cargo</div><div class="pstatus sold">SOLD OUT</div></div>
+        <div class="padd">NOTIFY ME →</div>
+      </div>
+    </div>
+  </section>
 
-    <!-- TICKER -->
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">NEW DROPS AVAILABLE</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">NEW DROPS AVAILABLE</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">WELCOME TO THE 404 UNIVERSE</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">NEW DROPS AVAILABLE</div>
-            <div class="ticker-separator">◆</div>
-            <div class="ticker-item">FREE SHIPPING ON ORDERS OVER $200</div>
-            <div class="ticker-separator">◆</div>
+  <!-- MANIFESTO -->
+  <section id="manifesto">
+    <div class="mf-l rl">
+      <div class="sec-label">BRAND MANIFESTO</div>
+      <div class="mf-quote">We don't<br>belong<br>anywhere.<br>That's the<br>point.</div>
+      <div class="mf-stats">
+        <div><span class="stat-n">404</span><span class="stat-l">Error Code</span></div>
+        <div><span class="stat-n">∞</span><span class="stat-l">Iterations</span></div>
+        <div><span class="stat-n">01</span><span class="stat-l">Universe</span></div>
+      </div>
+    </div>
+    <div class="mf-r rr">
+      <p class="mf-body">404 Brand was born from the error — the gap between what the system expects and what we actually are. We take African futurism, street energy, and couture precision and crash them together until something new comes out the other side.<br><br>Every piece is a signal. Every drop is a statement. If you find it, you were meant to.</p>
+      <a href="#" class="pill inv">READ THE STORY →</a>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="campaign">
+    <div class="vid-hdr reveal">
+      <div>
+        <div class="sec-label">SS26 BTS</div>
+        <h2 class="sec-title">The Campaign</h2>
+      </div>
+      <a href="#" class="pill">WATCH 4K →</a>
+    </div>
+    <div class="vid-wrap">
+      <video class="lvid" autoplay muted loop playsinline
+        poster="https://picsum.photos/seed/vid/1400/790" id="campaignVideo">
+        <source src="btsweb2.mp4" type="video/mp4">
+      </video>
+      <button class="mbtn" onclick="toggleMute()"><span id="muteIcon">🔇</span></button>
+      <div class="vbadge">SS26 COLLECTION — <span>LAGOS</span></div>
+    </div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section id="lookbook">
+    <div class="reveal">
+      <div class="sec-label">EDITORIAL</div>
+      <h2 class="sec-title">Lookbook</h2>
+    </div>
+    <div class="lkgrid">
+      <div class="lkitem rl"><img src="3fetured.jpg" alt="" style="min-height:580px" onerror="this.src='https://picsum.photos/seed/lk1/700/920'"><div class="lktag">SS26 — HERO SHOT</div></div>
+      <div class="lkitem reveal d1"><img src="2fetured.jpg" alt="" onerror="this.src='https://picsum.photos/seed/lk2/500/400'"><div class="lktag">PETAL POLO</div></div>
+      <div class="lkitem reveal d2"><img src="bilbords.png" alt="" onerror="this.src='https://picsum.photos/seed/lk3/500/400'"><div class="lktag">SCARF SERIES</div></div>
+      <div class="lkitem reveal d3"><img src="5.png" alt="" onerror="this.src='https://picsum.photos/seed/lk4/500/400'"><div class="lktag">CARGO SERIES</div></div>
+      <div class="lkitem reveal d4"><img src="6.png" alt="" onerror="this.src='https://picsum.photos/seed/lk5/500/400'"><div class="lktag">ACCESSORIES</div></div>
+    </div>
+  </section>
+
+  <!-- 3D SEAL -->
+  <section id="seal">
+    <div class="seal-wrap rl">
+      <div class="seal-inner" id="sealInner">
+        <div class="seal-face">
+          <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="140" cy="140" r="128" stroke="#cc3300" stroke-width="1.5"/>
+            <circle cx="140" cy="140" r="116" stroke="rgba(204,51,0,.25)" stroke-width="1"/>
+            <polygon points="140,22 157,96 224,96 170,138 192,210 140,170 88,210 110,138 56,96 123,96"
+              fill="none" stroke="#cc3300" stroke-width="1.2" opacity=".45"/>
+            <text x="140" y="126" text-anchor="middle" font-family="'Bebas Neue',sans-serif"
+              font-size="58" fill="#f2f0eb" letter-spacing="2">404</text>
+            <text x="140" y="158" text-anchor="middle" font-family="'IBM Plex Mono',monospace"
+              font-size="11.5" fill="#cc3300" letter-spacing="5.5">BRAND</text>
+            <text x="140" y="178" text-anchor="middle" font-family="'IBM Plex Mono',monospace"
+              font-size="8" fill="rgba(242,240,235,.45)" letter-spacing="3.5">LAGOS · NG</text>
+            <g stroke="rgba(204,51,0,.55)" stroke-width="1.5">
+              <line x1="140" y1="12" x2="140" y2="24"/>
+              <line x1="140" y1="256" x2="140" y2="268"/>
+              <line x1="12"  y1="140" x2="24"  y2="140"/>
+              <line x1="256" y1="140" x2="268" y2="140"/>
+            </g>
+            <!-- 12 tick marks -->
+            <g stroke="rgba(204,51,0,.3)" stroke-width="1">
+              <line x1="196" y1="20" x2="191" y2="31"/><line x1="84" y1="20" x2="89" y2="31"/>
+              <line x1="20" y1="84" x2="31" y2="89"/><line x1="20" y1="196" x2="31" y2="191"/>
+              <line x1="84" y1="260" x2="89" y2="249"/><line x1="196" y1="260" x2="191" y2="249"/>
+              <line x1="260" y1="196" x2="249" y2="191"/><line x1="260" y1="84" x2="249" y2="89"/>
+            </g>
+          </svg>
         </div>
+      </div>
+      <svg class="seal-ring" viewBox="0 0 280 280">
+        <defs><path id="rp" d="M140,140 m-106,0 a106,106 0 1,1 212,0 a106,106 0 1,1 -212,0"/></defs>
+        <text font-family="'IBM Plex Mono',monospace" font-size="9" fill="#cc3300" letter-spacing="5.5" opacity=".65">
+          <textPath href="#rp">404 BRAND · AFRICAN FUTURISM · STREET COUTURE · SS26 · </textPath>
+        </text>
+      </svg>
     </div>
 
-    <!-- FEATURED PRODUCTS -->
-    <section class="section">
-        <div class="section-header">
-            <h2 class="section-title">Featured Drops</h2>
-            <a href="#" class="pill-btn">SHOP ALL</a>
-        </div>
-        <div class="products-grid">
-            <div class="product-card js-tilt">
-                <div class="product-inner">
-                    <div class="product-img">
-                        <img src="mockup2.png" alt="404 Lagos Hat" onerror="this.src='https://picsum.photos/seed/shirt1/300/400'">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">404 Lagos Hat</div>
-                        <div class="sold-out">OPEN PO</div>
-                    </div>
-                    <div class="add-btn">ADD TO CART</div>
-                </div>
-            </div>
-            <div class="product-card js-tilt">
-                <div class="product-inner">
-                    <div class="product-img">
-                        <img src="mockup22.png" alt="404 Petal Polo" onerror="this.src='https://picsum.photos/seed/shirt2/300/400'">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">404 Petal Polo</div>
-                        <div class="sold-out">OPEN PO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card js-tilt">
-                <div class="product-inner">
-                    <div class="product-img">
-                        <img src="6.png" alt="404 'Lagos' Scarf" onerror="this.src='https://picsum.photos/seed/scarf/300/400'">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">404 'Lagos' Scarf</div>
-                        <div class="product-price">SOLD OUT</div>
-                    </div>
-                    <div class="add-btn">ADD TO CART</div>
-                </div>
-            </div>
-            <div class="product-card js-tilt">
-                <div class="product-inner">
-                    <div class="product-img">
-                        <img src="5.png" alt="404 Petal Cargo" onerror="this.src='https://picsum.photos/seed/cargo/300/400'">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">404 Petal Cargo</div>
-                        <div class="product-price">SOLD OUT</div>
-                    </div>
-                    <div class="add-btn">ADD TO CART</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- VIDEO SHOWCASE -->
-    <section class="section" style="background: #fafaf9;">
-        <div class="section-header">
-            <h2 class="section-title">The Campaign</h2>
-            <div style="display: flex; gap: 15px;">
-                <a href="#" class="pill-btn" style="background: var(--black); color: var(--white);">WATCH 4K</a>
-            </div>
-        </div>
-        <div class="video-container">
-            <video class="landscape-video" autoplay muted loop playsinline
-                poster="https://picsum.photos/seed/poster/1200/675" id="campaignVideo">
-                <source src="btsweb2.mp4" type="video/mp4">
-            </video>
-            <button class="mute-btn" id="muteToggle" onclick="toggleMute()">
-                <span id="muteIcon">🔇</span>
-            </button>
-            <div class="video-text-overlay"><span>SS26 COLLECTION — LAGOS</span></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-contact">
-            <h3>404 BRAND</h3>
-            <div style="margin-top:15px; font-size:14px; color:#555;">
-                <p>404gangchaos@gmail.com</p>
-                <p>+62 821 4086 5437</p>
-            </div>
-            <div class="socials">
-                <div class="social-box">IG</div>
-                <div class="social-box">X</div>
-                <div class="social-box">YT</div>
-            </div>
-        </div>
-        <div>
-            <h4 style="margin-bottom:15px; font-weight:700;">EXPLORE</h4>
-            <div style="display:flex; flex-direction:column; gap:8px; color:#555; font-size:14px;">
-                <a href="#">New Arrivals</a>
-                <a href="#">Best Sellers</a>
-                <a href="#">Accessories</a>
-            </div>
-        </div>
-        <div>
-            <h4 style="margin-bottom:15px; font-weight:700;">NEWSLETTER</h4>
-            <div style="border-bottom:1px solid #000; padding-bottom:5px; font-family:var(--font-mono);">Enter your email</div>
-            <p style="font-size:11px; color:#999; margin-top:10px;">Subscribe for exclusive drops.</p>
-        </div>
-    </footer>
-    <div style="text-align:center; padding:20px; background:#fff; font-family:var(--font-mono); font-size:10px; letter-spacing:1px; color:#aaa;">
-        © 2026 404 BRAND. ALL RIGHTS RESERVED.
+    <div class="seal-txt rr">
+      <div class="sec-label">EST. 2024</div>
+      <h2 class="sec-title">One Brand.<br>One Error.<br>No Rules.</h2>
+      <p>404 Gang Wear is a street couture label rooted in African futurism. Built by outsiders, worn by the ones who move different. If you found us, you weren't lost — you just weren't where they told you to be.</p>
+      <br>
+      <a href="#" class="pill" style="margin-top:8px">EXPLORE THE BRAND →</a>
     </div>
+  </section>
 
-    <!-- Cookie Banner -->
-    <div class="cookie-banner" id="cookieBanner">
-        <span>WE USE COOKIES TO ENHANCE YOUR EXPERIENCE.</span>
-        <button class="cookie-btn" onclick="document.getElementById('cookieBanner').style.display='none'">ACCEPT</button>
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-copy rl">
+      <h2>Stay in<br>the signal.</h2>
+      <p>Exclusive drops. No spam. Only what matters.</p>
     </div>
+    <div class="cta-form rr">
+      <input class="cta-in" type="email" placeholder="YOUR EMAIL ADDRESS">
+      <button class="cta-btn">SUBSCRIBE →</button>
+    </div>
+  </section>
 
-    <script>
-        /* ── 3D Tilt on product cards ── */
-        const initTilt = () => {
-            document.querySelectorAll('.js-tilt').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    if (window.matchMedia("(hover: none)").matches) return;
-                    const r = card.getBoundingClientRect();
-                    const rx = ((e.clientY - r.top  - r.height / 2) / (r.height / 2)) * -10;
-                    const ry = ((e.clientX - r.left - r.width  / 2) / (r.width  / 2)) *  10;
-                    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
-                });
-            });
-        };
+  <!-- FOOTER -->
+  <footer>
+    <div class="fb">
+      <h3>404<br>BRAND</h3>
+      <p>African Futurism.<br>Street Couture.<br>Born from the error.</p>
+      <div class="fcontact">
+        <p>404gangchaos@gmail.com</p>
+        <p>+62 821 4086 5437</p>
+      </div>
+      <div class="socs">
+        <div class="soc">IG</div>
+        <div class="soc">X</div>
+        <div class="soc">YT</div>
+        <div class="soc">TK</div>
+      </div>
+    </div>
+    <div class="fc">
+      <h4>Shop</h4>
+      <a href="#">New Arrivals</a>
+      <a href="#">Best Sellers</a>
+      <a href="#">Accessories</a>
+      <a href="#">Archive</a>
+    </div>
+    <div class="fc">
+      <h4>Brand</h4>
+      <a href="#">The Story</a>
+      <a href="#">Manifesto</a>
+      <a href="#">Lookbook</a>
+      <a href="#">Collabs</a>
+    </div>
+    <div class="fc">
+      <h4>Info</h4>
+      <a href="#">Shipping</a>
+      <a href="#">Returns</a>
+      <a href="#">Size Guide</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+  <div class="fbot">
+    <span>© 2026 404 BRAND. ALL RIGHTS RESERVED.</span>
+    <span>LAGOS · NG · SURABAYA · ID</span>
+  </div>
 
-        /* ── Mute toggle for campaign video ── */
-        function toggleMute() {
-            const v = document.getElementById('campaignVideo');
-            const i = document.getElementById('muteIcon');
-            v.muted = !v.muted;
-            i.textContent = v.muted ? '🔇' : '🔊';
-        }
+  <!-- COOKIE -->
+  <div class="ckb" id="ckb">
+    <span>WE USE COOKIES TO ENHANCE YOUR EXPERIENCE.</span>
+    <button onclick="document.getElementById('ckb').style.display='none'">ACCEPT</button>
+  </div>
 
-        document.addEventListener('DOMContentLoaded', initTilt);
-    </script>
+  <script>
+    /* ── Custom Cursor ── */
+    const cur = document.getElementById('cur');
+    const ring = document.getElementById('cur-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e => {
+      mx=e.clientX; my=e.clientY;
+      cur.style.left=mx+'px'; cur.style.top=my+'px';
+    });
+    (function animRing(){
+      rx+=(mx-rx)*.11; ry+=(my-ry)*.11;
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
+      requestAnimationFrame(animRing);
+    })();
+    document.querySelectorAll('a,button,.pcard,.lkitem,.soc,.seal-wrap').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{ cur.style.width='22px';cur.style.height='22px';ring.style.width='68px';ring.style.height='68px';ring.style.borderColor='rgba(204,51,0,.5)'; });
+      el.addEventListener('mouseleave',()=>{ cur.style.width='12px';cur.style.height='12px';ring.style.width='40px';ring.style.height='40px';ring.style.borderColor='rgba(255,255,255,.35)'; });
+    });
+
+    /* ── Scroll Reveal ── */
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('on'); });
+    },{threshold:.1});
+    document.querySelectorAll('.reveal,.rl,.rr').forEach(el=>obs.observe(el));
+
+    /* ── 3D Product Card Tilt ── */
+    document.querySelectorAll('.js-tilt').forEach(c=>{
+      c.addEventListener('mousemove',e=>{
+        if(window.matchMedia('(hover:none)').matches) return;
+        const r=c.getBoundingClientRect();
+        const rx2=((e.clientY-r.top-r.height/2)/(r.height/2))*-12;
+        const ry2=((e.clientX-r.left-r.width/2)/(r.width/2))*12;
+        c.style.transform=`perspective(900px) rotateX(${rx2}deg) rotateY(${ry2}deg) scale3d(1.03,1.03,1.03)`;
+      });
+      c.addEventListener('mouseleave',()=>{ c.style.transform='perspective(900px) rotateX(0) rotateY(0) scale3d(1,1,1)'; });
+    });
+
+    /* ── Lookbook image parallax on hover ── */
+    document.querySelectorAll('.lkitem').forEach(item=>{
+      item.addEventListener('mousemove',e=>{
+        if(window.matchMedia('(hover:none)').matches) return;
+        const r=item.getBoundingClientRect();
+        const px=((e.clientX-r.left)/r.width-.5)*14;
+        const py=((e.clientY-r.top)/r.height-.5)*14;
+        item.querySelector('img').style.transform=`scale(1.08) translate(${px}px,${py}px)`;
+      });
+      item.addEventListener('mouseleave',()=>{ item.querySelector('img').style.transform=''; });
+    });
+
+    /* ── Seal interactive tilt on hover ── */
+    const sealW = document.querySelector('.seal-wrap');
+    const sealI = document.getElementById('sealInner');
+    if(sealW && sealI){
+      sealW.addEventListener('mousemove',e=>{
+        const r=sealW.getBoundingClientRect();
+        const px=((e.clientX-r.left)/r.width-.5)*35;
+        const py=((e.clientY-r.top)/r.height-.5)*-35;
+        sealI.style.animation='none';
+        sealI.style.transform=`rotateY(${px}deg) rotateX(${py}deg)`;
+      });
+      sealW.addEventListener('mouseleave',()=>{
+        sealI.style.animation='sealSpin 14s linear infinite';
+        sealI.style.transform='';
+      });
+    }
+
+    /* ── Mute toggle ── */
+    function toggleMute(){
+      const v=document.getElementById('campaignVideo');
+      const i=document.getElementById('muteIcon');
+      v.muted=!v.muted; i.textContent=v.muted?'🔇':'🔊';
+    }
+
+    /* ── Manifesto parallax — rAF throttled, always passive ── */
+    const mf = document.getElementById('manifesto');
+    let ticking = false;
+    window.addEventListener('scroll', ()=>{
+      if(!ticking){
+        requestAnimationFrame(()=>{
+          if(mf){
+            const rt = mf.getBoundingClientRect();
+            const prog = (-rt.top / (rt.height + window.innerHeight));
+            mf.style.setProperty('--drift', (prog * 50) + 'px');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, {passive: true});
+  </script>
 </body>
 </html>
